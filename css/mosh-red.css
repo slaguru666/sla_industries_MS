@@ -1,0 +1,1018 @@
+/*
+ * SLA Mothership — Blood Contract Theme
+ * Cyberpunk horror aesthetic: deep blacks, arterial red accents,
+ * neon-edged UI panels. Loaded after mosh.css to override.
+ *
+ * Original theme preserved in: css/mosh-original.css
+ */
+
+/* ── New Font Imports ─────────────────────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;500;700&display=swap");
+
+/* ── CSS Variables (scoped to .mosh) ──────────────────────────────────────── */
+.mosh {
+  --sla-bg-deepest:   #050305;
+  --sla-bg-base:      #0a0608;
+  --sla-bg-elevated:  #110a0a;
+  --sla-bg-card:      #160b0b;
+  --sla-bg-input:     #0e0808;
+  --sla-border-dim:   #280a0a;
+  --sla-border-mid:   #4a0e0e;
+  --sla-border-hot:   #880000;
+  --sla-red:          #cc1818;
+  --sla-red-bright:   #e83030;
+  --sla-red-glow:     #ff4040;
+  --sla-red-muted:    #7a2020;
+  --sla-red-dark:     #330808;
+  --sla-text:         #e5d8cc;
+  --sla-text-mid:     #a8948a;
+  --sla-text-dim:     #5e4a42;
+  --sla-text-label:   #c0a090;
+  --sla-gold:         #c8a020;  /* kept for critical crests */
+}
+
+/* ── Global Window ────────────────────────────────────────────────────────── */
+.mosh .window-content,
+.window-app .window-content.mosh {
+  background: var(--sla-bg-base);
+  color: var(--sla-text);
+}
+
+.mosh ::-webkit-scrollbar-thumb {
+  background: var(--sla-border-hot);
+  border: 1px solid var(--sla-red-dark);
+}
+.mosh ::-webkit-scrollbar-track {
+  background: var(--sla-bg-deepest);
+}
+.mosh .window-content {
+  scrollbar-color: var(--sla-border-hot) var(--sla-bg-deepest);
+}
+
+/* ── Global Text Reset ────────────────────────────────────────────────────── */
+.mosh,
+.mosh input,
+.mosh textarea,
+.mosh select,
+.mosh button,
+.mosh .window-title,
+.mosh .sheet-body {
+  font-family: "Rajdhani", "Josefin Sans", "Roboto", sans-serif;
+  color: var(--sla-text);
+}
+
+.mosh input,
+.mosh textarea,
+.mosh select {
+  color: var(--sla-text) !important;
+  background: var(--sla-bg-input) !important;
+  border-color: var(--sla-border-mid) !important;
+}
+
+.mosh input::placeholder,
+.mosh textarea::placeholder {
+  color: var(--sla-text-dim) !important;
+}
+
+/* ── Rollable hover ───────────────────────────────────────────────────────── */
+.list-roll:hover,
+.list-roll:focus,
+.rollable:hover,
+.rollable:focus {
+  color: var(--sla-red-glow) !important;
+  text-shadow: 0 0 8px rgba(255, 64, 64, 0.6);
+  cursor: pointer;
+}
+
+/* ── Header area ──────────────────────────────────────────────────────────── */
+.mosh .header {
+  background: linear-gradient(135deg, #0d0505 0%, #1a0808 40%, #0d0505 100%);
+  color: var(--sla-text);
+  border: 1px solid var(--sla-border-mid);
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scan-line shimmer effect on header */
+.mosh .header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(204, 24, 24, 0.022) 3px,
+    rgba(204, 24, 24, 0.022) 4px
+  );
+  pointer-events: none;
+  border-radius: 15px;
+}
+
+.mosh .sla-sheet-wordmark {
+  color: var(--sla-red-bright);
+  text-shadow:
+    0 0 12px rgba(232, 48, 48, 0.55),
+    0 0 28px rgba(232, 48, 48, 0.25);
+  letter-spacing: 0.18em;
+  font-family: "Orbitron", "Josefin Sans", sans-serif;
+}
+
+.mosh .headerinputtext {
+  color: var(--sla-text-label);
+  font-family: "Rajdhani", "Josefin Sans", sans-serif;
+  letter-spacing: 0.1em;
+}
+
+/* Red-bordered input fields in header */
+.mosh .headerinputfield {
+  background: var(--sla-bg-input) !important;
+  border: 2px solid var(--sla-border-mid) !important;
+  color: var(--sla-text) !important;
+}
+
+.mosh .headerinputfield:focus-within {
+  border-color: var(--sla-red) !important;
+  box-shadow: 0 0 6px rgba(204, 24, 24, 0.35);
+}
+
+/* ── Nav Tabs ─────────────────────────────────────────────────────────────── */
+.sheet nav.sheet-tabs {
+  background: linear-gradient(90deg, #0d0505 0%, #160a0a 50%, #0d0505 100%);
+  border: 1px solid var(--sla-border-mid);
+  box-shadow:
+    inset 0 0 0 1px rgba(200, 24, 24, 0.1),
+    0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.mosh .tab-select {
+  color: var(--sla-text-mid);
+  font-family: "Rajdhani", "Josefin Sans", sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.15s ease, text-shadow 0.15s ease;
+}
+
+.mosh .tab-select:hover {
+  color: var(--sla-red-glow);
+  text-shadow: 0 0 8px rgba(255, 64, 64, 0.45);
+}
+
+.mosh .tab-select.active {
+  color: var(--sla-red-bright);
+  text-decoration: none;
+  text-shadow: 0 0 10px rgba(232, 48, 48, 0.6);
+  border-bottom: 2px solid var(--sla-red);
+  padding-bottom: 2px;
+}
+
+/* Remove the original bullet before active tab, replace with a red marker */
+.mosh .tabs .item.active::before {
+  display: none;
+}
+.mosh .tab-select.active::before {
+  content: "▸";
+  color: var(--sla-red);
+  margin-right: 3px;
+}
+
+/* ── Stat Labels (.mainstatlabel) ─────────────────────────────────────────── */
+.mosh .mainstatlabel {
+  background: linear-gradient(90deg, #1a0808 0%, #110505 100%);
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
+  border: 1px solid var(--sla-border-mid);
+  border-right: none;
+  position: relative;
+}
+
+/* Red left-edge accent bar on stat labels */
+.mosh .mainstatlabel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 3px;
+  background: var(--sla-red);
+  border-radius: 2px;
+  box-shadow: 0 0 6px var(--sla-red);
+}
+
+.mosh .mainstattext {
+  color: var(--sla-text);
+  font-family: "Rajdhani", "Josefin Sans", sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+}
+
+/* ── Stat Circles (main value inputs) ────────────────────────────────────── */
+.mosh .circle-input {
+  background: var(--sla-bg-input) !important;
+  border: 3px solid var(--sla-border-hot) !important;
+  color: var(--sla-text) !important;
+  font-family: "Share Tech Mono", "Roboto Mono", monospace;
+  box-shadow: 0 0 8px rgba(136, 0, 0, 0.3);
+}
+
+.mosh .circle-input:focus {
+  border-color: var(--sla-red-glow) !important;
+  box-shadow: 0 0 12px rgba(255, 64, 64, 0.45);
+}
+
+.mosh .square-input {
+  background: var(--sla-bg-input) !important;
+  border: 4px solid var(--sla-border-hot) !important;
+  color: var(--sla-text) !important;
+  font-family: "Share Tech Mono", "Roboto Mono", monospace;
+}
+
+.mosh .square-input:focus {
+  border-color: var(--sla-red-glow) !important;
+  box-shadow: 0 0 10px rgba(255, 64, 64, 0.4);
+}
+
+.mosh .smallcircle-input {
+  background: var(--sla-bg-input) !important;
+  border-color: var(--sla-border-hot) !important;
+  color: var(--sla-text) !important;
+}
+
+/* ── Saves Background ────────────────────────────────────────────────────── */
+.mosh .savebackground {
+  background: linear-gradient(180deg, #130808 0%, #0e0505 100%);
+  border: 1px solid var(--sla-border-mid);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.mosh .savetext {
+  color: var(--sla-text-label);
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.mosh .mainsavemod-input,
+.mosh .mainstatmod-input {
+  background: var(--sla-bg-elevated) !important;
+  color: var(--sla-red-bright) !important;
+  border-radius: 0.5em;
+  font-family: "Share Tech Mono", monospace;
+}
+
+.mosh .mainstatmod-title {
+  color: var(--sla-border-hot);
+}
+
+/* ── Health/stat wrappers ────────────────────────────────────────────────── */
+.mosh .circle-statwrapper,
+.mosh .circle-statwrapper-horizontal,
+.mosh .circle-statwrapper-vertical {
+  background: var(--sla-bg-elevated);
+  border: 1px solid var(--sla-border-dim);
+}
+
+.mosh .valuewrapper {
+  border: 3px solid var(--sla-border-hot);
+  background: transparent;
+}
+
+.mosh .minmaxwrapper {
+  background: var(--sla-bg-input);
+  border: 3px solid var(--sla-border-hot);
+  color: var(--sla-text);
+}
+
+.mosh .minmaxwrapper-black {
+  background: transparent;
+  border: 3px solid var(--sla-border-hot);
+  color: var(--sla-text);
+}
+
+.mosh .armorWrapper {
+  background: var(--sla-bg-deepest);
+  border: 2px solid var(--sla-border-mid);
+}
+
+.mosh .slant {
+  border-right-color: var(--sla-border-hot);
+}
+
+/* ── Item lists ───────────────────────────────────────────────────────────── */
+.mosh .items-list .item {
+  border-bottom: 1px solid var(--sla-border-dim);
+  color: var(--sla-text);
+}
+
+.mosh .items-list .item:hover {
+  background: rgba(136, 0, 0, 0.08);
+}
+
+.mosh .items-list .item-header {
+  color: var(--sla-text-label);
+  font-family: "Rajdhani", sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  border-bottom: 1px solid var(--sla-border-hot);
+}
+
+.mosh .items-list .skill-name {
+  background: linear-gradient(90deg, #1a0808, #110505);
+  color: var(--sla-text);
+  border: 1px solid var(--sla-border-dim);
+  font-family: "Rajdhani", sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.mosh .items-list .skill-name:hover,
+.mosh .items-list .skill-name.weapon-roll:hover {
+  background: linear-gradient(90deg, #2a0a0a, #1a0808);
+  border-color: var(--sla-red-muted);
+}
+
+.mosh .items-list .skill-stat {
+  color: var(--sla-text-mid);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.82rem;
+}
+
+/* Item control icons */
+.mosh .items-list .item-controls a {
+  color: var(--sla-text-dim);
+}
+.mosh .items-list .item-controls a:hover {
+  color: var(--sla-red-bright);
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+.mosh .button-black {
+  background: linear-gradient(135deg, #1a0808, #0d0505);
+  border: 1px solid var(--sla-border-hot);
+  color: var(--sla-text);
+  box-shadow: inset 0 0 0 1px rgba(200, 24, 24, 0.1);
+}
+
+.button-black:hover,
+.button-black:focus {
+  background: #2a0a0a;
+  box-shadow: 0 0 10px rgba(204, 24, 24, 0.45), inset 0 0 0 1px var(--sla-red);
+  text-shadow: 0 0 8px rgba(255, 64, 64, 0.6);
+  color: var(--sla-red-glow);
+}
+
+/* ── XP / Pip circles ────────────────────────────────────────────────────── */
+.mosh .circle {
+  background: var(--sla-bg-elevated);
+  border: 1px solid var(--sla-border-mid);
+  color: var(--sla-text-dim);
+}
+
+.mosh .circle-f {
+  background: var(--sla-red-muted);
+  border: 1px solid var(--sla-red);
+}
+
+/* ── SLA card/panel components ───────────────────────────────────────────── */
+.mosh .sla-card {
+  background: var(--sla-bg-card);
+  border: 1px solid var(--sla-border-mid);
+  border-radius: 8px;
+  padding: 10px;
+  position: relative;
+}
+
+/* Corner bracket flourish on cards */
+.mosh .sla-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid var(--sla-red);
+  border-left: 2px solid var(--sla-red);
+  border-radius: 2px 0 0 0;
+}
+
+.mosh .sla-card::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 14px;
+  height: 14px;
+  border-bottom: 2px solid var(--sla-red-muted);
+  border-right: 2px solid var(--sla-red-muted);
+  border-radius: 0 0 2px 0;
+}
+
+.mosh .sla-panel {
+  background: var(--sla-bg-base);
+}
+
+/* ── Separator lines ──────────────────────────────────────────────────────── */
+.mosh .seperatorLine {
+  border-bottom: 1px solid var(--sla-border-mid);
+}
+
+.mosh .whiteline {
+  border-top: 2px solid var(--sla-border-hot);
+}
+
+.mosh .blackline {
+  border-top: 1px solid var(--sla-border-dim);
+}
+
+.mosh .greyline {
+  border-top: 1px dashed var(--sla-border-mid);
+}
+
+/* ── Area/Section titles ──────────────────────────────────────────────────── */
+.mosh .area-title {
+  color: var(--sla-text-label);
+  font-family: "Rajdhani", sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mosh .circlestattitle {
+  color: var(--sla-text-mid);
+  font-family: "Rajdhani", sans-serif;
+}
+
+.mosh .faded-label {
+  color: var(--sla-text-dim);
+  font-family: "Rajdhani", sans-serif;
+  letter-spacing: 0.1em;
+}
+
+/* ── Skill Training ───────────────────────────────────────────────────────── */
+.mosh .skill_training_frame {
+  background: var(--sla-bg-elevated);
+  border: 1px solid var(--sla-border-dim);
+  color: var(--sla-text);
+}
+
+.mosh .skill_training_text {
+  color: var(--sla-text-mid);
+}
+
+/* ── Textarea inputs ──────────────────────────────────────────────────────── */
+.mosh .textarea-input {
+  background: var(--sla-bg-elevated) !important;
+  border: 2px solid var(--sla-border-mid) !important;
+  color: var(--sla-text) !important;
+}
+
+.mosh .textarea-input-grey {
+  background: var(--sla-bg-elevated) !important;
+  color: var(--sla-text-mid) !important;
+}
+
+.mosh .sbt-text-area {
+  background: var(--sla-bg-input) !important;
+  border-color: var(--sla-border-mid) !important;
+  color: var(--sla-text) !important;
+}
+
+/* ── Armor wrapper ────────────────────────────────────────────────────────── */
+.mosh .armor-mod {
+  background: var(--sla-red-dark);
+  border-color: var(--sla-border-hot);
+  color: var(--sla-text);
+}
+
+/* ── Profile image ───────────────────────────────────────────────────────── */
+.mosh .profile {
+  border: 2px solid var(--sla-border-hot);
+  box-shadow: 0 0 12px rgba(136, 0, 0, 0.4);
+  border-radius: 10px;
+}
+
+/* ── Highlights ───────────────────────────────────────────────────────────── */
+.mosh .highlightText {
+  color: var(--sla-red-bright);
+  text-shadow: 0 0 6px rgba(232, 48, 48, 0.45);
+}
+
+.mosh .greyText { color: var(--sla-text-mid); }
+.mosh .darkGreyText { color: var(--sla-text); }   /* override: dark-on-dark → readable */
+.mosh .whiteText { color: var(--sla-text); }
+.mosh .black { color: var(--sla-text); }
+.mosh .grey { color: var(--sla-text-mid); }
+.mosh .darkgrey { color: var(--sla-text-dim); }
+.mosh .white { color: var(--sla-text); }
+
+/* ── Rollcontainer (chat output base) ────────────────────────────────────── */
+.mosh .rollcontainer {
+  background: var(--sla-bg-elevated);
+  border: 2px solid var(--sla-border-mid);
+  color: var(--sla-text);
+}
+
+/* ── Crit success/failure colours — keep readable on dark ────────────────── */
+.mosh .sla-roll-outcome.sla-crit-success,
+.mosh .sla-roll-result .dice-total.sla-crit-success {
+  color: #50c87a;
+  background: rgba(80, 200, 122, 0.1);
+}
+
+.mosh .sla-roll-outcome.sla-crit-failure,
+.mosh .sla-roll-result .dice-total.sla-crit-failure {
+  color: var(--sla-red-bright);
+  background: rgba(232, 48, 48, 0.1);
+}
+
+.mosh .sla-roll-result.sla-crit-success .dice-total {
+  border-color: #50c87a;
+  box-shadow: 0 0 0 2px rgba(80, 200, 122, 0.25);
+}
+
+.mosh .sla-roll-result.sla-crit-failure .dice-total {
+  border-color: var(--sla-red);
+  box-shadow: 0 0 0 2px rgba(204, 24, 24, 0.25);
+}
+
+/* ── Chat sections ────────────────────────────────────────────────────────── */
+.mosh .sla-chat-section {
+  background: var(--sla-bg-elevated);
+  border-color: var(--sla-border-mid);
+}
+
+.mosh .sla-chat-section-success {
+  border-color: rgba(80, 200, 122, 0.45);
+  background: rgba(80, 200, 122, 0.07);
+}
+
+.mosh .sla-chat-section-danger,
+.mosh .sla-chat-section-damage {
+  border-color: rgba(220, 40, 40, 0.45);
+  background: rgba(220, 40, 40, 0.08);
+}
+
+.mosh .sla-chat-chip {
+  background: var(--sla-red-dark);
+  border: 1px solid var(--sla-border-hot);
+  color: var(--sla-text);
+}
+
+.mosh .sla-chat-section-title {
+  color: var(--sla-text-label);
+  font-family: "Rajdhani", sans-serif;
+  letter-spacing: 0.1em;
+}
+
+.mosh .description,
+.mosh .description .body,
+.mosh .rollcontainer .body {
+  color: var(--sla-text);
+  font-family: "Rajdhani", "Josefin Sans", sans-serif;
+}
+
+/* ── Roll weapon header ───────────────────────────────────────────────────── */
+.mosh .rollweaponh1 {
+  background: linear-gradient(90deg, #1a0606, #2a0a0a);
+  color: var(--sla-text);
+  border-bottom: 1px solid var(--sla-border-hot);
+}
+
+/* ── Drug system ──────────────────────────────────────────────────────────── */
+.mosh .sla-drug-alert-duration {
+  background: var(--sla-red-dark);
+  color: var(--sla-text-label);
+  border: 1px solid var(--sla-border-hot);
+}
+
+.mosh .sla-drug-alert-summary,
+.mosh .drug-item-summary span {
+  color: var(--sla-text-mid);
+}
+
+.mosh .drug-use-btn {
+  background: var(--sla-red-dark);
+  border-color: var(--sla-border-hot);
+  color: var(--sla-text);
+}
+
+.mosh .drug-use-btn:hover {
+  background: #440a0a;
+  border-color: var(--sla-red-bright);
+}
+
+.mosh .drug-close-btn {
+  background: var(--sla-bg-elevated);
+  border-color: var(--sla-border-mid);
+  color: var(--sla-text-mid);
+}
+
+/* ── Stresslabel / stresstext ─────────────────────────────────────────────── */
+.mosh .stresslabel {
+  background: var(--sla-red-dark);
+  border-right: 2px solid var(--sla-red);
+}
+
+.mosh .stresstext {
+  color: var(--sla-text);
+  font-family: "Rajdhani", sans-serif;
+  letter-spacing: 0.08em;
+}
+
+/* ── Creature sheet ───────────────────────────────────────────────────────── */
+.mosh .creature-header-grid {
+  background: linear-gradient(135deg, #1a0606, #0a0404);
+}
+
+.mosh .creature-header {
+  color: var(--sla-text);
+}
+
+.mosh .creature-abilities {
+  background: #100808;
+  border: 2px solid var(--sla-border-hot);
+  outline: 5px solid #0a0505;
+}
+
+.mosh .creature-ability-title {
+  color: var(--sla-text);
+  font-family: "Rajdhani", sans-serif;
+  letter-spacing: 0.08em;
+}
+
+.mosh .creature-ability-text {
+  color: var(--sla-text-mid);
+}
+
+/* ── Ability buttons ──────────────────────────────────────────────────────── */
+.mosh .sla-ability-use-btn,
+.mosh .ability-use,
+.mosh .ability-use-trigger {
+  color: var(--sla-red-bright);
+}
+
+.mosh .sla-ability-use-btn:hover,
+.mosh .ability-use:hover,
+.mosh .ability-use-trigger:hover {
+  color: var(--sla-red-glow);
+  text-shadow: 0 0 6px rgba(255, 64, 64, 0.5);
+}
+
+/* ── Ebb flux bar ─────────────────────────────────────────────────────────── */
+.mosh .sla-flux-bar-fill {
+  background: linear-gradient(90deg, #440088, #8800cc) !important;
+}
+
+/* ── Prometheus regeneration badge ───────────────────────────────────────── */
+.mosh .sla-prometheus-badge {
+  background: var(--sla-red-dark);
+  border: 1px solid var(--sla-red);
+  color: var(--sla-text);
+}
+
+/* ── Banner and fleet controls ────────────────────────────────────────────── */
+.mosh .sla-banner {
+  background: linear-gradient(90deg, #1a0606, #0d0404, #1a0606);
+  border: 1px solid var(--sla-border-mid);
+}
+
+/* ── Transponder blink (keep dramatic on dark) ────────────────────────────── */
+@keyframes transponderblink {
+  from { background-color: var(--sla-bg-deepest); box-shadow: none; }
+  to   { background-color: var(--sla-red-bright); box-shadow: 0 0 12px var(--sla-red-bright); }
+}
+
+.mosh .transponder input[type="checkbox"]:checked,
+.mosh input[type="radio"]:checked {
+  background: var(--sla-red-bright);
+  border-color: var(--sla-red-glow);
+  box-shadow: 0 0 15px var(--sla-red);
+  animation: transponderblink 0.6s alternate infinite;
+}
+
+/* ── SLA-specific panel (rules, ebb, etc.) ────────────────────────────────── */
+.mosh .sla-species-rule,
+.mosh .sla-rule-toggle {
+  background: var(--sla-bg-elevated);
+  border-color: var(--sla-border-dim);
+  color: var(--sla-text);
+}
+
+.mosh .sla-species-rule:hover,
+.mosh .sla-rule-toggle:hover {
+  border-color: var(--sla-border-mid);
+  background: #1a0c0c;
+}
+
+/* ── Condition pips ──────────────────────────────────────────────────────── */
+.mosh .treatment-button {
+  color: var(--sla-text-mid);
+}
+.mosh .treatment-button:hover {
+  color: var(--sla-red-bright);
+}
+
+/* ── Notes / Biography editors ────────────────────────────────────────────── */
+.mosh .tox .tox-editor-container {
+  background: var(--sla-bg-elevated);
+}
+.mosh .tox-edit-area {
+  color: var(--sla-text);
+}
+
+/* ── Dice tooltip min/max rolls ───────────────────────────────────────────── */
+.dice-tooltip .dice-rolls .roll.max {
+  color: #50c87a;
+}
+.dice-tooltip .dice-rolls .roll.min {
+  color: var(--sla-red-bright);
+}
+
+/* ── HP bar in combat tracker — red theme variant ────────────────────────── */
+.sla-hp-bar-wrap {
+  background: #0a0404;
+}
+
+/* ── Initiative badges — enhanced for dark theme ────────────────────────── */
+.sla-initiative-badge.sla-init-before {
+  color: #60e080;
+  background: #041408;
+  border: 1px solid #40b050;
+  box-shadow: 0 0 5px rgba(64, 176, 80, 0.3);
+}
+
+.sla-initiative-badge.sla-init-after {
+  color: var(--sla-red-bright);
+  background: #120404;
+  border: 1px solid var(--sla-red);
+  box-shadow: 0 0 5px rgba(204, 24, 24, 0.35);
+}
+
+.sla-initiative-badge.sla-init-enemy {
+  color: #cc8040;
+  background: #100808;
+  border: 1px solid #884422;
+  box-shadow: 0 0 4px rgba(136, 68, 34, 0.3);
+}
+
+/* ── Weapon list special notes tooltip hint ───────────────────────────────── */
+.mosh .weapon-roll[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0;
+  background: #1a0808;
+  color: var(--sla-text-label);
+  border: 1px solid var(--sla-border-hot);
+  border-radius: 4px;
+  padding: 3px 7px;
+  font-size: 0.75rem;
+  font-family: "Rajdhani", sans-serif;
+  white-space: nowrap;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  pointer-events: none;
+}
+.mosh .weapon-roll {
+  position: relative;
+}
+
+/* ── Traits tab extra styling ─────────────────────────────────────────────── */
+.mosh .trait-effect-roll {
+  transition: color 0.12s, text-shadow 0.12s;
+}
+.mosh .trait-effect-roll:hover {
+  color: var(--sla-red-glow) !important;
+  text-shadow: 0 0 8px rgba(255, 64, 64, 0.5);
+}
+
+/* ── Generic link/control colours ────────────────────────────────────────── */
+.mosh a {
+  color: var(--sla-text-mid);
+}
+.mosh a:hover {
+  color: var(--sla-red-bright);
+  text-shadow: 0 0 6px rgba(232, 48, 48, 0.4);
+}
+
+/* ── Combat tracker — NPC enemy row tint ─────────────────────────────────── */
+#combat-tracker .combatant.sla-npc-enemy {
+  background: rgba(50, 5, 5, 0.35);
+  border-left: 2px solid var(--sla-red-muted);
+}
+
+/* ── Select/Dropdowns ─────────────────────────────────────────────────────── */
+.mosh select option {
+  background: var(--sla-bg-elevated);
+  color: var(--sla-text);
+}
+
+/* ── Number inputs monospace ─────────────────────────────────────────────── */
+.mosh input[data-dtype="Number"] {
+  font-family: "Share Tech Mono", "Roboto Mono", monospace;
+}
+
+/* ── Header name input .noborder ──────────────────────────────────────────── */
+.mosh .noborder {
+  color: var(--sla-text) !important;
+  caret-color: var(--sla-red);
+}
+
+/* ── Macro popup dialogs ─────────────────────────────────────────────────── */
+.mosh .macro_window,
+.macro-popup-dialog .window-content {
+  background: var(--sla-bg-elevated);
+  color: var(--sla-text);
+}
+
+/* ── Readability fixes: dark-text-on-dark overrides ─────────────────────── */
+
+/* skill-stat colour (was #111 in mosh.css) — already covered above but
+   making explicit for safety */
+.mosh .items-list .skill-stat,
+.mosh .skill-stat {
+  color: var(--sla-text-mid) !important;
+}
+
+/* Crew name was color:black */
+.mosh .sbt-crew-name {
+  color: var(--sla-text) !important;
+}
+
+/* Dropdown links were color:black on white background */
+.mosh .dropdown-content {
+  background: var(--sla-bg-elevated);
+  border: 1px solid var(--sla-border-mid);
+}
+.mosh .dropdown-content a {
+  color: var(--sla-text-mid) !important;
+}
+.mosh .dropdown-content a:hover {
+  background: #1a0808;
+  color: var(--sla-red-bright) !important;
+}
+
+/* drug stat label (color:#111) */
+.mosh .sla-drug-stat-label {
+  color: var(--sla-text-mid) !important;
+}
+
+/* SBT panel text */
+.mosh .sbt-crew-job {
+  color: var(--sla-text-mid) !important;
+}
+
+/* Rollcontainer body text */
+.mosh .description,
+.mosh .description .body,
+.mosh .rollcontainer .body,
+.mosh .rollcontainer {
+  color: var(--sla-text) !important;
+}
+
+/* Any remaining black/dark utility class on dark bg */
+.mosh .black {
+  color: var(--sla-text) !important;
+}
+.mosh .darkgrey,
+.mosh .darkGreyText {
+  color: var(--sla-text) !important;  /* override: was sla-text-dim (#5e4a42) — unreadable on dark bg */
+}
+/* Health / stat value inputs specifically */
+.mosh .maxhealth-input,
+.mosh .maxhealth-input.darkGreyText {
+  color: var(--sla-text) !important;
+  background: var(--sla-bg-input) !important;
+}
+
+/* Input fields — catch-all for any we missed */
+.mosh input:not([type="checkbox"]):not([type="radio"]) {
+  background: var(--sla-bg-input) !important;
+  color: var(--sla-text) !important;
+}
+
+/* ── Skills lock & used — Blood Contract overrides ────────────────────── */
+.mosh .skill-bonus-locked {
+  color: var(--sla-text-dim) !important;
+}
+.mosh .skill-used-check {
+  accent-color: var(--sla-red-bright) !important;
+}
+.mosh .sla-skills-lock-toggle {
+  color: var(--sla-text-mid);
+}
+.mosh .sla-skills-lock-toggle:hover {
+  color: var(--sla-red-glow);
+}
+/* ── Health reset — Blood Contract ────────────────────────────────────── */
+.mosh .sla-health-reset {
+  color: var(--sla-text-mid);
+}
+.mosh .sla-health-reset:hover {
+  color: var(--sla-red-glow);
+  text-shadow: 0 0 6px rgba(255, 64, 64, 0.5);
+}
+/* ── Theme toggle button — Blood Contract ─────────────────────────────── */
+.mosh .sla-theme-toggle {
+  color: var(--sla-red-muted);
+}
+.mosh .sla-theme-toggle:hover {
+  color: var(--sla-red-glow) !important;
+  text-shadow: 0 0 8px rgba(255, 64, 64, 0.6);
+}
+
+/* Make the sheet body itself dark */
+.mosh .sheet-body,
+.mosh form.flexcol {
+  background: var(--sla-bg-base);
+}
+
+/* Tab content panels */
+.mosh .tab {
+  background: var(--sla-bg-base);
+  color: var(--sla-text);
+}
+
+/* ── Quick Roll Bar — Blood Contract ──────────────────────────────────── */
+.mosh .sla-quick-roll-bar button {
+  background: linear-gradient(135deg, #1a0808, #110505) !important;
+  border: 1px solid var(--sla-border-hot) !important;
+  color: var(--sla-text-label) !important;
+  font-family: "Rajdhani", sans-serif;
+}
+.mosh .sla-quick-roll-bar button:hover {
+  background: #2a0a0a !important;
+  border-color: var(--sla-red) !important;
+  color: var(--sla-red-glow) !important;
+  box-shadow: 0 0 8px rgba(204, 24, 24, 0.4);
+  text-shadow: 0 0 6px rgba(255, 64, 64, 0.5);
+}
+
+/* ── Remaining dark-text-on-dark fixes ────────────────────────────────── */
+
+/* area-title used in some panels */
+.mosh .area-title,
+.mosh .circlestatlabel {
+  color: var(--sla-text-mid) !important;
+}
+
+/* roll-target — the white roll result boxes in the sheet */
+.mosh .roll-target {
+  background: var(--sla-bg-card) !important;
+  color: var(--sla-text) !important;
+  border: 1px solid var(--sla-border-hot) !important;
+}
+.mosh .roll-targetbox {
+  border-color: var(--sla-red-muted) !important;
+  color: var(--sla-text) !important;
+}
+
+/* button-white used in some dialogs/panels */
+.mosh .button-white {
+  background: var(--sla-bg-elevated) !important;
+  color: var(--sla-text) !important;
+  border-color: var(--sla-border-hot) !important;
+}
+
+/* item-controls icons — slightly more visible */
+.mosh .items-list .item-controls a {
+  color: var(--sla-text-mid) !important;
+}
+
+/* skill_training_text inside pip circles */
+.mosh .skill_training_text {
+  color: var(--sla-text) !important;
+}
+
+/* ── Card / item panel labels & copy — hardcoded dark in mosh.css ─────── */
+/* .sla-card-label / .sla-card-title have color:#14181c in mosh.css       */
+.mosh .sla-card-label,
+.mosh .sla-card-title,
+.mosh .sla-kicker {
+  color: var(--sla-red-muted) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* .sla-card-copy / .sla-chat-copy have color:#2d3338 in mosh.css         */
+.mosh .sla-card-copy,
+.mosh .sla-chat-copy,
+.mosh.sla-chat-card .sla-chat-copy {
+  color: var(--sla-text-mid) !important;
+}
+
+/* .sla-tag / .sla-note-pill have color:#14181c in mosh.css               */
+.mosh .sla-tag,
+.mosh .sla-note-pill {
+  color: var(--sla-text) !important;
+  background: rgba(200, 24, 24, 0.08) !important;
+  border-color: var(--sla-border-mid) !important;
+}
+
+/* FIELD SKILL DECK label row that appears under Skills header             */
+.mosh .sla-skill-deck-label,
+.mosh .items-header .item-name,
+.mosh .items-header span {
+  color: var(--sla-text-mid) !important;
+}

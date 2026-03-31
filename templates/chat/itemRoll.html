@@ -1,0 +1,88 @@
+<div class="mosh" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+    {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+    <div class="showinfo"></div>
+    <div class="showlessinfo"></div>
+    <div class="rollcontainer">
+		<div class="flexrow">
+			{{#if swapNameDesc}}
+			<div class="rollweaponh1" >{{swapName}}</div>
+			{{else}}
+				{{#if (compare 'int' item.name.length '>=' 22)}}
+				<div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{item.name}}</div>
+				{{else}}
+				<div class="rollweaponh1" >{{item.name}}</div>
+				{{/if}}
+			{{/if}}
+			{{#if (compare 'str' item.type '===' 'ability')}}
+				{{#if (compare 'str' actor.img '===' 'icons/svg/mystery-man.svg')}}
+				<div style="text-align: right"><img class="roll-image" src="systems/sla-mothership/images/icons/ui/attributes/instinct.png" /></div>
+				{{else}}
+				<div style="text-align: right"><img class="roll-image" src="{{actor.img}}" /></div>
+				{{/if}}
+			{{else}}
+			<div style="text-align: right"><img class="roll-image" src="{{item.img}}" /></div>
+			{{/if}}
+		</div>
+		{{#if item.system.roll}}
+		<div class="description">
+			{{#if (compare 'str' item.system.sla.impact '===' 'heal')}}
+			<div class="body">You restore <strong>[[{{item.system.roll}}[damage]]]</strong> points of healing.</div>
+			{{else}}
+			<div class="body">You inflict <strong>[[{{item.system.roll}}[damage]]]</strong> points of damage.</div>
+			{{/if}}
+		</div>
+		<div style="margin-bottom : 10px;"></div>
+		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
+		<div style="margin-bottom : 5px;"></div>
+        {{/if}}
+		{{#if item.system.severity}}
+		<div class="description">
+			<div class="body"><strong>{{ localize 'Mosh.Severity' }}: </strong>{{item.system.severity}}</div>
+		</div>
+		<div style="margin-bottom : 5px;"></div>
+		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
+		<div style="margin-bottom : 5px;"></div>
+        {{/if}}
+		{{#if item.system.armorPoints}}
+		<div class="description">
+			<div class="body"><strong>{{ localize 'Mosh.ArmorPoints' }}: </strong>{{item.system.armorPoints}}</div>
+		</div>
+		<div style="margin-bottom : 5px;"></div>
+		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
+		<div style="margin-bottom : 5px;"></div>
+		{{/if}}
+		{{#if item.system.damageReduction}}
+		<div class="description">
+			<div class="body"><strong>{{ localize 'Mosh.DMGReduction' }}: </strong>{{item.system.damageReduction}}</div>
+		</div>
+		<div style="margin-bottom : 5px;"></div>
+		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
+		<div style="margin-bottom : 5px;"></div>
+        {{/if}}
+		{{#if swapNameDesc}}
+			<div class="description">
+				<div class="body">{{{item.name}}}</div>
+			</div>
+			<div style="margin-bottom : 16px;"></div>
+		{{else if (compare 'str' item.system.type '===' 'repair')}}
+			<div class="description">
+			{{#if item.system.major}}
+				<div class="body"><strong>{{ localize 'Mosh.MajorRepair' }}</strong></div>
+			{{else}}
+				<div class="body"><strong>{{ localize 'Mosh.MinorRepair' }}</strong></div>
+			{{/if}}
+			</div>
+			<div style="margin-bottom : 5px;"></div>
+			<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
+			<div style="margin-bottom : 5px;"></div>
+			<div class="description">
+				<div class="body">{{{item.name}}}</div>
+			</div>
+			<div style="margin-bottom : 16px;"></div>
+		{{else}}
+			<div class="description">
+				<div class="body">{{{item.system.description}}}</div>
+			</div>
+			<div style="margin-bottom : 16px;"></div>
+		{{/if}}
+    </div>

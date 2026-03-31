@@ -1,0 +1,279 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+
+    <header class="sheet-header">
+        <div class="header grid" style="grid-template-columns: 75px auto; width:100%;">
+            <!-- Image -->
+            <img class="sbt-profile" style="height: auto;" src="{{img}}" data-edit="img" title="{{name}}" />
+
+            <!-- NAME -->
+            <div class="">
+                <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
+                <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
+                        placeholder="{{ localize 'Mosh.Name' }}" /></div>
+            </div>
+        </div>
+    </header>
+    <div class="item-armor-grid" style="margin-top: 10px; margin-bottom: 10px;">
+        <div>
+            <!-- Main Row -->
+            <div class="circle-statwrapper-horizontal transparentBackground">
+
+                <!-- Damage -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.damage" class="resource-label minmaxtext">{{ localize 'Mosh.Damage' }}</label>
+
+                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                        <input class="textvaluewrapper-input darkGreyText" type="text" name="system.damage"
+                            value="{{system.damage}}" data-dtype="String" />
+                    </div>
+                </div>
+                <!-- Critical Damage -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.critDmg" class="resource-label minmaxtext">{{ localize 'Mosh.CriticalDamage' }}</label>
+
+                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                        <input class="textvaluewrapper-input darkGreyText" type="text" name="system.critDmg"
+                            value="{{system.critDmg}}" data-dtype="String" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Row - Range -->
+            <div class="circle-statwrapper-horizontal transparentBackground">
+                {{#if system.settings.firstEdition}}
+                <!-- Anti-Armor -->
+                <div class="resource healthspread blankstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.antiArmor" class="resource-label minmaxtext">{{ localize 'Mosh.AntiArmor' }}</label>
+                    <input type="checkbox" name="system.antiArmor" data-dtype="Boolean" {{checked system.antiArmor}} />
+                </div>
+                {{/if}}
+
+                <!-- Range -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.ranges.value" class="resource-label minmaxtext">{{ localize 'Mosh.Range' }}</label>
+
+                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                        <input class="textvaluewrapper-input darkGreyText" type="text" name="system.ranges.value"
+                            value="{{system.ranges.value}}" data-dtype="String" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Row - Ammo 2 -->
+            <div class="circle-statwrapper-horizontal ">
+                <!-- Ammo Type -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.ammoType" class="resource-label minmaxtext">{{ localize 'Mosh.AmmoType' }}</label>
+
+                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                        <input class="textvaluewrapper-input darkGreyText" type="text" name="system.ammoType"
+                            value="{{system.ammoType}}" data-dtype="String" />
+                    </div>
+                </div>
+
+                <!-- Uses Ammo -->
+                <div class="resource healthspread blankstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.useAmmo" class="resource-label minmaxtext">{{ localize 'Mosh.UsesAmmo' }}</label>
+                    <input type="checkbox" name="system.useAmmo" data-dtype="Boolean" {{checked system.useAmmo}} />
+                </div>
+            </div>
+
+
+            <br />
+
+            <div class="resource">
+                {{#if system.settings.firstEdition}}
+                <label class="resource-label">{{ localize 'Mosh.WoundEffect' }}</label>
+                <input type="text" list="woundRolls" name="system.woundEffect" value="{{system.woundEffect}}"
+                    data-dtype="String">
+                <datalist id="woundRolls">
+                    <option value="Bleeding" />
+                    <option value="Bleeding [-]" />
+                    <option value="Bleeding [+]" />
+                    <option value="Blunt Force" />
+                    <option value="Blunt Force [-]" />
+                    <option value="Blunt Force [+]" />
+                    <option value="Fire & Explosives" />
+                    <option value="Fire & Explosives [-]" />
+                    <option value="Fire & Explosives [+]" />
+                    <option value="Gore & Massive" />
+                    <option value="Gore & Massive [-]" />
+                    <option value="Gore & Massive [+]" />
+                    <option value="Gunshot" />
+                    <option value="Gunshot [-]" />
+                    <option value="Gunshot [+]" />
+                </datalist>
+                {{/if}}
+            </div>
+
+        </div>
+
+        <!-- Ammo Column -->
+        <div class="circle-statwrapper-vertical" style="gap: 10px;">
+
+            <!-- Max Shots -->
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.shots" class="resource-label minmaxtext">{{ localize 'Mosh.MaxShots' }}</label>
+
+                <div class="valuewrapper" style="width: 120px; background: white;">
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.shots" value="{{system.shots}}"
+                        data-dtype="Number" />
+                </div>
+            </div>
+
+            <!-- Current Shots -->
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.curShots" class="resource-label minmaxtext">{{ localize 'Mosh.CurrentShots' }}</label>
+
+                <div class="valuewrapper" style="width: 120px; background: white;">
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.curShots"
+                        value="{{system.curShots}}" data-dtype="Number" />
+                </div>
+            </div>
+
+            <!-- Current Fire Mode -->
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.sla.currentFireMode" class="resource-label minmaxtext">Current Mode</label>
+
+                <div class="textvaluewrapper" style="width: 180px; background: white;">
+                    <input class="textvaluewrapper-input darkGreyText" type="text" name="system.sla.currentFireMode"
+                        value="{{system.sla.currentFireMode}}" data-dtype="String" />
+                </div>
+            </div>
+
+            <!-- Shots Per Firing -->
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.shotsPerFire" class="resource-label minmaxtext">{{ localize 'Mosh.ShotsPerFiring' }}</label>
+
+                <div class="valuewrapper" style="width: 120px; background: white;">
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.shotsPerFire"
+                        value="{{system.shotsPerFire}}" data-dtype="String" />
+                </div>
+            </div>
+
+            <!-- Fire Modes -->
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.sla.fireModes" class="resource-label minmaxtext">Fire Modes</label>
+
+                <div class="textvaluewrapper" style="width: 180px; background: white;">
+                    <input class="textvaluewrapper-input darkGreyText" type="text" name="system.sla.fireModes"
+                        value="{{system.sla.fireModes}}" data-dtype="String" />
+                </div>
+            </div>
+
+            <!-- Ammunition -->
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.ammo" class="resource-label minmaxtext">{{ localize 'Mosh.Ammunition' }}</label>
+
+                <div class="valuewrapper" style="width: 120px; background: white;">
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.ammo" value="{{system.ammo}}"
+                        data-dtype="Number" />
+                </div>
+            </div>
+
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.ammoBaseCost" class="resource-label minmaxtext">Base Round Cost</label>
+
+                <div class="valuewrapper" style="width: 120px; background: white;">
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.ammoBaseCost" value="{{system.ammoBaseCost}}"
+                        data-dtype="Number" />
+                </div>
+            </div>
+
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.ammoLoadedType" class="resource-label minmaxtext">Loaded Ammo</label>
+
+                <div class="textvaluewrapper" style="width: 180px; background: white;">
+                    <input class="textvaluewrapper-input darkGreyText" type="text" name="system.ammoLoadedType"
+                        value="{{system.ammoLoadedType}}" data-dtype="String" />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="grid grid-4col" style="gap: 10px; margin-bottom: 10px;">
+        <div class="resource">
+            <label class="resource-label minmaxtext">STD Reserve</label>
+            <input class="maxhealth-input darkGreyText" type="text" name="system.ammoReserveStd" value="{{system.ammoReserveStd}}" data-dtype="Number" />
+        </div>
+        <div class="resource">
+            <label class="resource-label minmaxtext">AP Reserve</label>
+            <input class="maxhealth-input darkGreyText" type="text" name="system.ammoReserveAp" value="{{system.ammoReserveAp}}" data-dtype="Number" />
+        </div>
+        <div class="resource">
+            <label class="resource-label minmaxtext">HE Reserve</label>
+            <input class="maxhealth-input darkGreyText" type="text" name="system.ammoReserveHe" value="{{system.ammoReserveHe}}" data-dtype="Number" />
+        </div>
+        <div class="resource">
+            <label class="resource-label minmaxtext">HEAP Reserve</label>
+            <input class="maxhealth-input darkGreyText" type="text" name="system.ammoReserveHeap" value="{{system.ammoReserveHeap}}" data-dtype="Number" />
+        </div>
+    </div>
+
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
+      <a class="tab-select" data-tab="description">{{ localize 'Mosh.Description' }}</a>
+      <a class="tab-select" data-tab="item">{{ localize 'Mosh.Other' }}</a>
+
+    </nav>
+  
+    <br/>
+    
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+  
+      {{!-- Description Tab --}}
+      <div class="tab" data-group="primary" data-tab="description">
+        {{editor enriched.description target="system.description" button=true owner=owner editable=true}}
+      </div>
+  
+      {{!-- Item Tab --}}
+      <div class="tab ranges" data-group="primary" data-tab="item">
+        <div class="grid grid-3col">
+
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.cost" class="resource-label minmaxtext">{{ localize 'Mosh.Value' }}</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.cost" value="{{system.cost}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+
+          <!-- <div class="resource">
+            <label class="resource-label">Value</label>
+            <input type="text" name="system.cost" value="{{system.cost}}" data-dtype="Number" />
+          </div> -->
+
+          <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.weight" class="resource-label minmaxtext">{{ localize 'Mosh.Weight' }}</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="number" step="0.1" min="0" name="system.weight" value="{{system.weight}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+
+        <!-- Bonus -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.bonus" class="resource-label minmaxtext">{{ localize 'Mosh.ShipWeaponBonus' }}</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.bonus" value="{{system.bonus}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+
+          <!-- <div class="resource">
+            <label class="resource-label">Weight</label>
+            <input type="number" step="0.1" min="0" name="system.weight" value="{{system.weight}}" data-dtype="Number" />
+          </div> -->
+        </div>
+      </div>
+
+    </section>
+</form>

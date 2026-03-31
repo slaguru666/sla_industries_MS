@@ -1,0 +1,61 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <div class="header grid" style="grid-template-columns: 75px auto; width:100%;">
+            <!-- Image -->
+            <img class="sbt-profile" style="height: auto;" src="{{img}}" data-edit="img" title="{{name}}" />
+
+            <!-- NAME -->
+            <div class="">
+                <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
+                <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
+                        placeholder="{{ localize 'Mosh.Name' }}" /></div>
+            </div>
+
+        </div>
+    </header>
+    <br />
+    <div class="circle-statwrapper-horizontal">
+        <!-- QUANTITY -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.quantity" class="resource-label minmaxtext">{{ localize 'Mosh.Quantity' }}</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.quantity"
+                    value="{{system.quantity}}" data-dtype="Number" />
+            </div>
+        </div>
+        <!-- WEIGHT -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.weight" class="resource-label minmaxtext">{{ localize 'Mosh.Weight' }}</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="number" step="0.1" min="0" name="system.weight" value="{{system.weight}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+        <!-- VALUE -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.cost" class="resource-label minmaxtext">{{ localize 'Mosh.Value' }}</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.cost" value="{{system.cost}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+    </div>
+    <br />
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
+        <a class="tab-select" data-tab="description">{{ localize 'Mosh.Description' }}</a>
+        <!-- <a class="tab-select" data-tab="attributes">Attributes</a> -->
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Description Tab --}}
+        <div class="tab" data-group="primary" data-tab="description">
+            {{editor enriched.description target="system.description" button=true owner=owner editable=true}}
+        </div>
+    </section>
+</form>

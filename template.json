@@ -1,0 +1,705 @@
+{
+  "Actor": {
+    "types": [
+      "character",
+      "creature",
+      "ship"
+    ],
+    "templates": {
+      "base": {
+        "health": {
+          "value": 10,
+          "min": 0,
+          "max": 10,
+          "label" : "Health"
+        },
+        "hits": {
+          "value": 0,
+          "min": 0,
+          "max" : 2,
+          "label" : "Wounds"
+        },
+        "netHP": {
+          "value": 20,
+          "min": 0,
+          "max" : 20,
+          "label" : "Net HP"
+        },
+        "bleeding": {
+          "value": 0,
+          "min": 0,
+          "label" : "Bleeding"
+        }
+      }
+    },
+    "character": {
+      "templates": [
+        "base"
+      ],
+      "biography": "",
+      "notes": "",
+      "weight" : {
+        "current" : 0,
+        "capacity" : 0
+      },
+      "class": {
+        "value": ""
+      },
+      "rank": {
+        "value": ""
+      },
+      "pronouns": {
+        "value": ""
+      },
+      "credits": {
+        "value": ""
+      },
+      "stressdesc": {
+        "value": ""
+      },
+      "xp": {
+        "value": 0,
+        "html" : 0,
+        "selectedSkill" : ""
+      },
+      "attributes": {
+        "level": {
+          "value": 0
+        }
+      },
+      "stats": {
+        "strength": {
+          "value": 10,
+          "mod": 0,
+          "min": 0,
+          "max": 99,
+          "label": "Strength",
+          "rollLabel": "Strength Check"
+        },
+        "speed": {
+          "value": 10,
+          "mod": 0,
+          "min": 0,
+          "max": 99,
+          "label": "Speed",
+          "rollLabel": "Speed Check"
+        },
+        "intellect": {
+          "value": 10,
+          "mod": 0,
+          "min": 0,
+          "max": 99,
+          "label": "Intellect",
+          "rollLabel": "Intellect Check"
+        },
+        "combat": {
+          "value": 10,
+          "mod": 0,
+          "min": 0,
+          "max": 99,
+          "label": "Combat",
+          "rollLabel": "Combat Check"
+        },
+        "sanity": {
+          "value": 10,
+          "mod": 0,
+          "min": 0,
+          "max": 99,
+          "label": "Sanity",
+          "rollLabel": "Sanity Save"
+        },
+        "fear": {
+          "value": 10,
+          "mod": 0,
+          "min": 0,
+          "max": 99,
+          "label": "Fear",
+          "rollLabel": "Fear Save"
+        },
+        "body": {
+          "value": 10,
+          "mod": 0,
+          "min": 0,
+          "max": 99,
+          "label": "Body",
+          "rollLabel": "Body Save"
+        },
+        "armor": {
+          "value": 0,
+          "mod": 0,
+          "min": 0,
+          "max": 99,
+          "damageReduction": 0,
+          "cover": "none",
+          "label": "Armor",
+          "rollLabel": "Armor Save"
+        }
+      },
+      "other": {
+        "stress": {
+          "value": 2,
+          "min": 2,
+          "max": 20,
+          "label" : "Stress"
+        },
+        "resolve": {
+          "value": 0,
+          "min": 0,
+          "max": 15,
+          "label" : "Resolve"
+        },
+        "stressdesc": {
+          "value": ""
+        }
+      },
+      "sla": {
+        "operativeType": {
+          "value": ""
+        },
+        "species": {
+          "value": ""
+        },
+        "speciesNotes": {
+          "value": ""
+        },
+        "trainingPackage": {
+          "value": ""
+        },
+        "packageSummary": {
+          "value": ""
+        },
+        "packageSkills": {
+          "value": ""
+        },
+        "packageWealth": {
+          "value": ""
+        },
+        "flux": {
+          "value": 0,
+          "min": 0,
+          "max": 0,
+          "label": "Flux"
+        },
+        "fluxStage": {
+          "value": ""
+        },
+        "bpn": {
+          "value": ""
+        },
+        "scl": {
+          "value": ""
+        },
+        "employer": {
+          "value": ""
+        },
+        "sector": {
+          "value": ""
+        },
+        "height": {
+          "value": ""
+        },
+        "weightText": {
+          "value": ""
+        },
+        "lad": false,
+        "ebbRating": {
+          "value": 0
+        },
+        "ammoSpendTotal": {
+          "value": 0
+        },
+        "ammoLedger": {
+          "value": ""
+        },
+        "fluxNotes": {
+          "value": ""
+        },
+        "ebbNotes": {
+          "value": ""
+        }
+      }
+    },
+    "creature": {
+      "templates": [
+        "base"
+      ],
+      "biography": "",
+      "notes": "",
+      "description": "This is a description",
+      "xp": {
+        "value": 1,
+        "html": ""
+      },
+      "stats": {
+        "combat": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Combat",
+          "rollLabel": "Combat Check",
+          "enabled" : true
+        },
+        "instinct": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Instinct",
+          "rollLabel": "Instinct Check",
+          "enabled" : true
+        },
+        "speed": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Speed",
+          "rollLabel": "Speed Check",
+          "enabled" : false
+        },
+        "loyalty": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Loyalty",
+          "rollLabel": "Loyalty Check",
+          "enabled" : false
+        },
+        "armor": {
+          "value": 0,
+          "mod": 0,
+          "min": 0,
+          "max": 99,
+          "damageReduction": 0,
+          "cover": "none",
+          "label": "Armor",
+          "rollLabel": "Armor Save",
+          "enabled" : false
+        },
+        "sanity": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Sanity",
+          "rollLabel": "Sanity Save",
+          "enabled" : false
+        }
+      }
+    },
+    "ship": {
+      "templates": [
+        "base"
+      ],
+      "biography": "",
+      "description": "This is a description",
+      "type": "",
+      "class": "",
+      "xp": {
+        "value": 1
+      },
+      "images" : {
+        "layout" : "systems/sla-mothership/images/Galloway_Top.png",
+        "beauty" : "systems/sla-mothership/images/Galloway_Top.png"
+      },
+      "runSetup" : true,
+      "megadamage" : {
+        "html" : "",
+        "hits" : [],
+        "menu" : {
+          "html" : ""
+        },
+        "open" : false
+      },
+      "stats": {
+        "armor": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Armor",
+          "rollLabel": "Armor Save"
+        },
+        "combat": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Combat",
+          "rollLabel": "Combat Check"
+        },
+        "intellect": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Intellect",
+          "rollLabel": "Intellect Check"
+        },
+        "speed": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Speed",
+          "rollLabel": "Speed Check"
+        },
+        "thrusters": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Thrusters",
+          "rollLabel": "Thrusters Save"
+        },
+        "battle": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Battle",
+          "rollLabel": "Battle Save"
+        },
+        "systems": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Systems",
+          "rollLabel": "Systems Save"
+        },
+        "bankruptcy": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Bankruptcy",
+          "rollLabel": "Bankruptcy Save"
+        }
+      },
+      "supplies": {
+        "hull": {
+          "value": 10,
+          "max": 10,
+          "75" : 0,
+          "50" : 0,
+          "25" : 0
+        },
+        "fuel": {
+          "value": 10,
+          "max": 10
+        },
+        "stock": {
+          "value": 10,
+          "max": 10
+        },
+        "crew": {
+          "value": 10,
+          "max": 10
+        },
+        "oxygen": {
+          "value": 0
+        },
+        "warp-cores": {
+          "value": 0
+        },
+        "cryopods": {
+          "value": 0
+        },
+        "escape-pods": {
+          "value": 0
+        },
+        "upgrades": {
+          "value": 0,
+          "max" : 0
+        }
+      },
+      "weapon-stats" : {
+        "weapons": {
+          "value": 0,
+          "max": 1
+        },
+        "megadamage": {
+          "value": 0,
+          "max": 1
+        },
+        "hardpoints": {
+          "value": 0,
+          "max": 1
+        }
+
+      }
+    }
+  },
+  "Item": {
+    "types": [
+      "item",
+      "drug",
+      "skill",
+      "weapon",
+      "armor",
+      "ability",
+      "module",
+      "condition",
+      "crew",
+      "repair",
+      "class",
+      "persTrait"
+    ],
+    "templates": {
+      "base": {
+        "description": ""
+      }
+    },
+    "item": {
+      "templates": [
+        "base"
+      ],
+      "quantity": 1,
+      "weight": 0,
+      "carryState": "carried",
+      "cost" : 0,
+      "sla": {
+        "category": "",
+        "power": "",
+        "manufacturer": "",
+        "rarity": "",
+        "source": "SLA"
+      }
+    },
+    "drug": {
+      "templates": [
+        "base"
+      ],
+      "quantity": 1,
+      "weight": 0,
+      "carryState": "carried",
+      "cost": 0,
+      "sla": {
+        "category": "Drug",
+        "drugId": "",
+        "rating": 0,
+        "durationLabel": "",
+        "addictionFactor": 0,
+        "source": "SLA"
+      }
+    },
+    "skill": {
+      "templates": [
+        "base"
+      ],
+      "rank": "Trained",
+      "bonus": 10,
+      "prerequisite_ids": [],
+      "sla": {
+        "category": "",
+        "skillFamily": "",
+        "source": "SLA"
+      }
+    },
+    "weapon": {
+      "templates": [
+        "base"
+      ],
+      "antiArmor": false,
+      "damage": "1d10",
+      "ammo": 10,
+      "shots": 1,
+      "curShots": 0,
+      "shotsPerFire" : 1,
+      "useAmmo": false,
+      "ammoType": "",
+      "ammoCalibre": "",
+      "ammoBaseCost": 0,
+      "ammoTag": "STD",
+      "ammoLoadedType": "STD",
+      "ammoAllowStd": true,
+      "ammoAllowAp": true,
+      "ammoAllowHe": true,
+      "ammoAllowHeap": true,
+      "ammoReserve": 0,
+      "ammoReserveStd": 0,
+      "ammoReserveAp": 0,
+      "ammoReserveHe": 0,
+      "ammoReserveHeap": 0,
+      "wound":"",
+      "critDmg": "",
+      "woundEffect": "",
+      "bonus": 0,
+      "weight": 0,
+      "carryState": "equipped",
+      "equipped": true,
+      "cost" : 0,
+      "ranges": {
+        "short": 0,
+        "medium": 0,
+        "long": 0,
+        "value" : ""
+      },
+      "settings" : {
+        "firstEdition" : false
+      },
+      "sla": {
+        "weaponType": "",
+        "skillRef": "",
+        "skillRefAlt": "",
+        "damageType": "",
+        "fireModes": "Single:1",
+        "currentFireMode": "Single",
+        "hands": "",
+        "reach": "",
+        "special": "",
+        "enc": 0,
+        "price": "",
+        "notes": []
+      }
+    },
+    "armor": {
+      "templates": [
+        "base"
+      ],
+      "armorPoints": 1,
+      "damageReduction":0,
+      "speed": "",
+      "oxygenMax": 0,
+      "oxygenCurrent": 0,      
+      "weight": 0,
+      "carryState": "equipped",
+      "equipped": true,
+      "cost" : 0,
+      "sla": {
+        "burden": "",
+        "coverage": "",
+        "physmod": 0,
+        "stealthmod": 0,
+        "enc": 0,
+        "price": "",
+        "locationAV": {},
+        "notes": []
+      }
+    },
+    "condition": {
+      "templates": [
+        "base"
+      ],
+      "severity": 1,
+      "treatment" : {
+        "value" : 0,
+        "html" : ""
+      },
+      "sla": {
+        "category": "",
+        "effectSummary": "",
+        "severityScale": "",
+        "treatmentGuidance": "",
+        "scaleWithSeverity": true,
+        "statMods": {
+          "strength": 0,
+          "speed": 0,
+          "intellect": 0,
+          "combat": 0,
+          "sanity": 0,
+          "fear": 0,
+          "body": 0
+        },
+        "skillMods": [],
+        "source": ""
+      }
+    },
+    "ability": {
+      "templates": [
+        "base"
+      ],
+      "text": "An Ability",
+      "roll": "",
+      "sla": {
+        "abilityType": "ebb",
+        "discipline": "",
+        "skillRef": "",
+        "coreSkillRef": "Ebb (Core)",
+        "fluxCost": 1,
+        "tier": "basic",
+        "range": "",
+        "duration": "",
+        "attack": false,
+        "panicSave": "fear",
+        "rollOnUse": true,
+        "notes": [],
+        "tiers": []
+      }
+    },
+    "crew": {
+      "templates": [
+        "base"
+      ],
+      "text": "",
+      "job" : ""
+    },
+    "repair": {
+      "templates": [
+        "base"
+      ],
+      "quantity": 1,
+      "major": false
+    },
+    "module": {
+      "templates": [
+        "base"
+      ],
+      "quantity": 1,
+      "hull": 1,
+      "totalHull" : 1,
+      "feature" : "",
+      "offline" : false
+    },
+    "class": {
+      "templates": [
+        "base"
+      ],
+      "source": "",
+      "author": "",
+      "link": "",
+      "trauma_response": "",
+      "robotic": true,
+      "common_skills": [],
+      "sla": {
+        "classType": "species",
+        "wealth": "",
+        "starterPackage": "",
+        "notes": []
+      },
+      "base_adjustment": {
+        "strength": 0,
+        "speed": 0,
+        "intellect": 0,
+        "combat": 0,
+        "sanity": 0,
+        "fear": 0,
+        "body": 0,
+        "max_wounds": 0,
+        "skills_granted": []
+      },
+      "selected_adjustment": {
+        "choose_stat": [],
+        "choose_skill_and": {
+          "trained": 0,
+          "expert": 0,
+          "expert_full_set": 0,
+          "master": 0,
+          "master_full_set": 0
+        },
+        "choose_skill_or": []
+      },
+      "roll_tables": {
+        "loadout": "",
+        "trinket": "",
+        "patch": ""
+      }
+    },
+    "persTrait": {
+      "templates": [
+        "base"
+      ],
+      "base": 1,
+      "xp": 0,
+      "oppName": "",
+      "basic": false,
+      "improve": false,
+      "oppimprove": false,
+      "gmDescription": "",
+      "sla": {
+        "traitType": "neutral",
+        "source": "SLA"
+      }
+    }
+  }
+}

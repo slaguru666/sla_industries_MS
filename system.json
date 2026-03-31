@@ -1,0 +1,166 @@
+{
+  "id": "sla-mothership",
+  "title": "SLA Mothership",
+  "description": "An SLA Industries conversion built on the unofficial Mothership system for Foundry VTT, preserving Mothership's core mechanics while adding SLA flux, Ebb, BPN, and equipment support.",
+  "version": "0.5.1",
+  "esmodules": [
+    "module/mosh.js"
+  ],
+  "styles": [
+    "css/mosh.css"
+  ],
+  "packs": [
+    {
+      "name": "conditions_0e",
+      "label": "Conditions 0E",
+      "path": "packs/conditions_0e",
+      "type": "Item",
+      "system": "sla-mothership"
+    },
+    {
+      "name": "conditions_1e",
+      "label": "Conditions 1E",
+      "path": "packs/conditions_1e",
+      "type": "Item",
+      "system": "sla-mothership"
+    },
+    {
+      "name": "items_maintenance_1e",
+      "label": "Maintenance Items 1E",
+      "path": "packs/items_maintenance_1e",
+      "type": "Item",
+      "system": "sla-mothership"
+    },
+    {
+      "name": "macros_hotbar_0e",
+      "label": "Hotbar Macros 0E",
+      "path": "packs/macros_hotbar_0e",
+      "type": "Macro",
+      "system": "sla-mothership"
+    },
+    {
+      "name": "macros_hotbar_1e",
+      "label": "Hotbar Macros 1E",
+      "path": "packs/macros_hotbar_1e",
+      "type": "Macro",
+      "system": "sla-mothership"
+    },
+    {
+      "name": "macros_triggered_0e",
+      "label": "Triggered Macros 0E",
+      "path": "packs/macros_triggered_0e",
+      "type": "Macro",
+      "system": "sla-mothership"
+    },
+    {
+      "name": "macros_triggered_1e",
+      "label": "Triggered Macros 1E",
+      "path": "packs/macros_triggered_1e",
+      "type": "Macro",
+      "system": "sla-mothership"
+    },
+    {
+      "name": "rolltables_0e",
+      "label": "Roll Tables 0E",
+      "path": "packs/rolltables_0e",
+      "type": "RollTable",
+      "system": "sla-mothership"
+    },
+    {
+      "name": "rolltables_1e",
+      "label": "Roll Tables 1E",
+      "path": "packs/rolltables_1e",
+      "type": "RollTable",
+      "system": "sla-mothership"
+    }
+  ],
+  "media": [
+    {
+      "type": "cover",
+      "loop": false,
+      "flags": {}
+    },
+    {
+      "type": "setup",
+      "url": "systems/sla-mothership/images/icons/ui/system/mosh-repo.webp",
+      "thumbnail": "systems/sla-mothership/images/icons/ui/system/mosh-thumbnail.webp"
+    }
+  ],
+  "background": "systems/sla-mothership/images/icons/ui/system/mosh-background.webp",
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "flags": {}
+    },
+    {
+      "lang": "pt-BR",
+      "path": "lang/pt-BR.json",
+      "flags": {}
+    }
+  ],
+  "grid.distance": 1,
+  "grid.units": "meter",
+  "primaryTokenAttribute": "health",
+  "secondaryTokenAttribute": "other.stress",
+  "license": "LICENSE.txt",
+  "url": "https://github.com/slaguru666/sla_industries_MS",
+  "manifest": "https://raw.githubusercontent.com/slaguru666/sla_industries_MS/main/system.json",
+  "download": "https://github.com/slaguru666/sla_industries_MS/releases/latest/download/sla_industries_MS.zip",
+  "authors": [
+    {
+      "name": "Futilrevenge",
+      "flags": {}
+    },
+    {
+      "name": "hollowphoton",
+      "flags": {}
+    },
+    {
+      "name": "Tim Evans",
+      "flags": {}
+    }
+  ],
+  "relationships": {
+    "requires": [
+      {
+        "id": "sla-mothership-compendium",
+        "type": "module",
+        "compatibility": {}
+      }
+    ],
+    "recommends": [
+      {
+        "id": "dice-so-nice",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "mothership-crew-achievements",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "mothership-crew-relationships",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "mothership-map-viewer",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "quick-battlemap-builder",
+        "type": "module",
+        "compatibility": {}
+      }
+    ]
+  },
+  "compatibility": {
+    "minimum": "13",
+    "maximum": "13",
+    "verified": "13"
+  }
+}

@@ -1,0 +1,91 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+    <header class="sheet-header">
+        <div class="header grid" style="grid-template-columns: 75px auto; width:100%;">
+            <!-- Image -->
+            <img class="sbt-profile" style="height: auto;" src="{{img}}" data-edit="img" title="{{name}}" />
+
+            <!-- NAME -->
+            <div class="">
+                <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
+                <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
+                        placeholder="{{ localize 'Mosh.Name' }}" /></div>
+            </div>
+
+        </div>
+    </header>
+    <br />
+    <div class="circle-statwrapper-horizontal">
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.roll" class="resource-label minmaxtext">Quick Roll</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.roll"
+                    value="{{system.roll}}" data-dtype="String" />
+            </div>
+        </div>
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.sla.fluxCost" class="resource-label minmaxtext">Flux Cost</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.sla.fluxCost"
+                    value="{{system.sla.fluxCost}}" data-dtype="Number" />
+            </div>
+        </div>
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.sla.panicSave" class="resource-label minmaxtext">Save</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.sla.panicSave"
+                    value="{{system.sla.panicSave}}" data-dtype="String" />
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="circle-statwrapper-horizontal">
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.sla.skillRef" class="resource-label minmaxtext">Skill Ref</label>
+
+            <div class="textvaluewrapper" style="width: 180px; background: white;">
+                <input class="textvaluewrapper-input darkGreyText" type="text" name="system.sla.skillRef"
+                    value="{{system.sla.skillRef}}" data-dtype="String" />
+            </div>
+        </div>
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.sla.tier" class="resource-label minmaxtext">Tier</label>
+
+            <div class="textvaluewrapper" style="width: 180px; background: white;">
+                <input class="textvaluewrapper-input darkGreyText" type="text" name="system.sla.tier"
+                    value="{{system.sla.tier}}" data-dtype="String" />
+            </div>
+        </div>
+    </div>
+    <br />
+
+    {{#if system.sla.tiers.length}}
+    <div class="resource" style="margin-bottom: 12px;">
+        <label class="resource-label">Tier Profiles</label>
+        <div class="sla-note-list">
+            {{#each system.sla.tiers as |tier|}}
+            <div class="sla-note-pill">{{tier.label}} | {{tier.cost}} Flux{{#if tier.damage}} | {{tier.damage}}{{/if}}{{#if tier.healing}} | {{tier.healing}}{{/if}}</div>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
+        <a class="tab-select" data-tab="description">{{ localize 'Mosh.Description' }}</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Description Tab --}}
+        <div class="tab" data-group="primary" data-tab="description">
+            {{editor enriched.description target="system.description" button=true owner=owner editable=true}}
+        </div>
+    </section>
+</form>

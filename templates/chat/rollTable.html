@@ -1,0 +1,54 @@
+<div class="mosh"  {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+{{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+    <div class="rollcontainer">
+        <div class="flexrow" style="margin-bottom : 5px;">
+            <div class="rollweaponh1">{{{tableName}}}</div>
+            <div style="text-align: right"><img class="roll-image" src="{{{tableImg}}}" /></div>
+        </div>
+        {{{parsedRollResult.outcomeHtml}}}
+        <div class="description sla-chat-section" style="margin-bottom: 10px;">
+            <div class="body">{{{msgDesc}}}</div>
+        </div>
+        {{{parsedRollResult.rollHtml}}}
+		{{#if secondRoll}}
+			<div class="description sla-chat-section" style="margin-bottom: 10px;">
+                {{#if (compare 'str' specialRoll '===' 'panicCheck')}}
+				    <div class="body">{{ localize 'Mosh.RollingForPanicEffect' }}</div>
+                {{/if}}
+                {{#if (compare 'str' specialRoll '===' 'maintenanceCheck')}}
+				    <div class="body">{{ localize 'Mosh.RollingForMaintenanceIssue' }}</div>
+                {{/if}}
+			</div>
+			{{{parsedRollResult2.rollHtml}}}
+		{{/if}}
+        {{#if parsedRollResult.success}}
+            <div class="description sla-chat-section sla-chat-section-success" style="margin-bottom : 20px;">{{{flavorText}}}</div>
+        {{else}}
+            {{#if woundText}}
+                {{{woundText}}}<br><br>
+            {{/if}}
+            {{#if (compare 'str' tableResultType '===' 'document')}}
+                <ol class="table-results">
+                {{#each tableResult}}
+                <li class="table-result flexrow" data-result-id="{{{this._id}}}">
+                    <img class="result-image" src="{{{this.img}}}">
+                    <div class="result-text"><a class="content-link broken" draggable="true" data-type="Item" data-uuid="undefined"><i class="fas fa-unlink"></i>{{{this.description}}}</a></div>
+                </li>
+                {{/each}}
+                </ol>
+            {{/if}}
+            {{#if (compare 'str' tableResultType '===' 'text')}}
+                {{#if tableResultEdited}}
+                    <div class="description sla-chat-section sla-chat-section-danger" style="margin-bottom : 20px;">{{{tableResultEdited}}}{{{tableResultFooter}}}</div>
+                {{else}}
+                    <div class="description sla-chat-section sla-chat-section-danger" style="margin-bottom : 20px;">{{{tableResult.[0].description}}}{{{tableResultFooter}}}</div>
+                {{/if}}
+            {{/if}}
+            {{#if (compare 'str' specialRoll '===' 'maintenanceCheck')}}
+                {{#if critFail}}
+                <br><br>@UUID[Compendium.mosh.macros_hotbar_1e.IgWvaabVqzKDzLL4]{Make a Panic Check}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    </div>
+</div>

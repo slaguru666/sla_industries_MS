@@ -1,0 +1,60 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  <header class="sheet-header flexrow" style="gap: 12px; align-items: center;">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="72" width="72" />
+    <div class="header-fields" style="flex: 1;">
+      <div class="resource">
+        <label class="resource-label">Trait Name</label>
+        <input name="name" type="text" value="{{item.name}}" placeholder="Trait Name" />
+      </div>
+      <div class="grid grid-3col" style="gap: 8px;">
+        <div class="resource">
+          <label class="resource-label">Rank</label>
+          <input name="system.base" type="number" value="{{system.base}}" data-dtype="Number" />
+        </div>
+        <div class="resource">
+          <label class="resource-label">Type</label>
+          <select name="system.sla.traitType">
+            <option value="advantage" {{#if (compare 'str' system.sla.traitType '===' 'advantage')}}selected{{/if}}>Advantage</option>
+            <option value="disadvantage" {{#if (compare 'str' system.sla.traitType '===' 'disadvantage')}}selected{{/if}}>Disadvantage</option>
+            <option value="neutral" {{#if (compare 'str' system.sla.traitType '===' 'neutral')}}selected{{/if}}>Neutral</option>
+          </select>
+        </div>
+        <div class="resource">
+          <label class="resource-label">Opposed Name</label>
+          <input name="system.oppName" type="text" value="{{system.oppName}}" placeholder="Optional" />
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item active" data-tab="details">Details</a>
+    <a class="item" data-tab="description">Description</a>
+  </nav>
+
+  <section class="sheet-body">
+    <div class="tab active" data-group="primary" data-tab="details">
+      <div class="grid grid-2col" style="gap: 12px;">
+        <label class="checkbox">
+          <input type="checkbox" name="system.basic" {{checked system.basic}} data-dtype="Boolean" />
+          Basic Trait
+        </label>
+        <div class="resource">
+          <label class="resource-label">Source</label>
+          <input name="system.sla.source" type="text" value="{{system.sla.source}}" />
+        </div>
+      </div>
+      <div class="resource" style="margin-top: 12px;">
+        <label class="resource-label">Trait Summary</label>
+        <textarea name="system.description" rows="8">{{system.description}}</textarea>
+      </div>
+    </div>
+
+    <div class="tab" data-group="primary" data-tab="description">
+      <div class="resource">
+        <label class="resource-label">GM Notes / Runtime Notes</label>
+        <textarea name="system.gmDescription" rows="12">{{system.gmDescription}}</textarea>
+      </div>
+    </div>
+  </section>
+</form>

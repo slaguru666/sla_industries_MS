@@ -1,0 +1,92 @@
+<form class="{{cssClass}} sla-character-generator" autocomplete="off">
+  <div class="grid grid-2col" style="gap: 12px;">
+    <div class="resource">
+      <label class="resource-label">Name</label>
+      <div class="flexrow" style="gap: 6px;">
+        <input type="text" name="name" value="{{name}}" placeholder="Operative name" />
+        <button type="button" class="random-name" style="flex: 0 0 auto;">Random</button>
+      </div>
+    </div>
+    <div class="resource">
+      <label class="resource-label">Species</label>
+      <select name="species">
+        {{#each speciesOptions as |species|}}
+        <option value="{{species}}" {{#if (compare "str" ../selectedSpecies "==" species)}}selected{{/if}}>{{species}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="resource">
+      <label class="resource-label">Training Package</label>
+      <select name="packageName">
+        {{#each packageOptions as |trainingPackage|}}
+        <option value="{{trainingPackage}}" {{#if (compare "str" ../selectedPackage "==" trainingPackage)}}selected{{/if}}>{{trainingPackage}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="resource">
+      <label class="resource-label">Operative Type</label>
+      <input type="text" name="operativeType" value="{{operativeType}}" placeholder="Contract Operative" />
+    </div>
+    <div class="resource">
+      <label class="resource-label">Employer</label>
+      <input type="text" name="employer" value="{{employer}}" placeholder="SLA Industries" />
+    </div>
+    <div class="resource">
+      <label class="resource-label">Sector / Beat</label>
+      <input type="text" name="sector" value="{{sector}}" placeholder="Mort City" />
+    </div>
+    <div class="resource">
+      <label class="resource-label">Existing Actor</label>
+      <div style="padding: 6px 0;">{{#if editingExisting}}{{actorName}}{{else}}Create New Operative{{/if}}</div>
+    </div>
+  </div>
+
+  <div class="grid grid-2col" style="gap: 8px; margin-top: 12px;">
+    <label class="checkbox"><input type="checkbox" name="assignLoadout" {{#if assignLoadout}}checked{{/if}} /> Assign weapons and armour</label>
+    <label class="checkbox"><input type="checkbox" name="assignGear" {{#if assignGear}}checked{{/if}} /> Add starter gear</label>
+    <label class="checkbox" data-ebb-toggle {{#unless briefing.isEbbSpecies}}style="display: none;"{{/unless}}><input type="checkbox" name="assignEbb" {{#if assignEbb}}checked{{/if}} /> Add starter Ebb abilities</label>
+    <label class="checkbox"><input type="checkbox" name="openSheet" {{#if openSheet}}checked{{/if}} /> Open sheet when done</label>
+    {{#if editingExisting}}
+    <label class="checkbox"><input type="checkbox" name="replaceExisting" {{#if replaceExisting}}checked{{/if}} /> Replace existing items on this actor</label>
+    {{/if}}
+  </div>
+
+  <div class="grid grid-2col sla-card-grid" style="gap: 12px; margin-top: 12px;">
+    <div class="sla-card sla-briefing-card">
+      <div class="sla-card-label">Species Briefing</div>
+      <div class="sla-card-title" data-briefing="species-title">{{briefing.speciesTitle}}</div>
+      <div class="sla-card-copy" data-briefing="species-copy">{{briefing.speciesCopy}}</div>
+      <div class="sla-note-list" data-briefing="species-notes">
+        {{#each briefing.speciesNotes as |note|}}
+        <div class="sla-note-pill">{{note}}</div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="sla-card sla-briefing-card">
+      <div class="sla-card-label">Package Briefing</div>
+      <div class="sla-card-title" data-briefing="package-title">{{briefing.packageTitle}}</div>
+      <div class="sla-card-copy" data-briefing="package-copy">{{briefing.packageCopy}}</div>
+      <div class="sla-note-list" data-briefing="package-skills">
+        {{#each briefing.packageSkills as |skill|}}
+        <div class="sla-note-pill">{{skill}}</div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <div class="sla-card sla-briefing-card" data-ebb-panel style="margin-top: 12px; {{#unless briefing.isEbbSpecies}}display: none;{{/unless}}">
+    <div class="sla-card-label">Flux Outlook</div>
+    <div class="sla-card-copy" data-briefing="flux-copy">{{briefing.fluxCopy}}</div>
+  </div>
+
+  <p style="margin-top: 12px;">
+    This generator uses the SLA species, package, loadout, and Ebb seed data already installed in the world, then rolls direct Mothership-style stats tailored to the selected species.
+  </p>
+
+  <footer class="sheet-footer flexrow" style="margin-top: 12px;">
+    <button type="submit">
+      <i class="fas fa-biohazard"></i>
+      {{#if editingExisting}}Apply SLA Template{{else}}Generate Operative{{/if}}
+    </button>
+  </footer>
+</form>

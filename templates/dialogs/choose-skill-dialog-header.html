@@ -1,0 +1,28 @@
+  <div class ="macro_window">
+    <div class="macro_desc" style="padding-left: 8px;">
+      <h4>{{ localize 'Mosh.AddASkill'}}</h4>
+      {{ localize 'Mosh.IfYouHaveARelevantSkill'}} <em>{{ localize 'Mosh.GivingYouAHigherNumber' }}</em>
+      {{#if statSummary}}
+      <div style="margin-top: 8px; font-size: 12pt;"><strong>{{statSummary}}</strong></div>
+      {{/if}}
+      {{#if attackSummary.length}}
+      <div style="margin-top: 8px; display: grid; gap: 4px;">
+        {{#each attackSummary as |entry|}}
+        <div style="font-size: 11pt;">{{entry}}</div>
+        {{/each}}
+      </div>
+      {{/if}}
+    </div>    
+  </div>
+  <label for="">
+  <div class ="macro_window" style="vertical-align: middle; padding-left: 8px; padding-left: 3px;">
+    <div class="grid grid-2col" style="align-items: center; grid-template-columns: 20px auto">
+    <input type="radio" id="" name="skill" value=0 checked >
+    <div class="macro_desc" style="display: table;">
+      <span style="display: table-cell; vertical-align: middle;">
+      <p> {{ localize 'Mosh.DoNotAddASkillToThisRoll' }}<p>
+      </span>
+    </div>    
+    </div>
+  </div>
+  </label>

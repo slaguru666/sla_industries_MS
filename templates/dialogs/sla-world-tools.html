@@ -1,0 +1,39 @@
+<form class="{{cssClass}} sla-world-tools" autocomplete="off">
+  <p>SLA Mothership world helpers for seeding content, creating operatives, and building a ready-to-play starter cast.</p>
+
+  <div class="grid grid-2col" style="gap: 8px; margin-bottom: 12px;">
+    <div class="resource">
+      <label class="resource-label">Seeded Items</label>
+      <div>{{seededItems}}</div>
+    </div>
+    <div class="resource">
+      <label class="resource-label">Character Actors</label>
+      <div>{{actorCount}}</div>
+    </div>
+    <div class="resource">
+      <label class="resource-label">Skills / Weapons</label>
+      <div>{{skillCount}} / {{weaponCount}}</div>
+    </div>
+    <div class="resource">
+      <label class="resource-label">Gear / Starter Squad</label>
+      <div>{{gearCount}} / {{starterCount}}</div>
+    </div>
+    <div class="resource">
+      <label class="resource-label">Ebb Operatives</label>
+      <div>{{ebbActorCount}}</div>
+    </div>
+  </div>
+
+  <div class="grid grid-2col" style="gap: 8px;">
+    <button type="button" class="seed-world"><i class="fas fa-box-open"></i> Seed SLA Content</button>
+    <button type="button" class="refresh-world"><i class="fas fa-sync"></i> Refresh Seeded Content</button>
+    <button type="button" class="open-generator"><i class="fas fa-user-plus"></i> Open Generator</button>
+    <button type="button" class="generate-random"><i class="fas fa-dice"></i> Create Random Operative</button>
+    <button type="button" class="generate-random-standard"><i class="fas fa-user"></i> Create Standard Operative</button>
+    <button type="button" class="generate-random-ebb"><i class="fas fa-brain"></i> Create Random Ebb User</button>
+    <button type="button" class="starter-squad"><i class="fas fa-users"></i> Create Starter Squad</button>
+    {{#if quickBattleMapBuilderReady}}
+    <button type="button" class="open-battlemap-builder"><i class="fas fa-map"></i> Quick Battle Map</button>
+    {{/if}}
+  </div>
+</form>

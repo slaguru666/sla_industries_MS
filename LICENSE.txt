@@ -1,0 +1,6 @@
+SLA Mothership is a draft derivative of the unofficial Foundry Mothership system.
+
+Upstream project:
+https://github.com/Futil/foundry-mothership
+
+SLA-specific draft additions in this package are part of the sla_industries_brp repository.

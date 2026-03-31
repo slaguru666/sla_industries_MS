@@ -1,0 +1,2788 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=swap');
+
+@include-when-export url(https://fonts.loli.net/css?family=PT+Serif:400,400italic,700,700italic&subset=latin,cyrillic-ext,cyrillic,latin-ext);
+
+/* =========== */
+
+/* pt-serif-regular - latin */
+@font-face {
+  font-family: 'Futura PT Book';
+  font-style: normal;
+  font-weight: normal;
+	src: local('Futura PT Book');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* pt-serif-700 - latin */
+@font-face {
+  font-family: 'Futura PT Bold';
+  font-style: normal;
+  font-weight: bold;
+	src: local('Futura PT Bold');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* pt-serif-700 - latin */
+@font-face {
+  font-family: 'Futura PT Cond Medium';
+  font-style: normal;
+  font-weight: normal;
+	src: local('Futura PT Cond Medium');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* pt-serif-700 - latin */
+@font-face {
+  font-family: 'Futura PT Cond Bold';
+  font-style: normal;
+  font-weight: bold;
+	src: local('Futura PT Cond Bold');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Branding */
+#logo {
+  content: url("/systems/sla-mothership/images/icons/ui/system/logo.webp");
+  width: 100px;
+  height: 50px;
+}
+
+#pause>img {
+  background: none;
+  content: url("/systems/sla-mothership/images/icons/ui/system/pause.webp");
+  width: 200px;
+  height: 200px;
+  top: -95px;
+  left: calc(50% - 100px);
+  opacity: .3;
+}
+
+#pause {
+  background: none;
+}
+
+#pause figcaption {
+  font-family: "Roboto", sans-serif;
+  color: #ffffff;
+  opacity: .3;
+  padding-left: 6px;
+}
+
+/* Paragraph */
+p {
+  margin: 0em 0;
+}
+
+/* Global styles */
+.window-app {
+  font-family: "Futura PT Book", "Josefin Sans", "Roboto", sans-serif;
+}
+
+.window-app .window-content {
+  background: #fff;
+  /* font-family: "Montserrat", "Arial Black", sans-serif; */
+}
+
+.mosh ::-webkit-scrollbar-thumb {
+  outline: none;
+  border-radius: 3px;
+  background: black;
+  border: 1px solid white;
+}
+
+.mosh .window-content{
+  scrollbar-width: thin;
+  scrollbar-color: black #fff;
+}
+
+.mosh .white{
+  color:white;
+}
+
+.mosh .darkgrey{
+  color:rgb(92, 92, 92);
+}
+/* .chat-message, #chat-form, .textarea{
+  background: white;
+} */
+
+.dice-tooltip .dice-rolls .roll.max {
+  color: #18520b;
+  filter: sepia(0.5) hue-rotate(60deg);
+}
+.dice-tooltip .dice-rolls .roll.min {
+  color: #aa0200;
+  filter: sepia(0.5) hue-rotate(340deg);
+}
+
+.list-roll:hover,
+.list-roll:focus,
+.rollable:hover, .rollable:focus {
+  color: #000;
+  text-shadow: 0 0 10px rgb(112, 112, 112);
+  cursor: pointer;
+}
+
+.grid,
+.grid-2col {
+  display: grid;
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  /* margin: 10px 0; */
+  padding: 0;
+}
+.grid-1col {
+  grid-column: span 1 / span 1;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.widegap {
+  gap: 16px;
+}
+
+.grid-3col {
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4col {
+  grid-column: span 4 / span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-5col {
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-6col {
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-7col {
+  grid-column: span 7 / span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.grid-8col {
+  grid-column: span 8 / span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.grid-9col {
+  grid-column: span 9 / span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.grid-10col {
+  grid-column: span 10 / span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.grid-11col {
+  grid-column: span 11 / span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+
+.grid-12col {
+  grid-column: span 12 / span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.flex-group-center,
+.flex-group-left,
+.flex-group-right {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  padding: 3px;
+  /* border: 1px solid #999; */
+}
+
+.flex-group-left {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.flex-group-right {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.flex-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.flex-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.flex {
+  display: flex;
+  justify-content:space-evenly;
+  align-items: center;
+  flex: auto;
+}
+
+
+/* Styles limited to mosh sheets */
+.mosh .item-form {
+  font-family: "Futura PT Book", "Josefin Sans", "Roboto", sans-serif;
+}
+
+.mosh input {
+  font-weight: inherit;
+  font-family: "Futura PT Book", "Josefin Sans", "Roboto", sans-serif;
+}
+
+.mosh input,
+.mosh textarea,
+.mosh select {
+  color: #111317;
+}
+
+.mosh input::placeholder,
+.mosh textarea::placeholder {
+  color: #666b72;
+}
+
+.mosh,
+.mosh textarea,
+.mosh select,
+.mosh button,
+.window-app .window-title {
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+}
+
+.mosh .center-icon{
+  font-size: 42px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.mosh .transponder input[type="checkbox"] {
+  /* display: none; */
+  appearance: inherit;
+  border: 2px white;
+  border-style: double;
+  border-radius: 100px;
+}
+
+
+.mosh .transponder input[type="checkbox"]:checked, .mosh input[type="radio"]:checked {
+  background: white;
+    border-radius: 100px;
+    appearance: inherit;
+    animation: transponderblink 0.5s alternate infinite;
+    box-shadow: 0 0 15px white;
+}
+
+.mosh .transponder input[type="checkbox"] span {
+  color: grey;
+  position: relative;
+  /* margin-left: -1rem; */
+  display: inline-block;
+  right: -25px;
+  font-size: 17px;
+  font-weight: bold;
+  font-family: 'Roboto';
+  bottom: 2px;
+}
+
+.mosh .transponder input[type="checkbox"]:checked span {
+  color: grey;
+  position: relative;
+  /* margin-left: -1rem; */
+  display: inline-block;
+  right: -25px;
+  font-size: 17px;
+  font-weight: bold;
+  font-family: 'Roboto';
+  bottom: 2px;
+  /* text-shadow: 0 0 11px grey; */
+}
+
+@keyframes transponderblink {
+  from {background-color: black;}
+  to {
+    background-color: white;
+  }
+}
+
+@keyframes transpondertextblink {
+  from {color: grey;}
+  to {
+    color: white;
+  }
+}
+
+.mosh .char-header {
+  -webkit-box-flex: 0;
+  /* -ms-flex: 0 0 610px;
+  flex: 0 0 610px; */
+  /* overflow: hidden; */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;  
+  margin-bottom: 14px;
+}
+
+
+
+.mosh .char-header .profile-img {
+  -webkit-box-flex: 0;
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.mosh .char-header .header-fields {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.mosh .char-header .header-grid {
+  display: grid;
+  grid-template-areas:
+  'header header header'
+  'abilities centercol saves '
+  'mobilehealth mobilehealth mobilehealth';
+  grid-gap: 10px;
+  /* background-color: rgb(226, 226, 226); */
+  padding: 2px;
+  grid-template-columns: 238px auto 100px;
+  container-type: inline-size;
+}
+
+.mosh .abilities {grid-area: abilities;}
+.mosh .saves {grid-area: saves;}
+
+.mosh .stress {grid-area: stress;}
+.mosh .health {grid-area: centercol;}
+@container (max-width: 610px) {
+  .mosh .health {grid-area: mobilehealth;}
+}
+.mosh .healthspread {width:96%;}
+
+.mosh .char-header h1.charname {
+  height: auto;
+  padding: 0px;
+  margin: 0px 0;
+  border-bottom: 0;
+}
+
+.mosh .char-header h1.charname input {
+  width: 100%;
+  height: auto;
+
+  background: #fff;
+
+  padding-left: 1em;
+  border: 4px solid #111;
+  border-radius: 3em;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: left;
+}
+
+.mosh .sheet-tabs {
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
+}
+
+.mosh .sheet-body,
+.mosh .sheet-body .tab,
+.mosh .sheet-body .tab .editor {
+  height: 100%;
+}
+
+.sheet nav.sheet-tabs {
+  background:
+    linear-gradient(90deg, rgba(16, 16, 16, 0.98), rgba(33, 20, 15, 0.98) 55%, rgba(16, 16, 16, 0.98)),
+    #111;
+  color: white;
+  padding: 8px 10px;
+  border-radius: 14px;
+  margin-top: 10px;
+  position: relative;
+  z-index: 2;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.mosh .tox .tox-editor-container {
+  background: #fff;
+}
+
+.mosh .tox .tox-edit-area {
+  padding: 0 8px;
+}
+
+.mosh .origin {
+  width: 0;
+  height: 0;
+}
+
+.mosh .seperatorLine{
+  border-bottom: 2px solid #111;
+  height: 0;
+  width: 100%;
+}
+
+.mosh .skill_training_frame{
+  height: 47px;
+  background: rgb(230,230,230);
+  border-radius: 9px;
+  font-family: "Roboto", sans-serif;
+  font-size: 11pt;
+  font-weight: 400;
+  padding: 8px;
+}
+.mosh .skill_training_text{
+  font-family: "Roboto", sans-serif;
+  font-size: 11pt;
+  font-weight: 500;
+  color: grey;
+}
+
+.mosh .resource-label {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  text-align: center;
+}
+
+.mosh .faded-label {
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  color:rgb(129, 129, 129);
+  font-weight:normal;
+
+  text-align: left;
+  grid-column: 1/-1;
+  /* font-family: "Montserrat", "Arial Black", sans-serif; */
+  font-size: 1.1rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.mosh .tabs {
+  height: 40px;
+  border-top: 2px solid rgb(56, 56, 56);
+  border-bottom: 2px solid rgb(56, 56, 56);
+}
+
+.mosh .tabs .item {
+  /* line-height: 40px; */
+  font-weight: bold;
+}
+
+.mosh .tabs .item.active {
+  text-decoration: underline;
+  text-shadow: none;
+}
+
+.mosh .tabs .item.active::before {
+  font-family: "Font Awesome 6 Pro";
+  content: "\f0da";
+  color:white;
+  position: relative;
+  right: 6px;
+  margin-left: -1rem;
+  display: inline-block;
+}
+
+.mosh .items-list {
+  list-style: none;
+  margin: 7px 0;
+  padding: 0;
+  /* overflow-y: auto; */
+}
+
+.mosh .items-list .item-header {
+  font-weight: bold;
+}
+
+.mosh .items-list .item {
+  height: 35px;
+  line-height: 24px;
+  padding: 3px 0;
+  border-bottom: 1px solid #BBB;
+}
+
+.mosh .skills-list .item {
+  height: 36px;
+  line-height: 21px;
+  padding: 3px 0;
+  border-bottom: 1px solid #BBB;
+}
+
+.mosh .items-list .item .item-image {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 24px;
+  flex: 0 0 24px;
+  margin-right: 5px;
+}
+
+.mosh .roll-image {
+  -webkit-box-flex: 0;
+  flex: 0 24px;
+  margin-top: -3px;
+  margin-left: 11px;
+  margin-right: 0px;
+  width: 50px;
+  border-radius: 0 0 0 16px;
+  border: 1px solid #000;
+}
+
+.mosh .items-list .item img {
+  display: block;
+}
+
+.mosh .items-list .item-name {
+  margin: 0;
+}
+
+.mosh .items-list .skill-name {
+  font-weight: bold;
+  font-size: 14px;
+  /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
+  color: white;
+  /* text-transform: uppercase; */
+  margin-left: 0px;
+  background: #111;
+  padding: 2px;
+  /* padding-left: 8px; */
+  border-radius: 21px;
+  text-align: center;
+  height: 27px;
+  overflow: hidden;
+}
+
+.mosh .items-list .skill-stat {
+  font-size: medium;
+  /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
+  color: #111;
+  margin-left: 0px;
+  /* background: black; */
+  padding: 2px;
+  padding-left: 8px;
+  border-radius: 21px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.mosh .items-list .item-controls {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 86px;
+  flex: 0 0 86px;
+  text-align: right;
+}
+
+.mosh .button-black {
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  margin-left: 0px;
+  background: #111;
+  border-radius: 21px;
+  text-align: center;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.button-black:hover,
+.button-black:focus{
+  /* color: #ffffff; */
+  text-shadow: 0 0 10px rgb(112, 112, 112);
+  box-shadow: 0 0 10px 0px #9e9e9e;
+  background: #202020;
+  cursor: pointer;
+}
+
+.mosh .button-grey {
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  margin-left: 0px;
+  background: grey;
+  border-radius: 21px;
+  text-align: center;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.button-grey:hover,
+.button-grey:focus{
+  /* color: #494949; */
+  text-shadow: 0 0 10px rgb(112, 112, 112);
+  box-shadow: 0 0 5px 0px #b9b9b9;
+  background: rgb(100, 100, 100);
+  cursor: pointer;
+  /* border: 1px solid #ffffff; */
+}
+
+.mosh .button-white {
+  font-weight: bold;
+  font-size: 16px;
+  color: #111;
+  margin-left: 0px;
+  background: white;
+  border-radius: 21px;
+  text-align: center;
+  overflow: hidden;
+  padding: 10px;
+  border: 3px solid #111;
+}
+
+/* Dropdown Button */
+.mosh .dropbtn {
+  background-color: #111;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.mosh.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.mosh .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.mosh .dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.mosh .dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.mosh .dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.mosh .dropdown:hover .dropbtn {background-color: #3d3d3d;}
+
+
+.mosh .sbt-profile {
+  width: 100px;
+  height: auto;
+  border: 0;
+  padding: 10px;
+}
+
+.mosh .sbt-crew-name .hidden-item-controls {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 86px;
+  flex: 0 0 86px;
+  text-align: right;
+  display: none;
+}
+
+.mosh .sbt-crew-name:hover .hidden-item-controls {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 86px;
+  flex: 0 0 86px;
+  text-align: right;
+  display: inline;
+}
+
+.mosh .sbt-deckplan{
+  width: 100%;
+  height: auto;
+  border: 0;
+  
+  transition: 2s;
+}
+
+.mosh .sbt-deckplan-parent{
+  height: 185px;
+  overflow: auto;
+  transition: 2s;
+  border-radius: 10px;
+}
+
+.mosh .sbt-deckplan-parent:hover {
+  z-index: 10000;
+  /* height: auto; */
+}
+
+.mosh .sbt-megadamage-menu {
+  padding: 15px;
+  /* font-size: 15px; */
+}
+
+.mosh .invert-title{
+  mix-blend-mode: difference;
+}
+
+.mosh .tab-select {
+  font-size: medium;
+  font-weight: bold;
+  /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
+  color: white;
+  text-align: center;
+}
+
+.mosh .tab-select.active {
+  text-decoration: underline;
+  text-shadow: 0 0 10px white;
+}
+
+/* .mosh .tab-select.active::before {
+  font-family: "Font Awesome 6 Pro";
+  content: "\f0da";
+  color:rgb(255, 113, 113);
+  position: relative;
+  right: 6px;
+  margin-left: -1rem;
+  display: inline-block;
+} */
+
+.mosh .stresstext {
+  width: 100%;
+  padding: 0.1rem;
+  color: white;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.mosh .smallcircle-input {
+  margin: -0.15em;
+  height: 40px;
+  width: 40px;
+  padding: 0;
+  border: 4px solid #111;
+  border-radius: 3em;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.mosh .mainstatmod-input {
+  height: 26px;
+  width: 28px;
+  /* padding: 0; */
+  border: 0;
+  border-radius: 7.7em;
+  color: rgb(151, 100, 100);
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-align: center;
+  margin-left: -22px;
+  z-index: 5;
+  background: white;
+  top: 8px;
+  left: 13px;
+  position: relative;
+  background: lightgrey;
+}
+
+.mosh .mainsavemod-input {
+  height: 26px;
+  width: 28px;
+  /* padding: 0; */
+  border: 0;
+  border-radius: 0.5em;
+  color: rgb(151, 100, 100);
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-align: center;
+  margin-left: -22px;
+  z-index: 5;
+  background: white;
+  top: 7px;
+  left: 13px;
+  position: relative;
+  background: lightgrey;
+}
+
+.mosh .mainstatmod-title {
+  position: relative;
+  color: lightgrey;
+  font-size: 1rem;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-left: -38px;
+  pointer-events: none;
+  top: 13px;
+  left: 12px;
+}
+
+.mosh .maxhealth-input {
+  margin: auto;
+  border: 0px solid #111;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  background: transparent;
+}
+
+.mosh .greyText{
+  color: grey;
+}
+
+.mosh .darkGreyText{
+  color: rgb(56, 56, 56);
+}
+
+.mosh .whiteText{
+  color: white;
+}
+
+.mosh .highlightText{
+  color: orangered;
+}
+
+.mosh .sizelarge{
+  font-size: 1.1rem;
+}
+
+.mosh .valuewrapper{
+  grid-column: 1/-1;
+  display: grid;
+  align-items: start;
+  height: 40px;
+  padding: 0;
+  border: 3px solid #111;
+  border-radius: 1.5em;
+  background: 0;
+}
+
+.mosh .textvaluewrapper{
+  grid-column: 1/-1;
+  display: grid;
+  align-items: start;
+  height: 40px;
+  padding: 0;
+  border: 3px solid #111;
+  border-radius: 0.5em;
+  background: 0;
+}
+
+.mosh .textvaluewrapper-input{
+  margin: auto;
+  border: 0px solid #111;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  background: transparent;
+}
+
+.mosh .armorWrapper{
+  grid-column: 1/-1;
+  display: grid;
+  align-items: start;
+  height: 40px;
+  padding: 0;
+  border: 2px solid #111;
+  border-radius: 0.3em;
+  background: black;
+  width: 100%;
+}
+
+.mosh .blankstat{
+  grid-template-rows: 0.3fr 1.1fr 0.4fr;
+  justify-self: center;
+  display: grid;
+  justify-items: center;
+}
+
+.mosh .minmaxtopstat{
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.3fr 1.1fr 0.4fr;
+  justify-self: center;
+  display: grid;
+  justify-items: center;
+}
+
+.mosh .minmaxwrapper{
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: start;
+  height: 40px;
+  padding: 0;
+  border: 3px solid #111;
+  border-radius: 1.5em;
+  background: white;
+}
+
+.mosh .minmaxwrapper-black{
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: start;
+  height: 40px;
+  padding: 0;
+  border: 3px solid #111;
+  border-radius: 1.5em;
+  background: 0;
+  color: white;
+}
+
+.mosh .minmaxtext{
+  text-align: left;
+  grid-column: 1/-1;
+  /* font-family: "Montserrat", "Arial Black", sans-serif; */
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mosh .slant{
+  border-right: 2px solid #111;
+  height: 100%;
+  transform: skewX(-15deg);
+}
+
+.mosh .healthmaxtext{
+  grid-column: span 1;
+  font-size: 0.7rem;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  margin-top: 3px;
+}
+
+.mosh .stresslabel {
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
+  background: #111;
+  padding: 0 0.5rem;
+}
+
+.mosh .mainstatwrapper {
+  display: flex;
+  width: 95%;
+}
+
+.mosh .mainstat {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 5em;
+  align-items: center;
+  gap: 0;
+  width: 98%;
+}
+
+.mosh .circle-statwrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background: #e3e3e3;
+  border-radius: 15px;
+  padding: 9px 0px;
+  flex-direction: column;
+}
+
+.mosh .circle-statwrapper-horizontal {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background: #e3e3e3;
+  border-radius: 15px;
+  padding: 9px 0px;
+  flex-direction:row;
+}
+
+.mosh .circle-statwrapper-vertical {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background: #e3e3e3;
+  border-radius: 15px;
+  padding: 9px 0px;
+  flex-direction: column;
+}
+
+.mosh .transparentBackground {
+  background: transparent;
+}
+
+.mosh .section-vertical-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.mosh .circle-stat {
+  margin-top: 10px;
+  /* width: 98%; */
+}
+
+.mosh .creature-mainstat {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 3em;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+.mosh .mainstatlabel {
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
+  background: #111;
+  padding: 5px 0.5rem;
+  left: 5px;
+  position: relative;
+  height: 35px;
+}
+
+.mosh .mainstattext {
+  width: 100%;
+  padding: 0.5rem;
+  color: white;
+  /* font-family: "Montserrat", "Arial Black", sans-serif; */
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+
+.mosh .area-title {
+  width: 100%;
+  font-size: 1.0rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  /* margin-bottom: 7px; */
+  color: #363636;
+  font-family: 'Roboto';
+}
+
+.mosh .circlestatlabel {
+  padding: 6px;
+  text-align: center;
+}
+
+.mosh .circlestattitle {
+  width: 100%;
+  font-size: 1.0rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  /* margin-bottom: 7px; */
+  color: grey;
+}
+
+.mosh .black {
+  color: black;
+}
+
+.mosh .grey {
+  color: grey;
+}
+
+.mosh .circlestattext {
+  width: 100%;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mosh .circle-input {
+  margin: -0.15em;
+  height: 50px;
+  width: 50px;
+  padding: 0;
+  border: 3px solid #111;
+  border-radius: 3em;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  background: white;
+  z-index: 5;
+}
+
+.mosh .box1 {
+  display: none;
+}
+
+.mosh .box2 {
+  color: green;
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mosh .circle-input-swapper {
+  width: auto;
+  display: inline-block;
+}
+
+.mosh .circle-input-swapper:enabled .box1 {
+  display: block;
+}
+
+.mosh .circle-input-swapper:enabled .box2 {
+  display: none;
+}
+
+.mosh .textarea-input {
+  font-family: "Roboto", sans-serif;
+  margin: -0.15em;
+  /* padding: 9px; */
+  border: 2px solid #111;
+  border-radius: 15px;
+  font-size: 11pt;
+  color: white;
+  font-weight: 500;
+  background: #111;
+  resize: none;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mosh .textarea-input-grey {
+  font-family: "Roboto", sans-serif;
+  border: 0;
+  border-radius: 0.8em;
+  font-size: 11pt;
+  font-weight: 500;
+  resize: none;
+  min-height: 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+
+.mosh .square-input {
+  margin: -0.15em;
+  height: 42px;
+  width: 45px;
+  padding: 0;
+  border: 4px solid #111;
+  background-color: #fff;
+  border-radius: 0.5em;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.mosh .armor-mod {
+  margin: 3px;
+  height: 24px;
+  width: 28px;
+  /* padding: 0; */
+  border: 3px solid #111;
+  background-color: #111;
+  border-radius: 0.6em;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  color: white;
+  top: -2px;
+  right: -19px;
+}
+
+.mosh .savetext {
+  display: block;
+  margin-bottom: .2em;
+  width: 100%;
+  color: white;
+  /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mosh .savebackground {
+  border-radius: 10px;
+  background: #111;
+  padding-bottom: 0.3rem;
+  padding-top: 0.4rem;
+  height: 225px;
+}
+
+.mosh .header {
+  grid-area: header;
+  background-color: #000;
+  display: grid;
+  grid-template-columns: 0.25fr 1fr;
+  /* gap: 1.25rem; */
+  align-items: center;
+  grid-column: 1/-1;
+  background: #111;
+  color: white;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 15px;
+}
+
+.mosh .padding{
+  padding: 5px;
+}
+
+.mosh .actor-sidebar-tab{
+  border-radius: 0 10px 10px 0;
+  /* z-index: -1; */
+  box-shadow: 0 0 22px -6px;
+  border: 2px solid;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  opacity: 0.5;
+}
+
+.mosh .actor-sidebar-tab:hover{
+  opacity: 1;
+}
+
+.mosh .actor-sidebar-row{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: -20px;
+  top: 30px;
+  z-index: -1;
+  /* transition: 0.3s; */
+  padding-left: 10px;
+}
+
+.mosh .actor-sidebar-row:hover{
+  left: -48px;
+}
+
+.mosh .creature-header-grid {
+  display: grid;
+  grid-template-areas:
+  'name header header'
+  'line line line';
+  background: #111;
+
+}
+
+
+.mosh .creature-header {
+  display: flex ;
+  flex-direction: row-reverse;
+  align-items: center;
+  color: white;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  grid-area: header;
+  padding: 8px;
+}
+
+.mosh .creature-description-grid{
+  display: grid;
+  grid-template-columns: 1fr 15em;
+}
+
+.mosh .creature-abilities{
+  background: rgb(22, 22, 22);
+  margin: 12px;
+  border: 2px solid white;
+  outline: 5px solid rgb(22, 22, 22);
+  overflow: auto;
+  height: 375px;
+  border-radius: 10px;
+}
+
+.mosh .ship-stats-grid{
+  display: grid;
+  grid-template-columns: 17em 1fr 18em;
+}
+
+.mosh .ship-sbt-stats-grid{
+  display: grid;
+  grid-template-columns: 10em 1fr 16em;
+  gap: 10px;
+}
+
+.mosh .sbt-crew-section{
+  margin: 0px;
+  border: 2px solid white;
+  outline: 3px solid rgb(22, 22, 22);
+  overflow: auto;
+  height: 400px;
+  border-radius: 10px;
+  padding: 4px 6px;
+}
+
+.mosh .sbt-text-area{
+  font-family: "Roboto", sans-serif;
+  margin: -0.15em;
+  border: 2px solid #c5c5c5;
+  border-radius: 15px;
+  font-size: 11pt;
+  font-weight: bold;
+  background: #fff;
+  resize: none;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mosh .sbt-megadamage{
+  /* position: absolute; */
+  /* left: 0; */
+  /* background: white;
+  left: -300px;
+  width: 300px;
+  padding: 20px;
+  border-radius: 10px 0 0 10px;
+  height: 600px;
+  overflow-y: auto;
+  z-index: -1; */
+
+  position: absolute;
+  background: white;
+  left: -310px;
+  width: 300px;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: -2;
+  transition: 1s;
+  height: auto;
+  overflow: hidden;
+}
+
+.mosh .sbt-megadamage-open{
+  left: -310px;
+  height: auto;
+}
+
+.mosh .sbt-megadamage-closed{
+  left: 0;
+  height: 0%;
+}
+
+.mosh .sbt-crew-name {
+  text-align: center;
+  font-size: 1rem;
+  /* text-transform: uppercase; */
+  color:black;
+  font-weight: bold;
+}
+
+.mosh .sbt-crew-job {
+  height: auto;
+  font-size: 0.9rem;
+  color:rgb(129, 129, 129);
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+}
+
+.mosh .item-armor-grid {
+  display: grid;
+  grid-template-columns: 1fr 12em;
+  gap: 10px;
+}
+
+.mosh .whiteline {
+  border-top: 3px solid white;
+  grid-area: line;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.mosh .blackline {
+  border-top: 3px solid black;
+  grid-area: line;
+  margin-bottom: 5px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 5px;
+}
+
+.mosh .greyline {
+  border-top: 3px solid grey;
+  grid-area: line;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.mosh .headerinputfield {
+  margin: -0.15em;
+  height: auto;
+  width: 100%;
+  padding-left: 13px;
+  border: 2px solid #111;
+  background-color: #fff;
+  border-radius: 3em;
+  font-size: 1rem;
+  margin-right: 1em;
+}
+
+.mosh .creaturename {
+  height: auto;
+  width: 100%;
+  padding-left: 13px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color:white;
+  text-transform: uppercase;
+  font-family: "Century Gothic", "Diadact Gothic", sans-serif;
+}
+
+.mosh .creaturestat {
+  margin-left: 4px;
+  height: auto;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  font-family: "Century Gothic", "Diadact Gothic", sans-serif;
+  color:white;
+}
+
+.mosh .creaturedescription {
+  height: 400px;
+  padding: 10px;
+  overflow-y: auto;
+}
+.mosh .creaturedescription .editor-content{
+  overflow-y: visible;
+}
+.mosh .creaturedescription .editor{
+  overflow: visible;
+}
+
+.mosh .creature-ability-container {
+  padding: 4px;
+  margin-left: 2px;
+}
+
+.mosh .creature-ability-title {
+  text-align: center;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  font-family: "Century Gothic", "Diadact Gothic", sans-serif;
+  color:white;
+  font-weight: bold;
+}
+
+.mosh .creature-ability-text {
+  height: auto;
+  font-size: 0.8rem;
+  font-family: "Century Gothic", "Diadact Gothic", sans-serif;
+  color:white;
+}
+
+.mosh .tox.tox-tinymce {
+  min-height: 100%;
+}
+.mosh .editor {
+  height: 100%;
+}
+
+.noborder {
+  border: 0 !important;
+  background: 0 !important;
+}
+
+.mosh .headerinputtext {
+  padding: 0.1rem;
+  color: white;
+  font-family: "Futura PT Cond Bold", "Josefin Sans", "Roboto", sans-serif;
+  font-size: 0.95rem;
+  font-weight: bold;
+  text-align: left;
+  text-transform: uppercase;
+  margin-right: 10px;
+  margin-top: 3px;
+}
+
+.mosh .headergrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.25rem;
+  padding: 1.45em 1em 1em;
+  /* margin-top: -11px; */
+}
+
+.mosh .sla-sheet-wordmark {
+  grid-column: 1 / -1;
+  font-family: "Futura PT Cond Bold", "Josefin Sans", "Roboto", sans-serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: center;
+  margin-bottom: 0.35rem;
+  text-shadow: 0 0 10px rgba(208, 94, 26, 0.18);
+}
+
+.mosh .headerinputfield input,
+.mosh .charname input {
+  font-family: "Futura PT Book", "Josefin Sans", "Roboto", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.mosh .headernamegrid {
+  grid-column: 1/-2;
+}
+
+.mosh .headerrankgrid {
+  /* grid-column: span 3; */
+  display: inline-flex;
+}
+
+.mosh .circle{
+  color: rgb(22, 22, 22);
+  background: white;
+  border-radius: 10px;
+  /* border: 2px solid black; */
+  width: 15px;
+  height: 15px;
+}
+
+.mosh .circle-f{ /*Filled circle*/
+  color: rgb(22, 22, 22);
+  background: rgb(100, 100, 100);
+  border-radius: 10px;
+  /* border: 2px solid black; */
+  width: 15px;
+  height: 15px;
+}
+
+.mosh .profile {
+  width: 140px;
+  height: auto;
+  padding: 6px;
+  border-radius: 10px;
+  border: 0;
+}
+
+.mosh .rollcontainer {
+  border-radius: 10em;
+  background: #fff;
+  padding: 0 0.5rem;
+  padding-bottom: 0.1rem;
+  width: 100%;
+  border: 2px solid #111;
+  border-radius: 0em 0em 0em 0em;
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+}
+
+.mosh .sla-roll-outcome,
+.mosh .sla-roll-result .dice-total {
+  transition: color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.mosh .sla-roll-outcome.sla-crit-success,
+.mosh .sla-roll-result .dice-total.sla-crit-success {
+  color: #0f5c2e;
+  background: rgba(15, 92, 46, 0.08);
+}
+
+.mosh .sla-roll-outcome.sla-crit-failure,
+.mosh .sla-roll-result .dice-total.sla-crit-failure {
+  color: #8d1f18;
+  background: rgba(141, 31, 24, 0.08);
+}
+
+.mosh .sla-roll-result.sla-crit-success .dice-total {
+  border-color: #0f5c2e;
+  box-shadow: 0 0 0 2px rgba(15, 92, 46, 0.18);
+}
+
+.mosh .sla-roll-result.sla-crit-failure .dice-total {
+  border-color: #8d1f18;
+  box-shadow: 0 0 0 2px rgba(141, 31, 24, 0.18);
+}
+
+.mosh .rollh1 {
+  width: 107%;
+  margin-top: 0;
+  margin-left: -9px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: #111;
+  color: white;
+  /* border-bottom-right-radius: 0.5em; */
+  padding: 5px;
+}
+
+.mosh .rollweaponh1 {
+  min-height: 32px;
+  height: auto;
+  margin-top: -15px;
+  margin-left: -8px;
+  margin-right: -11px;
+  font-size: 1.02rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: #111;
+  /* border-bottom-right-radius: 1.5em; */
+  color: white;
+  padding: 5px;
+  flex: auto;
+  width: 70%;
+  display: flex;
+  align-items: center;
+  line-height: 1.05;
+  white-space: normal;
+  word-break: break-word;
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  letter-spacing: 0.08em;
+}
+
+.mosh .rollh2 {
+  font-size: 1.1rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  line-height: 1;
+  text-align: center;
+  margin-top: 4px;
+  padding: 5px;
+}
+
+.mosh .rollmods {
+  font-size: 0.8rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  /* line-height: 1; */
+  text-align: center;
+  margin-top: -8px;
+  margin-bottom: 3px;
+  padding: 5px;
+  color: grey;
+}
+
+.mosh .rollattribute {
+  width: 100%;
+  padding: 0.5rem;
+  color: black;
+  /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.mosh .roll-grid {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  width: 100%;
+}
+
+.mosh .roll-result {
+  padding: 8px;
+  border: 2px solid #111;
+  border-radius: 1em;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  grid-column: 2/span 2;
+}
+
+
+.mosh .roll-target {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 6rem;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+  background: white;
+  border-radius: 1.5rem;
+  color: #111;
+
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.mosh .roll-targetbox {
+  padding: 2px;
+  border: 2px solid #111;
+  border-radius: 0.3em;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  margin-right: 0px;
+}
+
+.mosh .roll-damage {
+  font-size: 0.9rem;
+  line-height: 1;
+  text-align: center;
+  margin-top: 4px;
+  padding: 5px;
+  color: rgb(117, 0, 0);
+  font-weight: normal;
+  text-transform: uppercase;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+}
+
+.mosh .roll-damagebox {
+  padding: 4px;
+  border: 2px solid rgb(117, 0, 0);
+  border-radius: 1em;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  grid-column: 2/span 2;
+  color: rgb(117, 0, 0);
+  width: 70px;
+  margin: auto;
+}
+
+.mosh .items-tab-grid{
+  grid-template-columns: 50% 50%;
+}
+.mosh form.actor-generator div.fulllabel {
+  border-radius: 2em;
+}
+.mosh form.actor-generator div.ulinputfield {
+  min-height: 150px;
+}
+.mosh form.actor-generator .smalltext {
+  font-size: 0.7rem;
+}
+.mosh form.actor-generator div#generator-header-grid-1col {
+  grid-column: span 1/span 1;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.mosh form.actor-generator .element-group {
+  margin-top: 10px;
+}
+.mosh form.actor-generator .credit-img {
+  height: 30px;
+  margin-top: 0%;
+}
+.mosh form.actor-generator .checkbox-round {
+  appearance: none;
+}
+.mosh form.actor-generator .checkbox-round:checked {
+  background-color: gray;
+}
+.mosh form.actor-generator .clicable-item {
+  cursor: pointer;
+}
+.mosh .characterGeneratorSkillPopup {
+  margin-bottom: 10px;
+}
+.mosh .characterGeneratorSkillPopup .skillpopupDescription {
+  text-align: center;
+  font-weight: bold;
+  padding-bottom: 0.2em;
+}
+
+.mosh .characterGeneratorSkillPopup .center {
+  text-align: center;
+}
+
+/* Dialog V2 - Macro Pop Ups */
+
+/* Base dialog styling */
+.application.dialog.macro-popup-dialog {
+	background: rgb(255,255,255);
+	font-family: "Roboto", sans-serif;
+	color: #1A1915;
+}
+
+/* Adjust dialog content gap */
+.macro-popup-dialog .dialog-content.standard-form {
+  gap: .5rem;
+}
+
+/* Adjust dialog form gap */
+.macro-popup-dialog .dialog-form.standard-form {
+  gap: .5rem;
+}
+
+/* MPD window header */
+.macro-popup-dialog .window-header {
+  background: rgb(25,25,25);
+}
+
+/* MPD window content */
+.macro-popup-dialog .window-content {
+  padding: 10px;
+}
+
+/* MPD macro window */
+.macro-popup-dialog .macro_window {
+  background: rgb(230,230,230);
+  border-radius: 9px;
+}
+
+/* MPD macro image */
+.macro-popup-dialog .macro_img {
+	
+}
+
+/* MPD macro desc */
+.macro-popup-dialog .macro_desc {
+  font-family: "Roboto", sans-serif;
+  font-size: 10.5pt;
+  font-weight: 400;
+  padding-top: 8px;
+  padding-left: 0px;
+  padding-right: 8px;
+  padding-bottom: 8px;
+}
+
+/* MPD macro desc — title styling */
+.macro-popup-dialog .macro_desc h4 {
+  font-family: "Roboto", sans-serif;
+  font-size: 14pt;
+  font-weight: 400;
+  color: #1A1915;
+  border-bottom: 1px solid darkred;
+  margin-bottom: 8px;
+}
+
+/* MPD macro prompt */
+.macro-popup-dialog .macro_prompt {
+	
+}
+
+/* MPD grid layouts */
+.macro-popup-dialog .grid-1col {
+  grid-column: span 1 / span 1;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.macro-popup-dialog .grid-2col {
+  display: grid;
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  padding: 0;
+}
+
+.macro-popup-dialog .grid-3col {
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* update buttons to look more old school */
+.macro-popup-dialog .form-footer button {
+  background: rgb(230,230,230);
+  color: #1A1915;
+  border: 1px solid #222;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 11pt;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.macro-popup-dialog .form-footer button:hover {
+  background: #444;
+  color: #fff;
+  border-color: #111;
+}
+
+/* Custom radio: kill native + theme accents */
+.macro-popup-dialog input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  accent-color: initial;             /* ignore theme accent */
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #777;            /* medium grey ring */
+  border-radius: 50%;
+  background: #fff;                  /* white center when unchecked */
+  display: inline-flex;              /* center the pseudo-dot */
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  margin: 0 8px 0 2px;
+  vertical-align: middle;
+
+  /* nuke any theme glow/orange */
+  box-shadow: none !important;
+  outline: none;
+}
+
+/* The inner dot (hidden until checked) */
+.macro-popup-dialog input[type="radio"]::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #111;                  /* dot color */
+  transform: scale(0);
+  transition: transform 120ms ease-in-out;
+}
+
+/* Checked = show the dot */
+.macro-popup-dialog input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+/* Checked = show the dot */
+.macro-popup-dialog input[type="radio"]:checked::after {
+  color: none !important;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: scale(0);
+  background: #ffffff;    
+}
+
+/* Hover/focus states (accessible, non-orange) */
+.macro-popup-dialog input[type="radio"]:hover { border-color: #5c5c5c; }
+.macro-popup-dialog input[type="radio"]:focus-visible {
+  outline: 2px solid #9a9a9a;
+  outline-offset: 2px;
+}
+
+/* If your theme highlights the whole row via :has(input:checked), strip it here */
+.macro-popup-dialog label:has(input[type="radio"]:checked) {
+  background: inherit !important;
+  box-shadow: none !important;
+}
+
+.mosh .sla-panel {
+  margin-bottom: 14px;
+  padding: 12px;
+  border: 1px solid #18232e;
+  background:
+    linear-gradient(135deg, rgba(14, 26, 35, 0.96), rgba(34, 50, 64, 0.92)),
+    radial-gradient(circle at top right, rgba(224, 188, 84, 0.18), transparent 35%);
+  color: #f1f3f5;
+  border-radius: 10px;
+}
+
+.mosh .sla-banner {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.mosh .sla-kicker,
+.mosh .sla-card-label,
+.mosh .sla-chat-title,
+.mosh.sla-chat-card .sla-chat-title {
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.mosh .sla-title,
+.mosh .sla-card-title {
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.mosh .sla-tags,
+.mosh .sla-tag-row,
+.mosh .sla-note-list,
+.mosh .sla-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mosh .sla-tag,
+.mosh .sla-note-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(17, 17, 17, 0.16);
+  background: rgba(17, 17, 17, 0.06);
+  color: #14181c;
+  font-size: 0.74rem;
+}
+
+.mosh .sla-note-pill-wide {
+  width: 100%;
+  justify-content: flex-start;
+  border-radius: 12px;
+}
+
+.mosh .sla-card-grid {
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.mosh .sla-card-label,
+.mosh .sla-card-title {
+  color: #14181c;
+}
+
+.mosh .sla-panel .sla-card,
+.mosh .tab[data-tab="ebb"] .sla-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #edf1f4;
+  backdrop-filter: blur(4px);
+  box-shadow: none;
+}
+
+.mosh .sla-panel .sla-card-copy,
+.mosh .tab[data-tab="ebb"] .sla-card-copy,
+.mosh .sla-panel .sla-card-label,
+.mosh .tab[data-tab="ebb"] .sla-card-label,
+.mosh .sla-panel .sla-card-title,
+.mosh .tab[data-tab="ebb"] .sla-card-title {
+  color: rgba(245, 247, 250, 0.9);
+}
+
+.mosh .sla-panel .sla-tag,
+.mosh .sla-panel .sla-note-pill,
+.mosh .tab[data-tab="ebb"] .sla-tag,
+.mosh .tab[data-tab="ebb"] .sla-note-pill {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f4f6f8;
+}
+
+.mosh .sla-card {
+  padding: 12px;
+  border-radius: 10px;
+  background: #f4efe6;
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  color: #14181c;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.mosh .sla-card-copy,
+.mosh .sla-chat-copy,
+.mosh.sla-chat-card .sla-chat-copy {
+  margin-top: 6px;
+  line-height: 1.45;
+  color: #2d3338;
+}
+
+.mosh .sla-flux-meter {
+  margin-top: 10px;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.mosh .sla-flux-meter-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(81, 163, 109, 0.9), rgba(203, 161, 68, 0.92));
+}
+
+.mosh .sla-flux-meter-fill.frayed {
+  background: linear-gradient(90deg, rgba(203, 161, 68, 0.92), rgba(194, 112, 55, 0.96));
+}
+
+.mosh .sla-flux-meter-fill.breach,
+.mosh .sla-flux-meter-fill.catastrophic {
+  background: linear-gradient(90deg, rgba(194, 112, 55, 0.96), rgba(161, 59, 59, 0.96));
+}
+
+.mosh .sla-flux-stage {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.mosh .sla-flux-stage.stable { background: rgba(81, 163, 109, 0.25); color: #dff7e7; }
+.mosh .sla-flux-stage.charged { background: rgba(203, 161, 68, 0.25); color: #fff2c8; }
+.mosh .sla-flux-stage.frayed { background: rgba(194, 112, 55, 0.28); color: #ffe2cc; }
+.mosh .sla-flux-stage.breach { background: rgba(161, 59, 59, 0.32); color: #ffd7d7; }
+.mosh .sla-flux-stage.catastrophic { background: rgba(99, 31, 31, 0.5); color: #fff0f0; }
+
+.mosh .sla-action-row button,
+.mosh .sla-generator button,
+.mosh .sla-world-tools button {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, #f0c24b, #b88619);
+  color: #10171d;
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.mosh .sla-action-row button:hover,
+.mosh .sla-generator button:hover,
+.mosh .sla-world-tools button:hover {
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.12), 0 4px 18px rgba(240, 194, 75, 0.28);
+}
+
+.mosh .sla-rule-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.mosh .sla-rule-toggle {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.mosh .sla-rule-toggle input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.mosh .sla-rule-text {
+  display: grid;
+  gap: 4px;
+}
+
+.mosh .sla-rule-title {
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  font-weight: 700;
+  color: #f4f6f8;
+}
+
+.mosh .sla-rule-summary {
+  color: rgba(245, 247, 250, 0.82);
+  line-height: 1.35;
+}
+
+.mosh .sla-ability-list .item-header,
+.mosh .sla-ability-list .item {
+  background: rgba(15, 20, 26, 0.92);
+  color: #edf1f4;
+}
+
+.mosh .sla-ability-list .skill-stat,
+.mosh .sla-ability-list .item-header .skill-stat,
+.mosh .sla-ability-list .item-controls a,
+.mosh .sla-ability-list .item-controls i {
+  color: #edf1f4;
+}
+
+.mosh .sla-ability-list .item-controls a:hover,
+.mosh .sla-ability-list .item-controls a:focus {
+  color: #f0c24b;
+}
+
+.mosh .sla-chat-card,
+.mosh.sla-chat-card {
+  padding: 10px;
+  border: 1px solid #1e2d39;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(17, 27, 36, 0.98), rgba(26, 40, 51, 0.98));
+  color: #eff3f7;
+}
+
+.mosh .sla-chat-card .sla-chat-copy,
+.mosh.sla-chat-card .sla-chat-copy,
+.mosh .sla-chat-card .sla-chat-title,
+.mosh.sla-chat-card .sla-chat-title {
+  color: #eff3f7;
+}
+
+.mosh .sla-sidebar-actions,
+.directory-header .sla-sidebar-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.mosh .sla-sidebar-actions button,
+.directory-header .sla-sidebar-actions button {
+  border: 1px solid rgba(224, 196, 160, 0.8);
+  background: rgba(15, 14, 24, 0.94);
+  color: #f6e5c8;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  font-weight: 700;
+}
+
+.mosh .sla-generator .resource,
+.mosh .sla-world-tools .resource {
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(18, 27, 36, 0.88);
+  color: #eff3f7;
+}
+
+.mosh .sla-briefing-card {
+  min-height: 100%;
+}
+
+.mosh.sla-generator .sla-card,
+.mosh .sla-generator .sla-card {
+  background: #f4f2ec;
+  border: 1px solid #c8c1b4;
+  color: #161a1e;
+}
+
+.mosh.sla-generator .sla-card-copy,
+.mosh.sla-generator .sla-card-title,
+.mosh.sla-generator .sla-card-label,
+.mosh.sla-generator .sla-note-pill,
+.mosh .sla-generator .sla-card-copy,
+.mosh .sla-generator .sla-card-title,
+.mosh .sla-generator .sla-card-label,
+.mosh .sla-generator .sla-note-pill,
+.mosh.sla-generator p,
+.mosh .sla-generator p {
+  color: #161a1e;
+}
+
+.mosh.sla-generator .sla-note-pill,
+.mosh .sla-generator .sla-note-pill {
+  background: rgba(22, 26, 30, 0.08);
+  border-color: rgba(22, 26, 30, 0.16);
+}
+
+.mosh.sla-generator .resource-label,
+.mosh .sla-generator .resource-label,
+.mosh.sla-generator label.checkbox,
+.mosh .sla-generator label.checkbox,
+.mosh.sla-generator [data-briefing],
+.mosh .sla-generator [data-briefing] {
+  color: #14181c;
+}
+
+.mosh .sla-generator input,
+.mosh .sla-generator select,
+.mosh .sla-world-tools input,
+.mosh .sla-world-tools select {
+  background: rgba(255, 255, 255, 0.92);
+  color: #101417;
+}
+
+.mosh .headerinputtext,
+.mosh .headerinputfield input,
+.mosh .charname input,
+.mosh .mainstattext,
+.mosh .resource-label,
+.mosh .healthmaxtext,
+.mosh .skill-stat,
+.mosh .skill-name,
+.mosh .sheet-tabs .tab-select,
+.mosh .item-header,
+.mosh .mainstatmod-title {
+  font-family: "Futura PT Cond Medium", "Josefin Sans", "Roboto", sans-serif;
+}
+
+.mosh .sheet-tabs .tab-select {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 12px;
+  margin: 0 2px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.82);
+  transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+.mosh .sheet-tabs .tab-select:hover,
+.mosh .sheet-tabs .tab-select.active {
+  background: linear-gradient(180deg, #f2eee7, #d9d0c5);
+  color: #151515;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18);
+}
+
+.mosh .sla-panel input,
+.mosh .sla-panel select {
+  background: rgba(34, 43, 51, 0.92);
+  color: #f2f5f7;
+  border: 1px solid rgba(212, 190, 148, 0.42);
+}
+
+.mosh .sla-panel input::placeholder,
+.mosh .sla-panel textarea::placeholder {
+  color: rgba(242, 245, 247, 0.58);
+}
+
+.mosh .sla-panel textarea,
+.mosh .tab[data-tab="special-rules"] textarea {
+  background: rgba(34, 43, 51, 0.92);
+  color: #f2f5f7;
+  border: 1px solid rgba(212, 190, 148, 0.32);
+}
+
+.mosh .tab[data-tab="sla"] .resource-label,
+.mosh .tab[data-tab="special-rules"] .resource-label,
+.mosh .tab[data-tab="sla"] .sla-card-copy,
+.mosh .tab[data-tab="special-rules"] .sla-card-copy,
+.mosh .tab[data-tab="sla"] .sla-card-label,
+.mosh .tab[data-tab="special-rules"] .sla-card-label,
+.mosh .tab[data-tab="sla"] .sla-card-title,
+.mosh .tab[data-tab="special-rules"] .sla-card-title,
+.mosh .tab[data-tab="special-rules"] .sla-rule-title,
+.mosh .tab[data-tab="special-rules"] .sla-rule-summary {
+  color: #f2f5f7;
+}
+
+.mosh .tab[data-tab="sla"] .sla-note-pill,
+.mosh .tab[data-tab="special-rules"] .sla-note-pill {
+  background: rgba(242, 238, 231, 0.12);
+  border-color: rgba(242, 238, 231, 0.18);
+  color: #f4f6f7;
+}
+
+.mosh .trauma-response-box {
+  min-height: 92px;
+  max-height: 132px;
+  font-size: 0.92rem;
+  line-height: 1.25;
+  overflow-y: auto;
+  resize: vertical;
+}
+
+.mosh .sla-skill-name-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mosh .sla-skill-name-cell small {
+  color: #626262;
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.mosh .sla-skill-name-cell .sla-skill-flag {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(141, 31, 24, 0.1);
+  color: #8d1f18;
+  font-family: "Futura PT Cond Bold", "Josefin Sans", "Roboto", sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.mosh .sla-ebb-skill-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 10px 0 8px;
+}
+
+.mosh .sla-ebb-skill-roll {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(17, 17, 17, 0.18);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fbfaf7, #ece6dc);
+  color: #141414;
+  text-align: left;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.mosh .sla-ebb-skill-roll:hover,
+.mosh .sla-ebb-skill-roll:focus {
+  border-color: rgba(140, 52, 40, 0.55);
+  box-shadow: 0 0 0 2px rgba(140, 52, 40, 0.12);
+}
+
+.mosh .sla-ebb-skill-roll span {
+  font-family: "Futura PT Cond Bold", "Josefin Sans", "Roboto", sans-serif;
+  font-size: 0.98rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.mosh .sla-ebb-skill-meta {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.mosh .sla-ebb-skill-roll small {
+  color: #5a5a5a;
+  font-size: 0.73rem;
+  line-height: 1.2;
+}
+
+.mosh .sla-ebb-skill-roll strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 46px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(18, 60, 52, 0.12);
+  color: #173a34;
+  font-family: "Futura PT Cond Bold", "Josefin Sans", "Roboto", sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.mosh .sla-drug-alerts {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.mosh .sla-drug-alert {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 2px solid #191919;
+  border-radius: 16px;
+  background: #f5f2ec;
+  color: #171717;
+}
+
+.mosh .sla-drug-alert.active {
+  border-color: #4d7b39;
+  box-shadow: inset 0 0 0 1px rgba(77, 123, 57, 0.18);
+}
+
+.mosh .sla-drug-alert.withdrawal,
+.mosh .sla-drug-alert.withdrawal-check {
+  border-color: #8c3428;
+  box-shadow: inset 0 0 0 1px rgba(140, 52, 40, 0.18);
+}
+
+.mosh .sla-drug-alert-main,
+.mosh .sla-drug-alert-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mosh .sla-drug-alert-main,
+.mosh .sla-drug-alert-summary {
+  grid-column: 1;
+}
+
+.mosh .sla-drug-alert-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #111;
+}
+
+.mosh .sla-drug-alert-state,
+.mosh .sla-drug-alert-duration {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: #111;
+  color: #f5f2ec;
+}
+
+.mosh .sla-drug-alert-summary,
+.mosh .drug-item-summary span {
+  color: #2c2c2c;
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.mosh .drug-item-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mosh .drug-use-btn,
+.mosh .drug-close-btn {
+  border: 1px solid #111;
+  border-radius: 999px;
+  background: #111;
+  color: #f8f5ee;
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  font-weight: 700;
+  padding: 4px 10px;
+  line-height: 1;
+  min-width: 56px;
+}
+
+.mosh .drug-close-btn {
+  background: #efe4d5;
+  color: #141414;
+}
+
+.mosh .sla-drug-alert .drug-close-btn {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  justify-self: end;
+  min-width: 88px;
+}
+
+.mosh .sla-drug-list .item-controls {
+  flex: 0 0 168px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.mosh .drug-use-btn:disabled,
+.mosh .drug-close-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 720px) {
+  .mosh .sla-banner {
+    flex-direction: column;
+  }
+}
+.mosh .description,
+.mosh .description .body,
+.mosh .rollcontainer .body {
+  font-family: "Futura PT Book", "Josefin Sans", "Roboto", sans-serif;
+  color: #141414;
+}
+
+.mosh .sla-chat-section {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid #d7d7d7;
+  border-radius: 10px;
+  background: #fbfbfb;
+}
+
+.mosh .sla-chat-section-success {
+  border-color: rgba(15, 92, 46, 0.4);
+  background: rgba(15, 92, 46, 0.08);
+}
+
+.mosh .sla-chat-section-danger {
+  border-color: rgba(141, 31, 24, 0.4);
+  background: rgba(141, 31, 24, 0.08);
+}
+
+.mosh .sla-chat-section-target {
+  border-color: rgba(35, 73, 98, 0.35);
+  background: rgba(35, 73, 98, 0.06);
+}
+
+.mosh .sla-chat-section-damage {
+  border-color: rgba(141, 31, 24, 0.42);
+  background: rgba(141, 31, 24, 0.08);
+}
+
+.mosh .sla-chat-section-heal {
+  border-color: rgba(18, 92, 46, 0.42);
+  background: rgba(18, 92, 46, 0.08);
+}
+
+.mosh .sla-chat-section-ebb-meta {
+  border-color: rgba(23, 58, 52, 0.28);
+  background: rgba(23, 58, 52, 0.06);
+}
+
+.mosh .sla-chat-section-title {
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: "Futura PT Cond Bold", "Josefin Sans", "Roboto", sans-serif;
+}
+
+.mosh.sla-ebb-chat .rollcontainer {
+  background: linear-gradient(180deg, #eef5f1, #dfe9e4);
+  border-color: #22463f;
+}
+
+.mosh.sla-ebb-chat .rollweaponh1 {
+  background: linear-gradient(90deg, #143832, #295149);
+  color: #f4faf7;
+}
+
+.mosh.sla-ebb-chat .description,
+.mosh.sla-ebb-chat .description .body,
+.mosh.sla-ebb-chat .rollcontainer .body {
+  color: #10201c;
+}
+
+.mosh.sla-ebb-chat .sla-chat-section {
+  border-color: rgba(34, 70, 63, 0.24);
+  background: rgba(34, 70, 63, 0.07);
+}
+
+.mosh.sla-ebb-chat .sla-chat-section-success {
+  border-color: rgba(18, 87, 56, 0.38);
+  background: rgba(18, 87, 56, 0.1);
+}
+
+.mosh.sla-ebb-chat .sla-chat-section-danger {
+  border-color: rgba(125, 31, 24, 0.38);
+  background: rgba(125, 31, 24, 0.09);
+}
+
+.mosh.sla-ebb-chat .sla-chat-section-damage {
+  border-color: rgba(141, 31, 24, 0.42);
+  background: rgba(141, 31, 24, 0.1);
+}
+
+.mosh.sla-ebb-chat .sla-chat-section-heal {
+  border-color: rgba(18, 92, 46, 0.42);
+  background: rgba(18, 92, 46, 0.1);
+}
+
+.mosh .sla-effect-number {
+  font-weight: 700;
+}
+
+.mosh .sla-effect-damage {
+  color: #a61f1a;
+}
+
+.mosh .sla-effect-heal {
+  color: #136235;
+}
+
+.mosh .sla-chat-chip {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.mosh .sla-chat-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.mosh .sla-chat-list li {
+  margin: 0 0 4px;
+}
+
+/* ── SLA Initiative Badges (combat tracker) ─────────────────────────── */
+.sla-initiative-badge {
+  display: inline-block;
+  font-size: 0.62em;
+  font-weight: bold;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 5px;
+  vertical-align: middle;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+.sla-initiative-badge.sla-init-before {
+  color: #7ec87e;
+  background: #0a2010;
+  border: 1px solid #7ec87e;
+}
+.sla-initiative-badge.sla-init-after {
+  color: #e07070;
+  background: #200a0a;
+  border: 1px solid #e07070;
+}
+.sla-initiative-badge.sla-init-enemy {
+  color: #999;
+  background: #1a1a1a;
+  border: 1px solid #555;
+}
+
+/* ── Combatant HP bar (combat tracker) ─────────────────────────────── */
+.sla-hp-bar-wrap {
+  height: 4px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  margin-top: 2px;
+  overflow: hidden;
+  width: 100%;
+}
+.sla-hp-bar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background 0.3s ease;
+}

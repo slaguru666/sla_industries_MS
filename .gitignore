@@ -1,0 +1,16 @@
+node_modules/
+npm-debug.log*
+.npm/
+dist/
+*.min.css
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+worlds/
+*.tar.gz
+*.tgz
+*.zip
