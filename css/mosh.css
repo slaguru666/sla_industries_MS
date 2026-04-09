@@ -2333,8 +2333,9 @@ p {
 
 /* ── Vevaphon Instability ─────────────────────────────────────── */
 .mosh .sla-instability-bar-wrap {
+  position: relative;
   margin-top: 10px;
-  height: 10px;
+  height: 22px;
   border-radius: 999px;
   overflow: hidden;
   background: rgba(17, 17, 17, 0.1);
@@ -2346,6 +2347,29 @@ p {
   border-radius: inherit;
   background: linear-gradient(90deg, rgba(81, 163, 109, 0.9), rgba(203, 161, 68, 0.92));
   transition: width 0.3s ease;
+}
+
+.mosh .sla-instability-bar-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.55);
+  color: #fff;
+}
+
+.mosh .sla-instability-bar-label.instability-critical {
+  color: #ffe0e0;
+  text-shadow: 0 1px 3px rgba(80,0,0,0.8);
 }
 
 .mosh .sla-instability-bar.instability-elevated {

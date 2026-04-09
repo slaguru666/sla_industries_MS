@@ -836,6 +836,7 @@
             <div class="sla-card-label">Instability Track</div>
             <div class="sla-instability-bar-wrap">
               <div class="sla-instability-bar {{vevaphonInstabilityClass}}" style="width: {{vevaphonInstabilityPercent}}%;"></div>
+              <div class="sla-instability-bar-label {{vevaphonInstabilityClass}}">{{system.sla.vevaphonInstability.value}} / 12</div>
             </div>
             <div class="sla-card-copy">
               {{#if vevaphonInstabilityCritical}}⚠ CRITICAL — Morph Panic risk on every failed Sanity save.{{/if}}
@@ -916,11 +917,11 @@
         <li class="item flexrow item-header" role="rowgroup">
           <div class="item-image" role="cell"></div>
           <div class="skill-stat" style="flex-grow: 2.5;" role="cell">{{ localize 'Mosh.ArmorName' }}</div>
-          <div class="skill-stat" role="cell">{{ localize 'Mosh.AP' }}</div>
-          <div class="skill-stat" role="cell">{{ localize 'Mosh.DR' }}</div>
-		      <div class="skill-stat" role="cell">{{ localize 'Mosh.Speed' }}</div>
-		      <div class="skill-stat" role="cell">{{ localize 'Mosh.Oxygen' }}</div>
-          <div class="skill-stat" role="cell">Carry</div>
+          <div class="skill-stat" role="cell" title="Armour Protection — reduces incoming damage before it reaches your wounds. Higher is better.">{{ localize 'Mosh.AP' }}</div>
+          <div class="skill-stat" role="cell" title="Damage Reduction — subtracts directly from wound damage after AP is applied. Each point absorbed is one less point of damage taken.">{{ localize 'Mosh.DR' }}</div>
+		      <div class="skill-stat" role="cell" title="Speed penalty — how much this armour slows movement. Expressed as a % penalty to physical speed checks.">{{ localize 'Mosh.Speed' }}</div>
+		      <div class="skill-stat" role="cell" title="Oxygen supply — current / maximum charges for sealed suits and vacuum armour. N/A means the suit is not airtight.">{{ localize 'Mosh.Oxygen' }}</div>
+          <div class="skill-stat" role="cell" title="Carry state — Eqp means wearing it now (weight counts against your equipped load). Stow means packed away (counts as stowed weight).">Carry</div>
           <div class="item-controls" role="cell">
             <a class="item-control item-create" title="{{ localize 'Mosh.CreateArmor' }}" data-type="armor"><i class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
           </div>
@@ -957,10 +958,10 @@
         <li class="item flexrow item-header" role="rowgroup">
           <div class="item-image" role="cell"></div>
           <div class="skill-stat" style="flex-grow: 2.5;" role="cell">{{ localize 'Mosh.ArmorName' }}</div>
-          <div class="skill-stat" role="cell">{{ localize 'Mosh.SaveBonus' }}</div>
-		      <div class="skill-stat" role="cell">{{ localize 'Mosh.Speed' }}</div>
-		      <div class="skill-stat" role="cell">{{ localize 'Mosh.Oxygen' }}</div>
-          <div class="skill-stat" role="cell">Carry</div>
+          <div class="skill-stat" role="cell" title="Save Bonus — this value is added to your Body save when checking to resist physical damage while wearing this armour.">{{ localize 'Mosh.SaveBonus' }}</div>
+		      <div class="skill-stat" role="cell" title="Speed penalty — how much this armour slows movement. Expressed as a % penalty to physical speed checks.">{{ localize 'Mosh.Speed' }}</div>
+		      <div class="skill-stat" role="cell" title="Oxygen supply — current / maximum charges for sealed suits and vacuum armour. N/A means the suit is not airtight.">{{ localize 'Mosh.Oxygen' }}</div>
+          <div class="skill-stat" role="cell" title="Carry state — Eqp means wearing it now (weight counts against your equipped load). Stow means packed away (counts as stowed weight).">Carry</div>
           <div class="item-controls" role="cell">
             <a class="item-control item-create" title="{{ localize 'Mosh.CreateArmor' }}" data-type="armor"><i class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
           </div>
@@ -997,13 +998,13 @@
         <li class="item flexrow item-header">
           <div class="item-image"></div>
           <div class="skill-stat" style="flex-grow: 1.6;">Drug</div>
-          <div class="skill-stat">Qty</div>
-          <div class="skill-stat">Rating</div>
-          <div class="skill-stat">Value</div>
-          <div class="skill-stat">Weight</div>
-          <div class="skill-stat">Carry</div>
-          <div class="skill-stat">State</div>
-          <div class="skill-stat">Duration</div>
+          <div class="skill-stat" title="Quantity — number of doses currently carried.">Qty</div>
+          <div class="skill-stat" title="Rating — the potency tier of this drug. Higher ratings mean stronger effects and harder addiction saves.">Rating</div>
+          <div class="skill-stat" title="Value — street price per dose in credits (cR).">Value</div>
+          <div class="skill-stat" title="Weight — total carry weight for all doses of this drug.">Weight</div>
+          <div class="skill-stat" title="Carry state — Eqp means on your person and immediately accessible. Stow means packed away in your kit.">Carry</div>
+          <div class="skill-stat" title="State — current drug status. Ready means unused. Active means the drug is currently in effect. Crashed means the effect has ended and the character may be experiencing comedown penalties.">State</div>
+          <div class="skill-stat" title="Duration — how many rounds or minutes of effect remain. Blank or 0 means the drug is not currently active.">Duration</div>
           <div class="item-controls">
             <a class="item-control item-create" title="Create Drug" data-type="drug"><i class="fas fa-plus"></i> Add</a>
           </div>
@@ -1038,11 +1039,11 @@
       <ol class="items-list">
         <li class="item flexrow item-header">
           <div class="item-image"></div>
-          <div class="skill-stat" style="flex-grow: 1.5;">{{ localize 'Mosh.ItemName' }}</div>
-          <div class="skill-stat">{{ localize 'Mosh.Quantity' }}</div>
-          <div class="skill-stat">{{ localize 'Mosh.Weight' }}</div>
-          <div class="skill-stat">Carry</div>
-          <div class="skill-stat">{{ localize 'Mosh.Value' }}</div>
+          <div class="skill-stat" style="flex-grow: 1.5;" title="Hover over any item name to see its description.">{{ localize 'Mosh.ItemName' }}</div>
+          <div class="skill-stat" title="Quantity — how many of this item you are carrying.">{{ localize 'Mosh.Quantity' }}</div>
+          <div class="skill-stat" title="Weight — total carry weight for all units of this item (kg).">{{ localize 'Mosh.Weight' }}</div>
+          <div class="skill-stat" title="Carry state — Eqp means on your person and ready to use. Stow means packed away. Equipped items count against your active carry limit; stowed items count against your total carry limit.">Carry</div>
+          <div class="skill-stat" title="Value — purchase price in credits (cR). Sell price is typically half.">{{ localize 'Mosh.Value' }}</div>
           <div class="item-controls">
             <a class="item-control item-create" title="{{ localize 'Mosh.CreateItem' }}" data-type="item"><i class="fas fa-plus"></i> Add</a>
           </div>
@@ -1084,10 +1085,10 @@
       <ol class="items-list" style="margin-bottom : 10px;">
         <li class="item flexrow item-header">
           <div class="item-image"></div>
-          <div class="skill-stat" style="flex-grow: 1.4;">{{ localize 'Mosh.SkillName' }}</div>
-          <div class="skill-stat">Category</div>
-          <div class="skill-stat">{{ localize 'Mosh.SkillRank' }}</div>
-          <div class="skill-stat">{{ localize 'Mosh.SkillBonus' }}</div>
+          <div class="skill-stat" style="flex-grow: 1.4;" title="Click a skill name to roll it against the relevant stat. Your bonus is added to a d100 roll — you succeed by rolling under the total.">{{ localize 'Mosh.SkillName' }}</div>
+          <div class="skill-stat" title="Category — broad skill grouping (Combat, Technical, Social, etc.) used for package sorting and Ebb discipline filtering.">Category</div>
+          <div class="skill-stat" title="Rank — your proficiency level in this skill. Untrained (no bonus), Basic (+1–9), Trained (+10–14), Expert (+15–19), Master (+20+).">{{ localize 'Mosh.SkillRank' }}</div>
+          <div class="skill-stat" title="Bonus — total modifier added to d100 rolls with this skill. Breakdown shown in small text below the value. Higher is better — you need to roll under (stat + bonus).">{{ localize 'Mosh.SkillBonus' }}</div>
           <div class="item-controls">
             <a class="item-control skill-create" title="{{ localize 'Mosh.CreateSkill' }}" data-type="skill"><i class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
           </div>
@@ -1184,13 +1185,13 @@
       <ol class="items-list">
         <li class="item flexrow item-header">
           <div class="item-image"></div>
-          <div class="skill-stat" style="flex-grow: 2;">{{ localize 'Mosh.WeaponName' }}</div>
-          <div class="skill-stat">{{ localize 'Mosh.Damage' }}</div>
-          <div class="skill-stat">{{ localize 'Mosh.Ammo' }}</div>
-          <div class="skill-stat">{{ localize 'Mosh.Shots' }}</div>
-          <div class="skill-stat">Mode</div>
-          <div class="skill-stat">Carry</div>
-          <div class="skill-stat">{{ localize 'Mosh.Range' }}</div>
+          <div class="skill-stat" style="flex-grow: 2;" title="Click a weapon name to make an attack roll using your Combat stat. Calibre and current ammo state shown below the name.">{{ localize 'Mosh.WeaponName' }}</div>
+          <div class="skill-stat" title="Damage — rolled on a successful hit. Melee weapons may add your Strength modifier. Anti-Armour (AA) weapons halve target armour before applying damage.">{{ localize 'Mosh.Damage' }}</div>
+          <div class="skill-stat" title="Ammo — currently loaded type (STD / AP / HE / HEAP) and reserve count. STD is standard. AP is armour-piercing (halves target armour, -1 damage). HE is high explosive (+1d5 damage, explosive wounds). HEAP combines AP and HE effects.">{{ localize 'Mosh.Ammo' }}</div>
+          <div class="skill-stat" title="Shots — current magazine / maximum magazine capacity. Click the reload icon to reload or swap ammo type.">{{ localize 'Mosh.Shots' }}</div>
+          <div class="skill-stat" title="Fire Mode — click to cycle between available modes. Single fires one shot. Burst fires several rounds for bonus damage but uses more ammo. Auto lays down suppressing fire.">Mode</div>
+          <div class="skill-stat" title="Carry state — Eqp means the weapon is drawn and ready. Stow means holstered or packed. Only equipped weapons can be used in combat without an action to draw.">Carry</div>
+          <div class="skill-stat" title="Range — maximum effective distance. At short range you roll normally. At medium range you take a penalty. At long range the penalty increases significantly. Beyond max range the weapon cannot reach.">{{ localize 'Mosh.Range' }}</div>
           <div class="item-controls">
             <a class="item-control weapon-create" title="{{ localize 'Mosh.CreateWeapon' }}" data-type="weapon"><i class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
           </div>
