@@ -4916,7 +4916,14 @@ export class MothershipActor extends Actor {
     return this.items
       .filter((item) => {
         const name = String(item.name ?? "").trim();
-        if (item.type === "ability") return true;
+        if (item.type === "ability") {
+          // Vevaphon morph form abilities are NOT Ebb items — exclude them
+          if (item.system?.sla?.morphForm === true) return false;
+          // Also exclude by name so hand-placed morph abilities are safe even without the flag
+          const morphNames = ["Brute Form", "Stalker Form", "Raptor Form"];
+          if (morphNames.includes(name)) return false;
+          return true;
+        }
         if (item.type !== "skill") return false;
         return name === "Formulate" || name === "Biofeedback" || name === "Ebb (Core)" || name.startsWith("Ebb ");
       })
