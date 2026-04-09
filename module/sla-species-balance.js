@@ -8,7 +8,9 @@ export const SLA_SPECIES_STAT_ADJUSTMENTS = {
   "Wraith Raider": { sanity: 15 },
   Shaktar: { body: 10, fear: 20 },
   "Stormer 313 Malice": { fear: 25 },
-  "Stormer 711 Xeno": { fear: 25 }
+  "Stormer 711 Xeno": { fear: 25 },
+  // Vevaphon: strong, fast, resilient biogenetic chassis — psychologically shattered
+  "Stormer Vevaphon": { strength: 10, combat: 10, body: 15, speed: 5, sanity: -10 }
 };
 
 export function getSlaSpeciesStatAdjustments(speciesName = "") {

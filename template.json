@@ -11,24 +11,24 @@
           "value": 10,
           "min": 0,
           "max": 10,
-          "label" : "Health"
+          "label": "Health"
         },
         "hits": {
           "value": 0,
           "min": 0,
-          "max" : 2,
-          "label" : "Wounds"
+          "max": 2,
+          "label": "Wounds"
         },
         "netHP": {
           "value": 20,
           "min": 0,
-          "max" : 20,
-          "label" : "Net HP"
+          "max": 20,
+          "label": "Net HP"
         },
         "bleeding": {
           "value": 0,
           "min": 0,
-          "label" : "Bleeding"
+          "label": "Bleeding"
         }
       }
     },
@@ -38,9 +38,9 @@
       ],
       "biography": "",
       "notes": "",
-      "weight" : {
-        "current" : 0,
-        "capacity" : 0
+      "weight": {
+        "current": 0,
+        "capacity": 0
       },
       "class": {
         "value": ""
@@ -59,8 +59,8 @@
       },
       "xp": {
         "value": 0,
-        "html" : 0,
-        "selectedSkill" : ""
+        "html": 0,
+        "selectedSkill": ""
       },
       "attributes": {
         "level": {
@@ -140,13 +140,13 @@
           "value": 2,
           "min": 2,
           "max": 20,
-          "label" : "Stress"
+          "label": "Stress"
         },
         "resolve": {
           "value": 0,
           "min": 0,
           "max": 15,
-          "label" : "Resolve"
+          "label": "Resolve"
         },
         "stressdesc": {
           "value": ""
@@ -216,6 +216,17 @@
         },
         "ebbNotes": {
           "value": ""
+        },
+        "morphForm": {
+          "value": ""
+        },
+        "vevaphonInstability": {
+          "value": 0,
+          "max": 12,
+          "label": "Instability"
+        },
+        "morphNotes": {
+          "value": ""
         }
       }
     },
@@ -237,7 +248,7 @@
           "max": 99,
           "label": "Combat",
           "rollLabel": "Combat Check",
-          "enabled" : true
+          "enabled": true
         },
         "instinct": {
           "value": 10,
@@ -245,7 +256,7 @@
           "max": 99,
           "label": "Instinct",
           "rollLabel": "Instinct Check",
-          "enabled" : true
+          "enabled": true
         },
         "speed": {
           "value": 10,
@@ -253,7 +264,7 @@
           "max": 99,
           "label": "Speed",
           "rollLabel": "Speed Check",
-          "enabled" : false
+          "enabled": false
         },
         "loyalty": {
           "value": 10,
@@ -261,7 +272,7 @@
           "max": 99,
           "label": "Loyalty",
           "rollLabel": "Loyalty Check",
-          "enabled" : false
+          "enabled": false
         },
         "armor": {
           "value": 0,
@@ -272,7 +283,7 @@
           "cover": "none",
           "label": "Armor",
           "rollLabel": "Armor Save",
-          "enabled" : false
+          "enabled": false
         },
         "sanity": {
           "value": 10,
@@ -280,7 +291,7 @@
           "max": 99,
           "label": "Sanity",
           "rollLabel": "Sanity Save",
-          "enabled" : false
+          "enabled": false
         }
       }
     },
@@ -295,18 +306,18 @@
       "xp": {
         "value": 1
       },
-      "images" : {
-        "layout" : "systems/sla-mothership/images/Galloway_Top.png",
-        "beauty" : "systems/sla-mothership/images/Galloway_Top.png"
+      "images": {
+        "layout": "systems/sla-mothership/images/Galloway_Top.png",
+        "beauty": "systems/sla-mothership/images/Galloway_Top.png"
       },
-      "runSetup" : true,
-      "megadamage" : {
-        "html" : "",
-        "hits" : [],
-        "menu" : {
-          "html" : ""
+      "runSetup": true,
+      "megadamage": {
+        "html": "",
+        "hits": [],
+        "menu": {
+          "html": ""
         },
-        "open" : false
+        "open": false
       },
       "stats": {
         "armor": {
@@ -370,9 +381,9 @@
         "hull": {
           "value": 10,
           "max": 10,
-          "75" : 0,
-          "50" : 0,
-          "25" : 0
+          "75": 0,
+          "50": 0,
+          "25": 0
         },
         "fuel": {
           "value": 10,
@@ -400,10 +411,10 @@
         },
         "upgrades": {
           "value": 0,
-          "max" : 0
+          "max": 0
         }
       },
-      "weapon-stats" : {
+      "weapon-stats": {
         "weapons": {
           "value": 0,
           "max": 1
@@ -416,7 +427,6 @@
           "value": 0,
           "max": 1
         }
-
       }
     }
   },
@@ -447,7 +457,7 @@
       "quantity": 1,
       "weight": 0,
       "carryState": "carried",
-      "cost" : 0,
+      "cost": 0,
       "sla": {
         "category": "",
         "power": "",
@@ -495,7 +505,7 @@
       "ammo": 10,
       "shots": 1,
       "curShots": 0,
-      "shotsPerFire" : 1,
+      "shotsPerFire": 1,
       "useAmmo": false,
       "ammoType": "",
       "ammoCalibre": "",
@@ -511,22 +521,22 @@
       "ammoReserveAp": 0,
       "ammoReserveHe": 0,
       "ammoReserveHeap": 0,
-      "wound":"",
+      "wound": "",
       "critDmg": "",
       "woundEffect": "",
       "bonus": 0,
       "weight": 0,
       "carryState": "equipped",
       "equipped": true,
-      "cost" : 0,
+      "cost": 0,
       "ranges": {
         "short": 0,
         "medium": 0,
         "long": 0,
-        "value" : ""
+        "value": ""
       },
-      "settings" : {
-        "firstEdition" : false
+      "settings": {
+        "firstEdition": false
       },
       "sla": {
         "weaponType": "",
@@ -548,14 +558,14 @@
         "base"
       ],
       "armorPoints": 1,
-      "damageReduction":0,
+      "damageReduction": 0,
       "speed": "",
       "oxygenMax": 0,
-      "oxygenCurrent": 0,      
+      "oxygenCurrent": 0,
       "weight": 0,
       "carryState": "equipped",
       "equipped": true,
-      "cost" : 0,
+      "cost": 0,
       "sla": {
         "burden": "",
         "coverage": "",
@@ -572,9 +582,9 @@
         "base"
       ],
       "severity": 1,
-      "treatment" : {
-        "value" : 0,
-        "html" : ""
+      "treatment": {
+        "value": 0,
+        "html": ""
       },
       "sla": {
         "category": "",
@@ -622,7 +632,7 @@
         "base"
       ],
       "text": "",
-      "job" : ""
+      "job": ""
     },
     "repair": {
       "templates": [
@@ -637,9 +647,9 @@
       ],
       "quantity": 1,
       "hull": 1,
-      "totalHull" : 1,
-      "feature" : "",
-      "offline" : false
+      "totalHull": 1,
+      "feature": "",
+      "offline": false
     },
     "class": {
       "templates": [

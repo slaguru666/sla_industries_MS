@@ -271,6 +271,15 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
     const fluxValue = Number(superData.sla.flux?.value ?? 0);
     const fluxMax = Math.max(0, Number(superData.sla.flux?.max ?? 0));
     data.data.slaFluxPercent = fluxMax > 0 ? Math.min(100, Math.max(0, Math.round((fluxValue / fluxMax) * 100))) : 0;
+    // Vevaphon morph data
+    data.data.isVevaphon = this.actor.isSlaVevaphon?.() ?? false;
+    if (data.data.isVevaphon) {
+      const instab = Math.max(0, Math.min(12, Number(superData.sla.vevaphonInstability?.value ?? 0) || 0));
+      data.data.vevaphonInstabilityPercent = Math.round((instab / 12) * 100);
+      data.data.vevaphonInstabilityElevated = instab >= 6;
+      data.data.vevaphonInstabilityCritical = instab >= 10;
+      data.data.vevaphonInstabilityClass = instab >= 10 ? "instability-critical" : instab >= 6 ? "instability-elevated" : "instability-nominal";
+    }
     data.data.slaSpeciesTraitList = String(superData.sla.speciesNotes?.value ?? "").split(/\n+/).map((entry) => entry.trim()).filter(Boolean);
     data.data.slaPackageSkillList = String(superData.sla.packageSkills?.value ?? "").split(/\s*,\s*/).map((entry) => entry.trim()).filter(Boolean);
     data.data.slaSpeciesRules = getSpeciesRules(String(superData.sla.species?.value ?? "").trim(), superData.sla.speciesRules);
@@ -904,6 +913,24 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
 
     html.find('.sla-flux-panic').click(ev => {
       this.actor.triggerSlaFluxPanic({ source: 'Manual Flux panic check', panicOnFailure: true, forcePanic: true });
+    });
+
+    // Vevaphon morph form shift
+    html.find('.sla-morph-shift').click(async (ev) => {
+      const formName = ev.currentTarget.dataset.form;
+      if (!formName) return;
+      await this.actor.setSlaVevaphonMorphForm?.(formName);
+      this.render(false);
+    });
+
+    // Vevaphon instability +/-
+    html.find('.sla-instability-increase').click(async () => {
+      await this.actor.adjustSlaVevaphonInstability?.(1);
+      this.render(false);
+    });
+    html.find('.sla-instability-decrease').click(async () => {
+      await this.actor.adjustSlaVevaphonInstability?.(-1);
+      this.render(false);
     });
 
     html.find('.sla-panic-button').click(ev => {

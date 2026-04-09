@@ -474,7 +474,7 @@ p {
   font-family: "Roboto", sans-serif;
   font-size: 11pt;
   font-weight: 500;
-  color: grey;
+  color: #444;
 }
 
 .mosh .resource-label {
@@ -1843,7 +1843,15 @@ p {
   margin-top: -8px;
   margin-bottom: 3px;
   padding: 5px;
-  color: grey;
+  color: #444;
+}
+
+/* Skill roll dialog — scrollable list so Roll button is always visible */
+.macro-popup-dialog .skill-dialog-scroll {
+  max-height: min(420px, 55vh);
+  overflow-y: auto;
+  margin-bottom: 4px;
+  padding-right: 2px;
 }
 
 .mosh .rollattribute {
@@ -2317,11 +2325,106 @@ p {
   font-weight: 700;
 }
 
-.mosh .sla-flux-stage.stable { background: rgba(81, 163, 109, 0.25); color: #dff7e7; }
-.mosh .sla-flux-stage.charged { background: rgba(203, 161, 68, 0.25); color: #fff2c8; }
-.mosh .sla-flux-stage.frayed { background: rgba(194, 112, 55, 0.28); color: #ffe2cc; }
-.mosh .sla-flux-stage.breach { background: rgba(161, 59, 59, 0.32); color: #ffd7d7; }
-.mosh .sla-flux-stage.catastrophic { background: rgba(99, 31, 31, 0.5); color: #fff0f0; }
+.mosh .sla-flux-stage.stable { background: rgba(81, 163, 109, 0.25); color: #1a5c35; }
+.mosh .sla-flux-stage.charged { background: rgba(203, 161, 68, 0.25); color: #5a3f00; }
+.mosh .sla-flux-stage.frayed { background: rgba(194, 112, 55, 0.28); color: #6b2e00; }
+.mosh .sla-flux-stage.breach { background: rgba(161, 59, 59, 0.32); color: #6b1414; }
+.mosh .sla-flux-stage.catastrophic { background: rgba(99, 31, 31, 0.5); color: #3d0000; }
+
+/* ── Vevaphon Instability ─────────────────────────────────────── */
+.mosh .sla-instability-bar-wrap {
+  margin-top: 10px;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(17, 17, 17, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.mosh .sla-instability-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(81, 163, 109, 0.9), rgba(203, 161, 68, 0.92));
+  transition: width 0.3s ease;
+}
+
+.mosh .sla-instability-bar.instability-elevated {
+  background: linear-gradient(90deg, rgba(203, 161, 68, 0.92), rgba(194, 112, 55, 0.96));
+}
+
+.mosh .sla-instability-bar.instability-critical {
+  background: linear-gradient(90deg, rgba(194, 112, 55, 0.96), rgba(161, 59, 59, 0.98));
+}
+
+.mosh .sla-instability-tag.instability-nominal {
+  background: rgba(81, 163, 109, 0.18);
+  color: #1a5c35;
+  border-color: rgba(81, 163, 109, 0.35);
+}
+
+.mosh .sla-instability-tag.instability-elevated {
+  background: rgba(203, 161, 68, 0.22);
+  color: #5a3f00;
+  border-color: rgba(203, 161, 68, 0.45);
+}
+
+.mosh .sla-instability-tag.instability-critical {
+  background: rgba(161, 59, 59, 0.28);
+  color: #6b1414;
+  border-color: rgba(161, 59, 59, 0.55);
+  font-weight: 700;
+}
+
+.mosh .sla-morph-form-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.mosh .sla-morph-shift {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, #3a3f50, #22262e);
+  color: #d8dde6;
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+  width: 100%;
+}
+
+.mosh .sla-morph-shift:hover:not([disabled]) {
+  background: linear-gradient(180deg, #4f5568, #303642);
+}
+
+.mosh .sla-morph-shift[disabled] {
+  background: linear-gradient(180deg, rgba(100, 160, 80, 0.3), rgba(60, 110, 50, 0.3));
+  border-color: rgba(100, 160, 80, 0.5);
+  color: #1a5c35;
+  cursor: default;
+}
+
+.mosh .sla-morph-btn-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mosh .sla-morph-btn-meta {
+  font-size: 0.7rem;
+  opacity: 0.75;
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: inherit;
+}
+/* ── End Vevaphon ─────────────────────────────────────────────── */
 
 .mosh .sla-action-row button,
 .mosh .sla-generator button,

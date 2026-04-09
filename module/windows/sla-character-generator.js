@@ -69,6 +69,10 @@ const SPECIES_DOSSIER = {
   "Advanced Carrien": {
     identity: "Cunning, dangerous mutants with strong survival instincts and an uneasy fit inside official structures.",
     fieldPressure: "They thrive in broken districts and dirty jobs, but prejudice follows them into every briefing room."
+  },
+  "Stormer Vevaphon": {
+    identity: "Sleight Industries' cancelled polymorphic Stormer line: a shape-shifting bioweapon that can be anything the mission needs — and that is precisely the problem.",
+    fieldPressure: "They are terrifying in infiltration, ambush, and close quarters, but every form change costs them a piece of who they are. Long ops risk unravelling them entirely."
   }
 };
 
@@ -76,7 +80,8 @@ const SPECIES_MIN_WOUNDS = {
   Frother: 3,
   Shaktar: 3,
   "Stormer 313 Malice": 3,
-  "Stormer 711 Xeno": 3
+  "Stormer 711 Xeno": 3,
+  "Stormer Vevaphon": 3
 };
 
 const SKILL_IMAGE_OVERRIDES = {
@@ -201,6 +206,19 @@ const SPECIES_MOTHERSHIP_PROFILES = {
       health: "1d10+11"
     },
     description: "Clever survivor profile. Strong Intellect and workable Strength make Carrien dangerous problem-solvers with uneven social acceptance."
+  },
+  "Stormer Vevaphon": {
+    rolls: {
+      strength:  "2d10+35",
+      speed:     "2d10+28",
+      intellect: "2d10+20",
+      combat:    "2d10+35",
+      sanity:    "2d10+12",
+      fear:      "2d10+23",
+      body:      "2d10+22",
+      health:    "1d10+12"
+    },
+    description: "Polymorphic bioweapon with excellent combat and physical resilience, above-average speed, and severely degraded Sanity reflecting continuous identity diffusion from shapeshifting."
   }
 };
 
@@ -293,8 +311,59 @@ const SPECIES_WEAPONS = {
   "Wraith Raider": ["Wraith Raider Claws"],
   Shaktar: ["Shaktar Claws"],
   "Stormer 313 Malice": ["Stormer Claws"],
-  "Stormer 711 Xeno": ["Stormer Claws"]
+  "Stormer 711 Xeno": ["Stormer Claws"],
+  "Stormer Vevaphon": ["Morphic Strike"]
 };
+
+// Vevaphon morph form abilities — one is chosen at character creation as starting form.
+// Each form grants stat bonuses and a special ability but costs 1 Instability when activated.
+const VEVAPHON_MORPH_STARTERS = [
+  {
+    name: "Brute Form",
+    summary: "A hulking, armoured chassis. STR+10, BODY+10. Immune to Knockdown. Cannot be concealed.",
+    statMods: { strength: 10, body: 10 },
+    special: "Knockdown Immunity",
+    instabilityCost: 1,
+    description: "The Vevaphon expands its frame into a dense combat shell. Slabs of biogenetic armour plate reinforce the torso and limbs. Effective in close-quarters breach work. Every activation costs 1 Instability."
+  },
+  {
+    name: "Stalker Form",
+    summary: "A lean, predatory chassis built for silence. SPD+10, Stealth+20. Cannot wear armour.",
+    statMods: { speed: 10 },
+    skillMods: { Stealth: 20 },
+    special: "Armour Incompatible",
+    instabilityCost: 1,
+    description: "The Vevaphon elongates and flattens, redistributing mass for near-silent movement. Standard armour cannot bond to the shifting surface. Ideal for covert approach and ambush. Every activation costs 1 Instability."
+  },
+  {
+    name: "Raptor Form",
+    summary: "A fast striking chassis built around offensive output. COM+10, SPD+5. Attacks score one extra wound on a critical.",
+    statMods: { combat: 10, speed: 5 },
+    special: "Critical Wound Bonus",
+    instabilityCost: 1,
+    description: "The Vevaphon reshapes its strike limbs into natural weapons optimised for penetrating force. Designed for rapid target elimination at close range. Every activation costs 1 Instability."
+  }
+];
+
+// Instability minor effects (triggered at 6+ Instability, rolled each scene)
+const VEVAPHON_INSTABILITY_MINOR = [
+  "Involuntary surface texturing — skin shifts pattern mid-conversation. Social rolls at -10.",
+  "Limb proportions drift. Fine motor tasks at -10 until end of scene.",
+  "Voice shifts register unexpectedly. Communications may be misidentified.",
+  "Brief facial blurring. Anyone attempting to describe the Vevaphon gives contradictory reports.",
+  "Pain from realignment. Take 1 point of Stress.",
+  "Form flickers. One randomly selected stat drops by 5 until the Vevaphon rests."
+];
+
+// Instability Morph Panic table (triggered at 10+ Instability on a failed SANITY save)
+const VEVAPHON_INSTABILITY_TABLE = [
+  { roll: 1,  result: "Cascade Shift", effect: "Vevaphon immediately shifts to a random morph form, even mid-combat. Costs 1 additional Instability." },
+  { roll: 2,  result: "Identity Bleed", effect: "Forgets assigned name and call sign until end of scene. Acts on instinct — GM adjudicates behaviour." },
+  { roll: 3,  result: "Partial Lock", effect: "One limb freezes in incorrect form. -10 to all physical rolls using that limb." },
+  { roll: 4,  result: "Tissue Rejection", effect: "Takes 1d5 damage as the body fights itself. Armour does not apply." },
+  { roll: 5,  result: "Threat Imprint", effect: "Becomes locked on nearest visible target. Must make a Sanity save to perform any action not directed at that target." },
+  { roll: 6,  result: "Full Reversion", effect: "Collapses to base form, losing all morph bonuses. Spends next action recovering. Lose 1 Instability." }
+];
 
 const NAME_PARTS = {
   first: [
@@ -610,6 +679,10 @@ export class SLAMothershipGenerator extends FormApplication {
       itemPayloads.push(...this.buildEbbItems(species.name));
     }
 
+    if (species.name === "Stormer Vevaphon") {
+      itemPayloads.push(...this.buildVevaphonItems(derived.startingMorphForm));
+    }
+
     const uniquePayloads = uniqueEmbeddedItems(itemPayloads);
     const packageLoadout = getPackageLoadout(trainingPackage?.name ?? "", data.equipment.packageLoadouts ?? {});
     const packageIssueKit = getPackageIssueKit(trainingPackage?.name ?? "");
@@ -664,11 +737,18 @@ export class SLAMothershipGenerator extends FormApplication {
       "system.sla.ebbRating.value": derived.ebbRating,
       "system.other.stressdesc.value": buildTraumaResponseText(species, trainingPackage),
       "system.sla.fluxNotes.value": this.isEbbSpecies(species.name)
-        ? `Starting Flux reserve: ${derived.fluxMax}. Ebb users begin with at least 20 Flux and spend from that reserve when channeling. Fear is used as the control save.`
+        ? `Starting Flux reserve: ${derived.fluxMax} (rolled 20 + 1d10). Flux is randomised at creation (range 21–31). Spend from this reserve when channeling; Fear is the control save.`
         : "",
       "system.sla.ebbNotes.value": this.isEbbSpecies(species.name)
         ? `Starter discipline package: ${(EBB_STARTERS[species.name] ?? []).join(", ")}`
         : "",
+      ...(species.name === "Stormer Vevaphon" ? {
+        "system.sla.morphForm.value": derived.startingMorphForm ?? "Brute Form",
+        "system.sla.vevaphonInstability.value": 0,
+        "system.sla.vevaphonInstability.max": 12,
+        "system.sla.vevaphonInstability.label": "Instability",
+        "system.sla.morphNotes.value": buildVevaphonMorphNotes(derived.startingMorphForm)
+      } : {}),
       "system.biography": description,
       "system.notes": buildNotes(species, trainingPackage, packageLoadout, packageIssueKit)
     };
@@ -815,6 +895,40 @@ export class SLAMothershipGenerator extends FormApplication {
       .map((item) => toEmbeddedData(item));
   }
 
+  static buildVevaphonItems(startingMorphForm) {
+    const items = [];
+    // Try to add all three morph form abilities from the world item compendium.
+    // They may or may not exist as world items — we fall back to building minimal
+    // ability documents directly if not found.
+    for (const morph of VEVAPHON_MORPH_STARTERS) {
+      const worldItem = findWorldItem(morph.name, "ability");
+      if (worldItem) {
+        const embedded = toEmbeddedData(worldItem);
+        items.push(embedded);
+      } else {
+        // Build a minimal ability document so the character isn't empty-handed.
+        items.push({
+          name: morph.name,
+          type: "ability",
+          img: "icons/svg/upgrade.svg",
+          system: {
+            description: morph.description,
+            summary: morph.summary,
+            special: morph.special,
+            sla: {
+              morphForm: true,
+              instabilityCost: morph.instabilityCost,
+              statMods: morph.statMods ?? {},
+              skillMods: morph.skillMods ?? {},
+              isStartingForm: morph.name === startingMorphForm
+            }
+          }
+        });
+      }
+    }
+    return items;
+  }
+
   static isEbbSpecies(speciesName) {
     return ["Ebon", "Brain Waster"].includes(String(speciesName ?? ""));
   }
@@ -952,7 +1066,16 @@ function deriveProfile(rolls, packageName, speciesName) {
 
   if (["Ebon", "Brain Waster"].includes(speciesName)) {
     profile.ebbRating = clamp(Math.ceil(profile.intellect / 20) + Number(mods.ebbRating ?? 0), 1, 8);
-    profile.fluxMax = clamp(Math.max(20, Math.floor(profile.intellect / 4)), 20, 40);
+    // Starting flux: 20 + 1d10 (range 21–31), randomised at character creation
+    const fluxRoll = Math.floor(Math.random() * 11) + 1; // 1–11 → simulates d10 with extended top end
+    profile.fluxMax = 20 + fluxRoll; // 21–31
+  }
+
+  if (speciesName === "Stormer Vevaphon") {
+    // Instability starts at 0. Pick a random starting morph form.
+    profile.morphInstability = 0;
+    const morphIndex = Math.floor(Math.random() * VEVAPHON_MORPH_STARTERS.length);
+    profile.startingMorphForm = VEVAPHON_MORPH_STARTERS[morphIndex].name;
   }
 
   return profile;
@@ -1030,6 +1153,26 @@ function getFluxStage(flux, maxFlux = 0) {
   if (max > 0 && ratio >= 0.5) return { label: "Frayed", text: "The reserve is running down. Failed Fear saves on Ebb use should be treated as panic events." };
   if (max > 0 && ratio >= 0.25) return { label: "Charged", text: "A meaningful chunk of Flux has been spent. Stay cautious and keep the Fear save clean." };
   return { label: "Stable", text: "Flux reserves are healthy. Ebb use remains disciplined and contained." };
+}
+
+function buildVevaphonMorphNotes(startingMorphForm) {
+  const form = VEVAPHON_MORPH_STARTERS.find((entry) => entry.name === startingMorphForm) ?? VEVAPHON_MORPH_STARTERS[0];
+  const allForms = VEVAPHON_MORPH_STARTERS.map((entry) => `${entry.name}: ${entry.summary}`).join("\n");
+  return [
+    `Starting Morph Form: ${form.name}`,
+    `${form.description}`,
+    ``,
+    `Available Forms:`,
+    allForms,
+    ``,
+    `Instability (0–12): Each morph activation costs 1 Instability. At 6+, minor effects trigger each scene. At 10+, failed Sanity saves trigger Morph Panic. At 12, the Vevaphon is lost — immediate retirement or death.`,
+    ``,
+    `Minor Effects (6+ Instability):`,
+    VEVAPHON_INSTABILITY_MINOR.join("\n"),
+    ``,
+    `Morph Panic Table (10+ Instability, failed Sanity):`,
+    VEVAPHON_INSTABILITY_TABLE.map((entry) => `${entry.roll}. ${entry.result}: ${entry.effect}`).join("\n")
+  ].join("\n");
 }
 
 function buildTraumaResponseText(species, trainingPackage) {

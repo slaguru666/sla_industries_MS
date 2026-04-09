@@ -381,6 +381,7 @@
     <a class="tab-select" data-tab="traits">Traits</a>
     <a class="tab-select" data-tab="special-rules">Special Rules</a>
     {{#if isEbbUser}}<a class="tab-select" data-tab="ebb">Ebb</a>{{/if}}
+    {{#if isVevaphon}}<a class="tab-select" data-tab="morph">Morph</a>{{/if}}
     <a class="tab-select" data-tab="description">{{ localize 'Mosh.Bio' }}</a>
     <a class="tab-select" data-tab="notes">{{ localize 'Mosh.Notes' }}</a>
   </nav>
@@ -412,6 +413,7 @@
             <span class="sla-tag">{{system.sla.bpn.value}}</span>
             <span class="sla-tag">SCL {{system.sla.scl.value}}</span>
             {{#if isEbbUser}}<span class="sla-tag">Ebb {{system.sla.ebbRating.value}}</span>{{/if}}
+            {{#if isVevaphon}}<span class="sla-tag sla-instability-tag {{vevaphonInstabilityClass}}">Instability {{system.sla.vevaphonInstability.value}}/12</span>{{/if}}
           </div>
         </div>
 
@@ -812,6 +814,80 @@
         </li>
         {{/each}}
       </ol>
+    </div>
+    {{/if}}
+    {{#if isVevaphon}}
+    <div class="tab items" data-group="primary" data-tab="morph">
+      <div class="sla-panel">
+        <div class="sla-banner">
+          <div>
+            <div class="sla-kicker">Stormer Vevaphon</div>
+            <div class="sla-title">Polymorphic Form Control</div>
+          </div>
+          <div class="sla-tags">
+            <span class="sla-tag">Form: {{system.sla.morphForm.value}}</span>
+            <span class="sla-tag sla-instability-tag {{vevaphonInstabilityClass}}">Instability {{system.sla.vevaphonInstability.value}} / 12</span>
+            <span class="sla-tag">Sanity {{system.stats.sanity.value}}</span>
+          </div>
+        </div>
+
+        <div class="grid grid-2col sla-card-grid">
+          <div class="sla-card">
+            <div class="sla-card-label">Instability Track</div>
+            <div class="sla-instability-bar-wrap">
+              <div class="sla-instability-bar {{vevaphonInstabilityClass}}" style="width: {{vevaphonInstabilityPercent}}%;"></div>
+            </div>
+            <div class="sla-card-copy">
+              {{#if vevaphonInstabilityCritical}}⚠ CRITICAL — Morph Panic risk on every failed Sanity save.{{/if}}
+              {{#if vevaphonInstabilityElevated}}Instability elevated — minor morph effects trigger each scene.{{/if}}
+              {{#unless vevaphonInstabilityElevated}}Instability nominal. Morphing is available without additional risk.{{/unless}}
+            </div>
+            <div class="sla-action-row" style="gap: 6px; flex-wrap: wrap;">
+              <button type="button" class="sla-instability-increase">+1 Instability</button>
+              <button type="button" class="sla-instability-decrease">-1 Instability</button>
+            </div>
+            <div class="sla-card-copy" style="margin-top: 8px;">At 12, the Vevaphon is lost — immediate retirement or death.</div>
+          </div>
+          <div class="sla-card">
+            <div class="sla-card-label">Active Morph Form</div>
+            <div class="sla-card-title">{{system.sla.morphForm.value}}</div>
+            <div class="sla-card-copy">Each morph shift costs 1 Instability. Changing form mid-scene requires a Sanity save at Instability 6+.</div>
+            <div class="sla-morph-form-buttons">
+              <button type="button" class="sla-morph-shift" data-form="Brute Form" {{#if (compare 'str' system.sla.morphForm.value '===' 'Brute Form')}}disabled{{/if}}>
+                <span class="sla-morph-btn-name">Brute Form</span>
+                <span class="sla-morph-btn-meta">STR+10, BODY+10 | Knockdown Immune</span>
+              </button>
+              <button type="button" class="sla-morph-shift" data-form="Stalker Form" {{#if (compare 'str' system.sla.morphForm.value '===' 'Stalker Form')}}disabled{{/if}}>
+                <span class="sla-morph-btn-name">Stalker Form</span>
+                <span class="sla-morph-btn-meta">SPD+10, Stealth+20 | Armour Incompatible</span>
+              </button>
+              <button type="button" class="sla-morph-shift" data-form="Raptor Form" {{#if (compare 'str' system.sla.morphForm.value '===' 'Raptor Form')}}disabled{{/if}}>
+                <span class="sla-morph-btn-name">Raptor Form</span>
+                <span class="sla-morph-btn-meta">COM+10, SPD+5 | Critical Wound Bonus</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-2col sla-card-grid">
+          <div class="sla-card">
+            <div class="sla-card-label">Morph Panic Reference</div>
+            <div class="sla-card-copy">Triggered at Instability 10+ on a failed Sanity save. Roll 1d6:</div>
+            <div class="sla-note-list">
+              <div class="sla-note-pill sla-note-pill-wide">1. Cascade Shift — random morph form, +1 Instability.</div>
+              <div class="sla-note-pill sla-note-pill-wide">2. Identity Bleed — forgets name and callsign until end of scene.</div>
+              <div class="sla-note-pill sla-note-pill-wide">3. Partial Lock — one limb freezes. -10 physical rolls using that limb.</div>
+              <div class="sla-note-pill sla-note-pill-wide">4. Tissue Rejection — 1d5 damage, armour does not apply.</div>
+              <div class="sla-note-pill sla-note-pill-wide">5. Threat Imprint — locked on nearest visible target.</div>
+              <div class="sla-note-pill sla-note-pill-wide">6. Full Reversion — base form, lose morph bonuses, -1 Instability.</div>
+            </div>
+          </div>
+          <div class="sla-card">
+            <div class="sla-card-label">Morph Notes</div>
+            <textarea name="system.sla.morphNotes.value" rows="10" class="textarea-input" data-target="system.sla.morphNotes.value">{{system.sla.morphNotes.value}}</textarea>
+          </div>
+        </div>
+      </div>
     </div>
     {{/if}}
     {{!-- Owned Items Tab --}}

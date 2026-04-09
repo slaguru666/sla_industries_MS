@@ -402,6 +402,14 @@ export class MothershipActor extends Actor {
   // Prepare Character type specific data
   _deriveCharacter() {
     const system = this.system;
+    //clamp stress.value to stress.min so stale stored values never show below the floor
+    if (system.other?.stress) {
+      const stressMin = Number(system.other.stress.min ?? 0);
+      const stressVal = Number(system.other.stress.value ?? 0);
+      if (Number.isFinite(stressMin) && Number.isFinite(stressVal) && stressVal < stressMin) {
+        system.other.stress.value = stressMin;
+      }
+    }
     //armor points + damage reduction
       //init vars
       let armorPoints = 0;
@@ -1650,7 +1658,7 @@ export class MothershipActor extends Actor {
         window: {title: dlgTitle},
         classes: ["macro-popup-dialog"],
         position: {width: 600},
-        content: skillHeader + skillList + buttonDesc,
+        content: skillHeader + `<div class="skill-dialog-scroll">${skillList}</div>` + buttonDesc,
         buttons: []
       };
       //add adv/normal/dis buttons if we need a rollString
@@ -4759,10 +4767,55 @@ export class MothershipActor extends Actor {
 
   getSlaSpeciesMinimumWounds() {
     const species = String(this.system?.sla?.species?.value ?? "").trim();
-    if (["Frother", "Shaktar", "Stormer 313 Malice", "Stormer 711 Xeno"].includes(species)) {
+    if (["Frother", "Shaktar", "Stormer 313 Malice", "Stormer 711 Xeno", "Stormer Vevaphon"].includes(species)) {
       return 3;
     }
     return 2;
+  }
+
+  isSlaVevaphon() {
+    const species = String(this.system?.sla?.species?.value ?? "").trim();
+    return species === "Stormer Vevaphon";
+  }
+
+  getSlaVevaphonInstability() {
+    return Math.max(0, Math.min(12, Number(this.system?.sla?.vevaphonInstability?.value ?? 0) || 0));
+  }
+
+  getSlaVevaphonMorphForm() {
+    return String(this.system?.sla?.morphForm?.value ?? "").trim() || "Brute Form";
+  }
+
+  async setSlaVevaphonMorphForm(formName) {
+    if (!this.isSlaVevaphon()) return null;
+    const validForms = ["Brute Form", "Stalker Form", "Raptor Form"];
+    const resolved = validForms.find((entry) => entry === formName) ?? formName;
+    const currentInstability = this.getSlaVevaphonInstability();
+    const newInstability = Math.min(12, currentInstability + 1);
+    await this.update({
+      "system.sla.morphForm.value": resolved,
+      "system.sla.vevaphonInstability.value": newInstability
+    });
+    const instabilityWarning = newInstability >= 10
+      ? " ⚠ Instability critical — Morph Panic risk on failed Sanity save."
+      : newInstability >= 6
+        ? " Instability elevated — minor morph effects active."
+        : "";
+    ui.notifications.info(`${this.name} shifts to ${resolved}. Instability: ${newInstability}/12.${instabilityWarning}`);
+    return { morphForm: resolved, instability: newInstability };
+  }
+
+  async adjustSlaVevaphonInstability(delta = 1) {
+    if (!this.isSlaVevaphon()) return null;
+    const current = this.getSlaVevaphonInstability();
+    const next = Math.max(0, Math.min(12, current + delta));
+    await this.update({ "system.sla.vevaphonInstability.value": next });
+    if (next >= 12) {
+      ui.notifications.warn(`${this.name} has reached maximum Instability (12). The Vevaphon is lost — immediate retirement or death.`);
+    } else if (next >= 10) {
+      ui.notifications.warn(`${this.name} — Instability ${next}/12. Morph Panic risk: failed Sanity save triggers a Morph Panic event.`);
+    }
+    return next;
   }
 
   async enforceSlaSpeciesWounds() {
