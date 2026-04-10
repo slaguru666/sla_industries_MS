@@ -258,6 +258,9 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
     superData.sla.fluxNotes ??= { value: "" };
     superData.sla.ebbNotes ??= { value: "" };
     superData.sla.speciesRules ??= {};
+    superData.sla.sessionAbilityUsed ??= false;
+    superData.sla.contacts ??= [];
+    superData.sla.activityLog ??= { value: "" };
     const activeTheme = this.actor.getFlag("sla-mothership", "sheetTheme") || "modern";
     data.slaSheetTheme = activeTheme;
     data.data.slaSheetTheme = activeTheme;
@@ -292,6 +295,17 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
       disadvantage: String(this._slaTraitPickerSelection?.disadvantage ?? "").trim()
     };
     data.data.slaPrometheusStatus = this.actor.getSlaPrometheusStatus?.() ?? { enabled: false, inCombat: false, currentRound: 0, roundsUntilPulse: null, pulseThisRound: false };
+
+    // Contacts
+    const rawContacts = Array.isArray(superData.sla.contacts) ? superData.sla.contacts : [];
+    data.data.slaContacts = rawContacts.map((c) => ({
+      id: String(c.id ?? foundry.utils.randomID()),
+      name: String(c.name ?? "Unknown"),
+      role: String(c.role ?? ""),
+      notes: String(c.notes ?? ""),
+      disposition: ["ally", "neutral", "hostile", "unknown"].includes(c.disposition) ? c.disposition : "neutral"
+    }));
+    data.data.slaContactCount = data.data.slaContacts.length;
     const traitRows = buildSlaTraitRows(data.data.persTraits ?? []);
     data.data.persTraitsEnhanced = traitRows;
     data.data.traitCount = traitRows.length;
@@ -933,8 +947,123 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
       this.render(false);
     });
 
-    html.find('.sla-panic-button').click(ev => {
-      this.actor.rollTable("panicCheck", null, null, null, null, null, null);
+    // SCL fractional adjustment buttons
+    html.find('.sla-scl-adjust').click(async (ev) => {
+      ev.preventDefault();
+      const delta = parseFloat(ev.currentTarget.dataset.delta ?? 0);
+      if (!delta) return;
+      const current = parseFloat(String(this.actor.system?.sla?.scl?.value ?? "0").replace(",", ".")) || 0;
+      const next = Math.max(0, Math.round((current + delta) * 10) / 10);
+      const formatted = Number.isInteger(next) ? String(next) : next.toFixed(1);
+      await this.actor.update({ "system.sla.scl.value": formatted });
+      this.render(false);
+    });
+
+    // Session ability tracking — checkbox
+    html.find('.sla-session-ability-used').on('change', async (ev) => {
+      ev.stopPropagation();
+      await this.actor.update({ "system.sla.sessionAbilityUsed": ev.currentTarget.checked });
+    });
+
+    // New Session reset button
+    html.find('.sla-new-session').click(async (ev) => {
+      ev.preventDefault();
+      const confirmed = await Dialog.confirm({
+        title: "New Session",
+        content: "<p>Start a new session? This will reset the trauma response session ability for this operative.</p>",
+        defaultYes: true
+      });
+      if (!confirmed) return;
+      await this.actor.update({ "system.sla.sessionAbilityUsed": false });
+      ui.notifications.info(`${this.actor.name}: session ability reset for new session.`);
+      this.render(false);
+    });
+
+    // Rest button — short or long rest dialog
+    html.find('.sla-rest-button').click(async (ev) => {
+      ev.preventDefault();
+      const restType = await new Promise((resolve) => {
+        new Dialog({
+          title: "Take a Rest",
+          content: `
+            <p>What kind of rest is <strong>${this.actor.name}</strong> taking?</p>
+            <p><strong>Short Rest:</strong> Removes non-permanent conditions. No stat recovery.</p>
+            <p><strong>Long Rest:</strong> Removes non-permanent conditions and fully restores Flux (if Ebb user).</p>
+          `,
+          buttons: {
+            short: { icon: '<i class="fas fa-moon"></i>', label: "Short Rest", callback: () => resolve("short") },
+            long: { icon: '<i class="fas fa-bed"></i>', label: "Long Rest", callback: () => resolve("long") },
+            cancel: { icon: '<i class="fas fa-times"></i>', label: "Cancel", callback: () => resolve(null) }
+          },
+          default: "short"
+        }).render(true);
+      });
+      if (!restType) return;
+
+      const updates = {};
+      // Remove temporary conditions (items of type "condition")
+      const conditionIds = this.actor.items
+        .filter((item) => item.type === "condition")
+        .map((item) => item.id);
+      if (conditionIds.length > 0) {
+        await this.actor.deleteEmbeddedDocuments("Item", conditionIds);
+      }
+
+      if (restType === "long") {
+        // Restore Flux to max for Ebb users
+        const isEbb = this.actor.isSlaEbbUser?.() ?? false;
+        if (isEbb) {
+          const fluxMax = Math.max(0, Number(this.actor.system?.sla?.flux?.max ?? 0));
+          updates["system.sla.flux.value"] = fluxMax;
+          await this.actor.updateSlaFluxState?.(fluxMax, { save: true });
+        }
+      }
+
+      if (Object.keys(updates).length > 0) {
+        await this.actor.update(updates);
+      }
+
+      const condMsg = conditionIds.length > 0 ? ` Cleared ${conditionIds.length} condition(s).` : "";
+      const fluxMsg = restType === "long" && (this.actor.isSlaEbbUser?.() ?? false) ? " Flux restored." : "";
+      ui.notifications.info(`${this.actor.name}: ${restType === "long" ? "Long" : "Short"} rest complete.${condMsg}${fluxMsg}`);
+      await this.actor.addSlaActivityLog?.(`${restType === "long" ? "Long" : "Short"} rest.${condMsg}${fluxMsg}`);
+      this.render(false);
+    });
+
+    // Contact add button
+    html.find('.sla-contact-add').click(async (ev) => {
+      ev.preventDefault();
+      await this._slaContactDialog(null);
+    });
+
+    // Contact edit button
+    html.find('.sla-contact-edit').click(async (ev) => {
+      ev.preventDefault();
+      const contactId = String(ev.currentTarget.dataset.contactId ?? "").trim();
+      if (!contactId) return;
+      await this._slaContactDialog(contactId);
+    });
+
+    // Contact delete button
+    html.find('.sla-contact-delete').click(async (ev) => {
+      ev.preventDefault();
+      const contactId = String(ev.currentTarget.dataset.contactId ?? "").trim();
+      if (!contactId) return;
+      const confirmed = await Dialog.confirm({
+        title: "Delete Contact",
+        content: "<p>Remove this contact from the operative's network?</p>",
+        defaultYes: false
+      });
+      if (!confirmed) return;
+      const contacts = Array.isArray(this.actor.system?.sla?.contacts) ? [...this.actor.system.sla.contacts] : [];
+      const updated = contacts.filter((c) => c.id !== contactId);
+      await this.actor.update({ "system.sla.contacts": updated });
+      this.render(false);
+    });
+
+    html.find('.sla-panic-button').click(async ev => {
+      await this.actor.rollTable("panicCheck", null, null, null, null, null, null);
+      await this.actor.addSlaActivityLog?.("Panic check triggered.");
     });
 
     html.find('.sla-wound-button').click(ev => {
@@ -1208,6 +1337,76 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
     await actor.update(updateData, {
       diff: false
     });
+  }
+
+  /**
+   * Show a dialog for adding or editing a contact
+   * @param {string|null} contactId  null = add new, string = edit existing
+   */
+  async _slaContactDialog(contactId) {
+    const contacts = Array.isArray(this.actor.system?.sla?.contacts) ? [...this.actor.system.sla.contacts] : [];
+    const existing = contactId ? contacts.find((c) => c.id === contactId) : null;
+    const isNew = !existing;
+
+    const name = existing?.name ?? "";
+    const role = existing?.role ?? "";
+    const notes = existing?.notes ?? "";
+    const disposition = existing?.disposition ?? "neutral";
+
+    const content = `
+      <div style="display:grid; gap:8px; padding:8px 0;">
+        <div>
+          <label style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">Name</label>
+          <input type="text" id="sla-contact-name" value="${name}" placeholder="Contact name" style="width:100%;" />
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">Role / Occupation</label>
+          <input type="text" id="sla-contact-role" value="${role}" placeholder="e.g. Fixer, Fence, Squad medic" style="width:100%;" />
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">Disposition</label>
+          <select id="sla-contact-disposition" style="width:100%;">
+            <option value="ally" ${disposition === "ally" ? "selected" : ""}>Ally</option>
+            <option value="neutral" ${disposition === "neutral" ? "selected" : ""}>Neutral</option>
+            <option value="hostile" ${disposition === "hostile" ? "selected" : ""}>Hostile</option>
+            <option value="unknown" ${disposition === "unknown" ? "selected" : ""}>Unknown</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">Notes</label>
+          <textarea id="sla-contact-notes" rows="3" placeholder="Sector, history, how they know the operative..." style="width:100%;">${notes}</textarea>
+        </div>
+      </div>
+    `;
+
+    const result = await Dialog.prompt({
+      title: isNew ? "Add Contact" : "Edit Contact",
+      content,
+      label: isNew ? "Add" : "Save",
+      callback: (html) => {
+        const nameVal = String(html.find("#sla-contact-name").val() ?? "").trim();
+        if (!nameVal) return null;
+        return {
+          id: existing?.id ?? foundry.utils.randomID(),
+          name: nameVal,
+          role: String(html.find("#sla-contact-role").val() ?? "").trim(),
+          disposition: String(html.find("#sla-contact-disposition").val() ?? "neutral"),
+          notes: String(html.find("#sla-contact-notes").val() ?? "").trim()
+        };
+      },
+      rejectClose: false
+    });
+
+    if (!result) return;
+
+    let updated;
+    if (isNew) {
+      updated = [...contacts, result];
+    } else {
+      updated = contacts.map((c) => c.id === contactId ? result : c);
+    }
+    await this.actor.update({ "system.sla.contacts": updated });
+    this.render(false);
   }
 
   /**

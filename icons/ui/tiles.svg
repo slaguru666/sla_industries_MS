@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 2x2 tile grid with isometric feel -->
+  <!-- Top-left tile -->
+  <rect x="2" y="2" width="13" height="13" rx="1" fill="currentColor" stroke="currentColor" stroke-width="1.5"/>
+  <!-- Top-right tile -->
+  <rect x="17" y="2" width="13" height="13" rx="1" fill="currentColor" opacity="0.5" stroke="currentColor" stroke-width="1.5"/>
+  <!-- Bottom-left tile -->
+  <rect x="2" y="17" width="13" height="13" rx="1" fill="currentColor" opacity="0.5" stroke="currentColor" stroke-width="1.5"/>
+  <!-- Bottom-right tile -->
+  <rect x="17" y="17" width="13" height="13" rx="1" fill="currentColor" stroke="currentColor" stroke-width="1.5"/>
+  <!-- Corner brackets on tiles -->
+  <path d="M4,7 L4,4 L7,4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <path d="M19,7 L19,4 L22,4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ruler body -->
+  <rect x="2" y="12" width="28" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+  <!-- Major tick marks -->
+  <line x1="9"  y1="12" x2="9"  y2="17" stroke="currentColor" stroke-width="1.5"/>
+  <line x1="16" y1="12" x2="16" y2="20" stroke="currentColor" stroke-width="2"/>
+  <line x1="23" y1="12" x2="23" y2="17" stroke="currentColor" stroke-width="1.5"/>
+  <!-- Minor ticks -->
+  <line x1="5"  y1="12" x2="5"  y2="15" stroke="currentColor" stroke-width="1"/>
+  <line x1="12" y1="12" x2="12" y2="15" stroke="currentColor" stroke-width="1"/>
+  <line x1="19" y1="12" x2="19" y2="15" stroke="currentColor" stroke-width="1"/>
+  <line x1="26" y1="12" x2="26" y2="15" stroke="currentColor" stroke-width="1"/>
+  <!-- Arrow / range indicator above -->
+  <line x1="4" y1="8" x2="28" y2="8" stroke="currentColor" stroke-width="1.5"/>
+  <polygon points="4,8 8,6 8,10" fill="currentColor"/>
+  <polygon points="28,8 24,6 24,10" fill="currentColor"/>
+</svg>

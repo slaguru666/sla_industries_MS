@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Hexagonal speech bubble -->
+  <polygon points="4,4 28,4 28,22 20,22 16,28 12,22 4,22" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill-rule="evenodd"/>
+  <!-- Signal bars inside -->
+  <rect x="8" y="14" width="3" height="5" fill="currentColor"/>
+  <rect x="13" y="11" width="3" height="8" fill="currentColor"/>
+  <rect x="18" y="8" width="3" height="11" fill="currentColor"/>
+</svg>

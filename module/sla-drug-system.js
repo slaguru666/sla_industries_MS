@@ -487,6 +487,23 @@ export class SLADrugSystem {
 
     await this.resolveExpiredEffects(actor);
 
+    // Drug stacking warning — check if any OTHER drug is already active
+    const allActiveDrugEffects = this.getActorDrugEffects(actor);
+    const otherActiveDrugs = allActiveDrugEffects.filter((effect) => {
+      const flag = this.getDrugEffectFlag(effect);
+      return flag?.stage === "active" && flag?.drugId && flag.drugId !== def.id;
+    });
+    if (otherActiveDrugs.length > 0) {
+      const activeNames = [...new Set(otherActiveDrugs.map((e) => this.getDrugEffectFlag(e)?.drugName ?? e.name))].join(", ");
+      const proceed = await Dialog.confirm({
+        title: "Drug Stacking Warning",
+        content: `<p><strong>${actor.name}</strong> already has active drug effects from: <strong>${activeNames}</strong>.</p>
+          <p>Combining drugs can cause unpredictable or lethal interactions. Do you want to proceed?</p>`,
+        defaultYes: false
+      });
+      if (!proceed) return { ok: false, reason: "stacking-cancelled" };
+    }
+
     const quantity = Math.max(0, Number(item.system?.quantity ?? 0));
     if (consume && quantity < 1) {
       ui.notifications.warn(`${actor.name} has no ${def.name} doses remaining.`);

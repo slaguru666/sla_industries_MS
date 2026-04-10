@@ -1249,3 +1249,302 @@ export function formatCreditsNumber(num) {
     return num.toString() + 'cr';
   }
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SLA Industries Pause Screen Animation
+// ─────────────────────────────────────────────────────────────────────────────
+
+function injectSlaPauseAnimation() {
+  const pauseEl = document.querySelector('#pause');
+  if (!pauseEl) return;
+
+  // Don't inject twice
+  if (pauseEl.querySelector('.sla-pause-root')) return;
+
+  // Aggressively hide ALL of Foundry's default pause content
+  // Hide every direct child that isn't our injected element
+  Array.from(pauseEl.children).forEach(child => {
+    child.style.setProperty('display', 'none', 'important');
+  });
+  // Also kill any descendant with animation or image content
+  pauseEl.querySelectorAll('figure, img, svg, h3, p, .fas, .fa-cog, canvas').forEach(el => {
+    el.style.setProperty('display', 'none', 'important');
+  });
+
+  const svgHTML = `
+  <div class="sla-pause-root" aria-label="SLA Industries – Game Paused">
+    <svg
+      class="sla-pause-svg"
+      viewBox="-120 -120 240 260"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+    >
+      <defs>
+        <!-- Red glow filter for the logo and satellites -->
+        <filter id="sla-glow-red" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3.5" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <!-- Subtle glow for rings -->
+        <filter id="sla-glow-ring" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="1.5" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <!-- Radial gradient for background disc -->
+        <radialGradient id="sla-bg-grad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1a0000" stop-opacity="0.95"/>
+          <stop offset="100%" stop-color="#000000" stop-opacity="0.0"/>
+        </radialGradient>
+        <!-- Clip for the inner content -->
+        <clipPath id="sla-clip-outer">
+          <circle cx="0" cy="0" r="108"/>
+        </clipPath>
+      </defs>
+
+      <!-- Ambient background disc -->
+      <circle cx="0" cy="0" r="108" fill="url(#sla-bg-grad)"/>
+
+      <!-- ── Outer ring (clockwise) ── -->
+      <g class="sla-ring-outer">
+        <!-- Dashed orbit path -->
+        <circle cx="0" cy="0" r="90"
+          fill="none"
+          stroke="#8b1a1a"
+          stroke-width="0.8"
+          stroke-dasharray="6 4"
+          opacity="0.7"
+          filter="url(#sla-glow-ring)"
+        />
+        <!-- 3 red satellite dots at 0°, 120°, 240° -->
+        <circle cx="0"  cy="-90" r="5" fill="#cc2222" filter="url(#sla-glow-red)" class="sla-sat"/>
+        <circle cx="77.9" cy="45" r="5" fill="#cc2222" filter="url(#sla-glow-red)" class="sla-sat"/>
+        <circle cx="-77.9" cy="45" r="5" fill="#cc2222" filter="url(#sla-glow-red)" class="sla-sat"/>
+        <!-- Thin tick marks every 30° on outer ring -->
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(0)"/>
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(30)"/>
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(60)"/>
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(90)"/>
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(120)"/>
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(150)"/>
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(180)"/>
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(210)"/>
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(240)"/>
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(270)"/>
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(300)"/>
+        <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(330)"/>
+      </g>
+
+      <!-- ── Inner ring (counter-clockwise) ── -->
+      <g class="sla-ring-inner">
+        <circle cx="0" cy="0" r="62"
+          fill="none"
+          stroke="#6b1010"
+          stroke-width="0.6"
+          stroke-dasharray="4 6"
+          opacity="0.6"
+          filter="url(#sla-glow-ring)"
+        />
+        <!-- 3 smaller orange-red dots at 60°, 180°, 300° offset for variety -->
+        <circle cx="53.7"  cy="-31" r="3.5" fill="#dd4422" filter="url(#sla-glow-red)" class="sla-sat-inner"/>
+        <circle cx="-53.7" cy="-31" r="3.5" fill="#dd4422" filter="url(#sla-glow-red)" class="sla-sat-inner"/>
+        <circle cx="0"     cy="62"  r="3.5" fill="#dd4422" filter="url(#sla-glow-red)" class="sla-sat-inner"/>
+      </g>
+
+      <!-- ── Central "SLA" logotype ── -->
+      <g filter="url(#sla-glow-red)">
+        <!-- Hexagonal backing plate -->
+        <polygon
+          points="0,-38 33,-19 33,19 0,38 -33,19 -33,-19"
+          fill="#1a0000"
+          stroke="#cc2222"
+          stroke-width="1.2"
+          opacity="0.9"
+        />
+        <!-- SLA text -->
+        <text
+          x="0" y="14"
+          text-anchor="middle"
+          font-family="'Oswald', 'Impact', 'Arial Narrow', sans-serif"
+          font-size="38"
+          font-weight="700"
+          letter-spacing="3"
+          fill="#ff2222"
+          class="sla-pause-logo-text"
+        >SLA</text>
+      </g>
+
+      <!-- ── Thin separator lines ── -->
+      <line x1="-70" y1="48" x2="70" y2="48" stroke="#8b1a1a" stroke-width="0.5" opacity="0.7"/>
+
+      <!-- ── "STAND BY" label ── -->
+      <text
+        x="0" y="70"
+        text-anchor="middle"
+        font-family="'Oswald', 'Courier New', monospace"
+        font-size="13"
+        font-weight="400"
+        letter-spacing="5"
+        fill="#cc4444"
+        class="sla-pause-standby"
+      >STAND BY</text>
+
+      <!-- ── "SLA INDUSTRIES" footer text ── -->
+      <text
+        x="0" y="95"
+        text-anchor="middle"
+        font-family="'Oswald', 'Arial Narrow', sans-serif"
+        font-size="7"
+        font-weight="300"
+        letter-spacing="3"
+        fill="#661111"
+        opacity="0.85"
+      >SLA INDUSTRIES</text>
+
+      <!-- ── Scanning line sweep ── -->
+      <line
+        x1="0" y1="-90" x2="0" y2="0"
+        stroke="#ff2222"
+        stroke-width="0.8"
+        opacity="0.18"
+        class="sla-pause-scan"
+      />
+    </svg>
+  </div>`;
+
+  // Inject directly into the pause element (not into figure, which we hid)
+  pauseEl.insertAdjacentHTML('beforeend', svgHTML);
+}
+
+Hooks.once('ready', () => {
+  // Inject if game is already paused on load
+  if (game.paused) injectSlaPauseAnimation();
+});
+
+// Use the pauseGame hook exclusively — don't use a MutationObserver
+// which could fight Foundry's own show/hide logic on the #pause element.
+Hooks.on('pauseGame', (paused) => {
+  if (paused) {
+    // Two-frame delay — Foundry renders the pause figure asynchronously
+    requestAnimationFrame(() => requestAnimationFrame(() => injectSlaPauseAnimation()));
+  } else {
+    // On unpause: remove our injected content so it can be re-injected cleanly next time
+    const slaRoot = document.querySelector('#pause .sla-pause-root');
+    if (slaRoot) slaRoot.remove();
+    // Restore Foundry's original pause children (they were hidden inline, unhide them)
+    const pauseEl = document.querySelector('#pause');
+    if (pauseEl) {
+      pauseEl.querySelectorAll(':scope > *:not(.sla-pause-root)').forEach(child => {
+        child.style.removeProperty('display');
+      });
+    }
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SLA Industries — UI Icon Injection
+// Replaces Foundry's Font Awesome icons in the sidebar and scene controls
+// by walking the live DOM and applying inline CSS mask-image styles.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const SLA_ICON_BASE = "systems/sla-mothership/icons/ui/";
+
+const SLA_SIDEBAR_ICONS = {
+  chat:       "chat",
+  combat:     "combat",
+  scenes:     "scenes",
+  actors:     "actors",
+  items:      "items",
+  journal:    "journal",
+  tables:     "tables",
+  playlists:  "playlists",
+  compendium: "compendium",
+  settings:   "settings",
+};
+
+const SLA_CONTROL_ICONS = {
+  token:    "token",
+  measure:  "measure",
+  tiles:    "tiles",
+  drawings: "drawings",
+  walls:    "walls",
+  lighting: "lighting",
+  sounds:   "sounds",
+  notes:    "notes",
+};
+
+function _slaApplyIconMask(el, iconFile) {
+  const url = `${SLA_ICON_BASE}${iconFile}.svg`;
+  // Measure font size BEFORE zeroing it — FA icons scale with font-size
+  const fs = parseFloat(getComputedStyle(el).fontSize) || 18;
+  const sz = Math.round(fs * 1.15) + "px";
+
+  // font-size:0  → collapses the ::before FA glyph to nothing
+  // currentColor → inherits the button's text colour (white/grey/active from Foundry)
+  // mask         → cuts that fill into our SVG shape
+  el.style.setProperty("font-size",        "0",                                       "important");
+  el.style.setProperty("line-height",      "0",                                       "important");
+  el.style.setProperty("width",            sz,                                        "important");
+  el.style.setProperty("height",           sz,                                        "important");
+  el.style.setProperty("display",          "inline-flex",                             "important");
+  el.style.setProperty("align-items",      "center",                                  "important");
+  el.style.setProperty("justify-content",  "center",                                  "important");
+  el.style.setProperty("background-color", "currentColor",                            "important");
+  el.style.setProperty("-webkit-mask",     `url('${url}') center/contain no-repeat`,  "important");
+  el.style.setProperty("mask",             `url('${url}') center/contain no-repeat`,  "important");
+  el.setAttribute("data-sla-icon", iconFile);
+}
+
+function injectSlaIcons() {
+  let found = 0;
+
+  // ── Sidebar tab icons ─────────────────────────────────────────────────
+  // Foundry v13 confirmed structure:
+  //   <button class="ui-control plain icon fa-solid fa-comments" data-tab="chat" ...>
+  // The BUTTON itself is the icon — no child <i> element.
+  document.querySelectorAll(
+    "#sidebar-tabs button[data-tab], #sidebar-tabs [data-tab].icon"
+  ).forEach(btn => {
+    const name = btn.dataset.tab;
+    const file = SLA_SIDEBAR_ICONS[name];
+    if (!file || btn.hasAttribute("data-sla-icon")) return;
+    _slaApplyIconMask(btn, file);
+    found++;
+  });
+
+  // ── Scene / layer control icons ───────────────────────────────────────
+  // Foundry v13 scene controls are also buttons — search the whole doc
+  // since we don't yet know the container ID.
+  document.querySelectorAll(
+    "button[data-control], [data-control].icon, [data-control].ui-control"
+  ).forEach(btn => {
+    const name = btn.dataset.control;
+    const file = SLA_CONTROL_ICONS[name];
+    if (!file || btn.hasAttribute("data-sla-icon")) return;
+    _slaApplyIconMask(btn, file);
+    found++;
+  });
+
+  if (found > 0) {
+    console.log(`SLA Industries | Applied ${found} custom icons.`);
+  } else {
+    console.warn("SLA Industries | injectSlaIcons: no icons matched — dumping HTML:");
+    console.warn("sidebar:", document.querySelector("#sidebar-tabs")?.outerHTML?.slice(0, 1200));
+    const ctrlDump = document.querySelector("#ui-left, #scene-controls, #controls");
+    console.warn("controls:", ctrlDump?.outerHTML?.slice(0, 1200) ?? "(not found — try: " + [...document.querySelectorAll("[data-control]")].map(e=>e.tagName+'.'+e.className).join(', ') + ")");
+  }
+}
+
+// Run once on ready, then re-run whenever Foundry re-renders these components
+Hooks.once("ready", () => {
+  requestAnimationFrame(() => requestAnimationFrame(() => injectSlaIcons()));
+});
+Hooks.on("renderSidebar",       () => requestAnimationFrame(() => injectSlaIcons()));
+Hooks.on("renderSidebarTab",    () => requestAnimationFrame(() => injectSlaIcons()));
+Hooks.on("changeSidebarTab",    () => requestAnimationFrame(() => injectSlaIcons()));
+Hooks.on("renderSceneControls", () => requestAnimationFrame(() => injectSlaIcons()));

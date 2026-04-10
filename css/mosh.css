@@ -4483,3 +4483,931 @@ p {
   background: #1a120c;
   border: 1px solid #8a5a31;
 }
+
+/* ============================================================
+   SLA PASS 4 — SCL Controls, Session Tracking, Contacts, Rest
+   ============================================================ */
+
+/* SCL fractional control */
+.sla-scl-control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sla-scl-input {
+  width: 100%;
+}
+
+.sla-scl-buttons {
+  display: flex;
+  gap: 3px;
+}
+
+.sla-scl-buttons .sla-scl-adjust {
+  flex: 1;
+  padding: 2px 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border: 1px solid rgba(170, 2, 0, 0.4);
+  background: rgba(170, 2, 0, 0.12);
+  color: #cc3333;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.15s;
+  line-height: 1.4;
+}
+
+.sla-scl-buttons .sla-scl-adjust:hover {
+  background: rgba(170, 2, 0, 0.28);
+  color: #f0f0f0;
+}
+
+/* Trauma Response / Session Ability Tracking */
+.sla-trauma-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.sla-session-ability-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sla-session-ability-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: #aaa;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sla-session-ability-label input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+.sla-session-ability-label span {
+  white-space: nowrap;
+}
+
+.sla-new-session {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border: 1px solid rgba(170, 2, 0, 0.4);
+  background: rgba(170, 2, 0, 0.12);
+  color: #cc3333;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.sla-new-session:hover {
+  background: rgba(170, 2, 0, 0.28);
+  color: #f0f0f0;
+}
+
+/* Rest button — in save-action-strip */
+.sla-rest-button {
+  /* inherits .sla-sheet-action but add a distinct colour */
+  background: rgba(40, 90, 150, 0.18) !important;
+  border-color: rgba(60, 120, 200, 0.45) !important;
+  color: #7ab8f5 !important;
+}
+
+.sla-rest-button:hover {
+  background: rgba(40, 90, 150, 0.36) !important;
+  color: #d8eaff !important;
+}
+
+/* Contacts Tab */
+.sla-contacts-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.sla-contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sla-contact-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.sla-contact-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sla-contact-disposition {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sla-contact-disposition-ally {
+  background: #4eb765;
+  box-shadow: 0 0 6px rgba(78, 183, 101, 0.5);
+}
+
+.sla-contact-disposition-neutral {
+  background: #aaa;
+}
+
+.sla-contact-disposition-hostile {
+  background: #cc5050;
+  box-shadow: 0 0 6px rgba(204, 80, 80, 0.5);
+}
+
+.sla-contact-disposition-unknown {
+  background: #777;
+  border: 1px dashed #aaa;
+}
+
+.sla-contact-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #f0f0f0;
+  flex: 1;
+}
+
+.sla-contact-role {
+  font-size: 0.78rem;
+  color: #999;
+  font-style: italic;
+  flex: 1;
+}
+
+.sla-contact-controls {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.sla-contact-controls button {
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 2px 4px;
+  font-size: 0.8rem;
+  transition: color 0.15s;
+}
+
+.sla-contact-controls button:hover {
+  color: #f0f0f0;
+}
+
+.sla-contact-controls .sla-contact-delete:hover {
+  color: #cc5050;
+}
+
+.sla-contact-notes {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #bbb;
+  line-height: 1.5;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 6px;
+}
+
+/* LAD + Rest button row in header */
+.sla-lad-rest-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sla-header-rest-button {
+  font-size: 0.72rem !important;
+  padding: 2px 9px !important;
+  border-radius: 3px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  line-height: 1.5 !important;
+}
+
+/* ============================================================
+   SLA — Header grid: LAD · Credits · SCL · Height · Weight · Rest
+   ============================================================ */
+
+/* 8-column grid — col 8 holds the Rest button at the far right */
+.mosh .headergrid {
+  grid-template-columns: 1.1fr 1.3fr 0.85fr 0.85fr 0.85fr 0.85fr 0.85fr 0.9fr !important;
+}
+
+/* Row 2: Name (1-4), Class (5-6), Race (7-8) */
+.mosh .headernamegrid,
+.mosh .header-field-name {
+  grid-column: 1 / span 4 !important;
+  grid-row: 2;
+}
+.mosh .header-field-class {
+  grid-column: 5 / span 2 !important;
+  grid-row: 2;
+}
+.mosh .header-field-race {
+  grid-column: 7 / span 2 !important;
+  grid-row: 2;
+}
+
+/* Row 3: LAD (1) · Credits (2) · SCL (3) · Height (4) · Weight (5) · Rest (6-8) */
+.mosh .header-field-lad {
+  grid-column: 1 !important;
+  grid-row: 3;
+  align-self: start;
+}
+.mosh .header-field-credits {
+  grid-column: 2 !important;
+  grid-row: 3;
+}
+.mosh .header-field-sla-rank {
+  grid-column: 3 !important;
+  grid-row: 3;
+}
+.mosh .header-field-height {
+  grid-column: 4 !important;
+  grid-row: 3;
+}
+.mosh .header-field-weight {
+  grid-column: 5 !important;
+  grid-row: 3;
+}
+.mosh .header-field-rest {
+  grid-column: 6 / span 3 !important;
+  grid-row: 3;
+  align-self: end;
+}
+
+/* Rest header pill — blue rounded, matching Wound/Panic shape */
+.mosh .sla-header-rest-pill {
+  background: linear-gradient(180deg, #3a8fd1, #1a5fa0) !important;
+  color: #e8f4ff !important;
+  border-color: rgba(100, 180, 255, 0.3) !important;
+  min-width: 0 !important;
+  width: 100%;
+  padding: 6px 10px !important;
+  font-size: 0.82rem !important;
+}
+.mosh .sla-header-rest-pill:hover {
+  background: linear-gradient(180deg, #4ea8f0, #2472bc) !important;
+  box-shadow: 0 0 12px rgba(60, 140, 255, 0.4) !important;
+  color: #fff !important;
+}
+
+/* Dossier sheet overrides */
+.mosh.sla-dossier-sheet .header-field-lad {
+  grid-column: 1 !important;
+}
+.mosh.sla-dossier-sheet .header-field-credits {
+  grid-column: 2 !important;
+}
+.mosh.sla-dossier-sheet .header-field-rest {
+  grid-column: 6 / span 3 !important;
+}
+
+/* ============================================================
+   Portrait — static neon blue border (no animation)
+   ============================================================ */
+.mosh .sla-portrait-static {
+  outline: 2px solid #3a9fd6;
+  outline-offset: 2px;
+  box-shadow: 0 0 8px 2px rgba(58, 159, 214, 0.55);
+  border-radius: 6px;
+}
+
+/* ============================================================
+   Activity log textarea
+   ============================================================ */
+.sla-activity-log-textarea {
+  font-family: 'Roboto Mono', 'Courier New', monospace !important;
+  font-size: 0.75rem !important;
+  line-height: 1.55 !important;
+  overflow-y: auto !important;
+  resize: vertical !important;
+}
+
+/* ============================================================
+   SLA Industries Pause Screen Animation
+   ============================================================ */
+
+/* Make the pause overlay a centered flex column — only when visible.
+   Do NOT set display here globally: Foundry controls show/hide via
+   its own display:none and we must not override that with !important. */
+#pause:not([hidden]):not(.hidden) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Nuke all of Foundry's default pause children */
+#pause > *:not(.sla-pause-root) {
+  display: none !important;
+}
+#pause figure,
+#pause h3,
+#pause img,
+#pause canvas,
+#pause figure *,
+#pause .fas,
+#pause .fa-cog {
+  display: none !important;
+}
+
+/* Root container for the injected SVG — full centered column */
+.sla-pause-root {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+/* Main SVG — large and prominent */
+.sla-pause-svg {
+  width: min(360px, 60vw) !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* ── Outer ring: rotates clockwise ── */
+.sla-ring-outer {
+  transform-origin: 0px 0px;
+  animation: sla-spin-cw 12s linear infinite;
+}
+
+/* ── Inner ring: rotates counter-clockwise ── */
+.sla-ring-inner {
+  transform-origin: 0px 0px;
+  animation: sla-spin-ccw 8s linear infinite;
+}
+
+/* ── Scan line: sweeps clockwise like a radar ── */
+.sla-pause-scan {
+  transform-origin: 0px 0px;
+  animation: sla-spin-cw 4s linear infinite;
+}
+
+/* ── Logo pulse ── */
+.sla-pause-logo-text {
+  animation: sla-logo-pulse 3s ease-in-out infinite;
+}
+
+/* ── "STAND BY" blinking ── */
+.sla-pause-standby {
+  animation: sla-standby-blink 1.8s step-start infinite;
+}
+
+/* ─── Keyframes ─────────────────────────────────────────── */
+
+@keyframes sla-spin-cw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes sla-spin-ccw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+@keyframes sla-logo-pulse {
+  0%, 100% { fill: #ff2222; filter: drop-shadow(0 0 4px #ff2222); }
+  50%       { fill: #ff5555; filter: drop-shadow(0 0 10px #ff4444); }
+}
+
+@keyframes sla-standby-blink {
+  0%, 60% { opacity: 1; }
+  61%, 100% { opacity: 0; }
+}
+/* ============================================================
+   SLA Industries — Custom UI Icon Set  (v2 — scoped selectors)
+   Replaces Foundry's Font Awesome icons via CSS mask-image
+   ============================================================ */
+
+/* ── Sidebar Tabs ─────────────────────────────────────────── */
+
+/* chat — chat */
+#sidebar-tabs [data-tab="chat"] i,
+#sidebar-tabs a[data-tab="chat"] i,
+nav#sidebar-tabs [data-tab="chat"] i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#sidebar-tabs [data-tab="chat"] i::before,
+#sidebar-tabs a[data-tab="chat"] i::before,
+nav#sidebar-tabs [data-tab="chat"] i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/chat.svg') !important;
+  mask-image: url('../icons/ui/chat.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* combat — combat */
+#sidebar-tabs [data-tab="combat"] i,
+#sidebar-tabs a[data-tab="combat"] i,
+nav#sidebar-tabs [data-tab="combat"] i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#sidebar-tabs [data-tab="combat"] i::before,
+#sidebar-tabs a[data-tab="combat"] i::before,
+nav#sidebar-tabs [data-tab="combat"] i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/combat.svg') !important;
+  mask-image: url('../icons/ui/combat.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* scenes — scenes */
+#sidebar-tabs [data-tab="scenes"] i,
+#sidebar-tabs a[data-tab="scenes"] i,
+nav#sidebar-tabs [data-tab="scenes"] i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#sidebar-tabs [data-tab="scenes"] i::before,
+#sidebar-tabs a[data-tab="scenes"] i::before,
+nav#sidebar-tabs [data-tab="scenes"] i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/scenes.svg') !important;
+  mask-image: url('../icons/ui/scenes.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* actors — actors */
+#sidebar-tabs [data-tab="actors"] i,
+#sidebar-tabs a[data-tab="actors"] i,
+nav#sidebar-tabs [data-tab="actors"] i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#sidebar-tabs [data-tab="actors"] i::before,
+#sidebar-tabs a[data-tab="actors"] i::before,
+nav#sidebar-tabs [data-tab="actors"] i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/actors.svg') !important;
+  mask-image: url('../icons/ui/actors.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* items — items */
+#sidebar-tabs [data-tab="items"] i,
+#sidebar-tabs a[data-tab="items"] i,
+nav#sidebar-tabs [data-tab="items"] i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#sidebar-tabs [data-tab="items"] i::before,
+#sidebar-tabs a[data-tab="items"] i::before,
+nav#sidebar-tabs [data-tab="items"] i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/items.svg') !important;
+  mask-image: url('../icons/ui/items.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* journal — journal */
+#sidebar-tabs [data-tab="journal"] i,
+#sidebar-tabs a[data-tab="journal"] i,
+nav#sidebar-tabs [data-tab="journal"] i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#sidebar-tabs [data-tab="journal"] i::before,
+#sidebar-tabs a[data-tab="journal"] i::before,
+nav#sidebar-tabs [data-tab="journal"] i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/journal.svg') !important;
+  mask-image: url('../icons/ui/journal.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* tables — tables */
+#sidebar-tabs [data-tab="tables"] i,
+#sidebar-tabs a[data-tab="tables"] i,
+nav#sidebar-tabs [data-tab="tables"] i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#sidebar-tabs [data-tab="tables"] i::before,
+#sidebar-tabs a[data-tab="tables"] i::before,
+nav#sidebar-tabs [data-tab="tables"] i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/tables.svg') !important;
+  mask-image: url('../icons/ui/tables.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* playlists — playlists */
+#sidebar-tabs [data-tab="playlists"] i,
+#sidebar-tabs a[data-tab="playlists"] i,
+nav#sidebar-tabs [data-tab="playlists"] i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#sidebar-tabs [data-tab="playlists"] i::before,
+#sidebar-tabs a[data-tab="playlists"] i::before,
+nav#sidebar-tabs [data-tab="playlists"] i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/playlists.svg') !important;
+  mask-image: url('../icons/ui/playlists.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* compendium — compendium */
+#sidebar-tabs [data-tab="compendium"] i,
+#sidebar-tabs a[data-tab="compendium"] i,
+nav#sidebar-tabs [data-tab="compendium"] i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#sidebar-tabs [data-tab="compendium"] i::before,
+#sidebar-tabs a[data-tab="compendium"] i::before,
+nav#sidebar-tabs [data-tab="compendium"] i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/compendium.svg') !important;
+  mask-image: url('../icons/ui/compendium.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* settings — settings */
+#sidebar-tabs [data-tab="settings"] i,
+#sidebar-tabs a[data-tab="settings"] i,
+nav#sidebar-tabs [data-tab="settings"] i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#sidebar-tabs [data-tab="settings"] i::before,
+#sidebar-tabs a[data-tab="settings"] i::before,
+nav#sidebar-tabs [data-tab="settings"] i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/settings.svg') !important;
+  mask-image: url('../icons/ui/settings.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* ── Scene Controls (left toolbar) ────────────────────────── */
+
+/* token — token */
+#controls [data-control="token"] > i,
+#controls li[data-control="token"] > i,
+#controls .scene-control[data-control="token"] > i,
+ol#controls [data-control="token"] > i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#controls [data-control="token"] > i::before,
+#controls li[data-control="token"] > i::before,
+#controls .scene-control[data-control="token"] > i::before,
+ol#controls [data-control="token"] > i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/token.svg') !important;
+  mask-image: url('../icons/ui/token.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* measure — measure */
+#controls [data-control="measure"] > i,
+#controls li[data-control="measure"] > i,
+#controls .scene-control[data-control="measure"] > i,
+ol#controls [data-control="measure"] > i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#controls [data-control="measure"] > i::before,
+#controls li[data-control="measure"] > i::before,
+#controls .scene-control[data-control="measure"] > i::before,
+ol#controls [data-control="measure"] > i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/measure.svg') !important;
+  mask-image: url('../icons/ui/measure.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* tiles — tiles */
+#controls [data-control="tiles"] > i,
+#controls li[data-control="tiles"] > i,
+#controls .scene-control[data-control="tiles"] > i,
+ol#controls [data-control="tiles"] > i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#controls [data-control="tiles"] > i::before,
+#controls li[data-control="tiles"] > i::before,
+#controls .scene-control[data-control="tiles"] > i::before,
+ol#controls [data-control="tiles"] > i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/tiles.svg') !important;
+  mask-image: url('../icons/ui/tiles.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* drawings — drawings */
+#controls [data-control="drawings"] > i,
+#controls li[data-control="drawings"] > i,
+#controls .scene-control[data-control="drawings"] > i,
+ol#controls [data-control="drawings"] > i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#controls [data-control="drawings"] > i::before,
+#controls li[data-control="drawings"] > i::before,
+#controls .scene-control[data-control="drawings"] > i::before,
+ol#controls [data-control="drawings"] > i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/drawings.svg') !important;
+  mask-image: url('../icons/ui/drawings.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* walls — walls */
+#controls [data-control="walls"] > i,
+#controls li[data-control="walls"] > i,
+#controls .scene-control[data-control="walls"] > i,
+ol#controls [data-control="walls"] > i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#controls [data-control="walls"] > i::before,
+#controls li[data-control="walls"] > i::before,
+#controls .scene-control[data-control="walls"] > i::before,
+ol#controls [data-control="walls"] > i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/walls.svg') !important;
+  mask-image: url('../icons/ui/walls.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* lighting — lighting */
+#controls [data-control="lighting"] > i,
+#controls li[data-control="lighting"] > i,
+#controls .scene-control[data-control="lighting"] > i,
+ol#controls [data-control="lighting"] > i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#controls [data-control="lighting"] > i::before,
+#controls li[data-control="lighting"] > i::before,
+#controls .scene-control[data-control="lighting"] > i::before,
+ol#controls [data-control="lighting"] > i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/lighting.svg') !important;
+  mask-image: url('../icons/ui/lighting.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* sounds — sounds */
+#controls [data-control="sounds"] > i,
+#controls li[data-control="sounds"] > i,
+#controls .scene-control[data-control="sounds"] > i,
+ol#controls [data-control="sounds"] > i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#controls [data-control="sounds"] > i::before,
+#controls li[data-control="sounds"] > i::before,
+#controls .scene-control[data-control="sounds"] > i::before,
+ol#controls [data-control="sounds"] > i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/sounds.svg') !important;
+  mask-image: url('../icons/ui/sounds.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* notes — notes */
+#controls [data-control="notes"] > i,
+#controls li[data-control="notes"] > i,
+#controls .scene-control[data-control="notes"] > i,
+ol#controls [data-control="notes"] > i {
+  display: inline-block !important;
+  position: relative !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+  vertical-align: middle !important;
+}
+#controls [data-control="notes"] > i::before,
+#controls li[data-control="notes"] > i::before,
+#controls .scene-control[data-control="notes"] > i::before,
+ol#controls [data-control="notes"] > i::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url('../icons/ui/notes.svg') !important;
+  mask-image: url('../icons/ui/notes.svg') !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}

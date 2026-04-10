@@ -497,11 +497,44 @@ export class MothershipActor extends Actor {
   }
 
   async useSlaDrug(itemId) {
-    return SLADrugSystem.useDrug({ actor: this, itemId });
+    const result = await SLADrugSystem.useDrug({ actor: this, itemId });
+    if (result?.ok !== false) {
+      const item = this.items.get(itemId);
+      if (item) await this.addSlaActivityLog(`Drug used: ${item.name}.`);
+    }
+    return result;
   }
 
   async closeSlaDrug(itemId = "", drug = "") {
-    return SLADrugSystem.closeDrug({ actor: this, itemId, drug });
+    const result = await SLADrugSystem.closeDrug({ actor: this, itemId, drug });
+    if (result?.ok !== false) {
+      const drugName = drug || (itemId ? (this.items.get(itemId)?.name ?? "Unknown drug") : "Unknown drug");
+      await this.addSlaActivityLog(`Drug effect ended: ${drugName}.`);
+    }
+    return result;
+  }
+
+  /**
+   * Append a timestamped line to the operative's activity log.
+   * Keeps newest entries at the top and trims to ~10 KB.
+   */
+  async addSlaActivityLog(entry) {
+    try {
+      const now = new Date();
+      const ts = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+      const line = `[${ts}] ${entry}`;
+      const current = String(this.system?.sla?.activityLog?.value ?? "");
+      const combined = current ? `${line}\n${current}` : line;
+      // Trim oldest lines until under 10 KB
+      const MAX = 10240;
+      if (combined.length > MAX) {
+        const lines = combined.split("\n");
+        while (lines.join("\n").length > MAX && lines.length > 1) lines.pop();
+        await this.update({ "system.sla.activityLog.value": lines.join("\n") });
+      } else {
+        await this.update({ "system.sla.activityLog.value": combined });
+      }
+    } catch (_) { /* log failures are non-fatal */ }
   }
 
   //central flavor text library for all chat messages
@@ -3007,6 +3040,18 @@ export class MothershipActor extends Actor {
         await this.rollTable("panicCheck", null, null, null, null, null, null);
       }
     }
+    // Activity log
+    if (this.type === "character" && specialRoll !== "damage") {
+      try {
+        const rollLabel = skill && skill !== "none" ? skill : (attribute ? String(attribute).charAt(0).toUpperCase() + String(attribute).slice(1) : "Roll");
+        const resultNum = Number(parsedRollResult?.total ?? 0);
+        const outcome = parsedRollResult?.success
+          ? (parsedRollResult.critical ? "Critical success" : "Pass")
+          : (parsedRollResult?.critical ? "Critical failure" : "Fail");
+        const critTag = parsedRollResult?.critical ? " ★" : "";
+        await this.addSlaActivityLog(`${rollLabel}: rolled ${resultNum} vs ${rollTarget} — ${outcome}${critTag}`);
+      } catch (_) {}
+    }
     return [messageData];
   }
 
@@ -5299,6 +5344,8 @@ export class MothershipActor extends Actor {
     if (shouldPanic) {
       await this.rollTable("panicCheck", null, null, null, null, null, null);
     }
+    const saveOutcome = saveResult ? (saveResult.success ? "Pass" : "Fail") : "n/a";
+    await this.addSlaActivityLog(`Flux ${forcePanic ? "Panic forced" : "Save"} — Fear save ${saveOutcome}. Flux ${this.system?.sla?.flux?.value ?? 0}/${this.system?.sla?.flux?.max ?? 0}.${shouldPanic ? " Panic triggered." : ""}`);
     return { saveResult, state, panicTriggered: shouldPanic };
   }
 

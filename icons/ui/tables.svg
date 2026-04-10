@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Outer frame -->
+  <rect x="2" y="3" width="28" height="26" fill="none" stroke="currentColor" stroke-width="2" rx="1"/>
+  <!-- Header row -->
+  <rect x="2" y="3" width="28" height="6" fill="currentColor" rx="1"/>
+  <!-- Row dividers -->
+  <line x1="2" y1="15" x2="30" y2="15" stroke="currentColor" stroke-width="1"/>
+  <line x1="2" y1="21" x2="30" y2="21" stroke="currentColor" stroke-width="1"/>
+  <!-- Column dividers -->
+  <line x1="10" y1="9" x2="10" y2="29" stroke="currentColor" stroke-width="1"/>
+  <line x1="21" y1="9" x2="21" y2="29" stroke="currentColor" stroke-width="1"/>
+  <!-- Die symbol in first col -->
+  <rect x="4" y="11" width="4" height="4" rx="0.5" fill="none" stroke="currentColor" stroke-width="1"/>
+  <circle cx="6" cy="13" r="0.8" fill="currentColor"/>
+</svg>

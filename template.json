@@ -227,6 +227,11 @@
         },
         "morphNotes": {
           "value": ""
+        },
+        "sessionAbilityUsed": false,
+        "contacts": [],
+        "activityLog": {
+          "value": ""
         }
       }
     },

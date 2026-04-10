@@ -12,7 +12,7 @@
           from 1 to 12 and will create that number of columns.  --}}
 
       <div class="header">
-        <img class="profile" src="{{img}}" data-edit="img" title="{{name}}" height="150"
+        <img class="profile sla-portrait-static" src="{{img}}" data-edit="img" title="{{name}}" height="150"
           width="150" />
 
         <div class="headergrid">
@@ -29,7 +29,7 @@
             <div class="headerinputtext">L.A.D.</div>
             <label class="sla-header-checkbox" title="Life After Death">
               <input type="checkbox" name="system.sla.lad" data-dtype="Boolean" {{checked system.sla.lad}} />
-              <span>Life After Death</span>
+              <span>L.A.D.</span>
             </label>
           </div>
           <div class="header-field header-field-credits">
@@ -52,21 +52,25 @@
                 value="{{system.rank.value}}" placeholder="" /></div>
           </div>
 
-          <div class="header-field header-field-sla-rank header-field-compact">
-            <div class="headerinputtext">SLA Rank</div>
+          <div class="header-field header-field-sla-rank">
+            <div class="headerinputtext">S.C.L</div>
             <div class="headerinputfield sla-header-input charname"><input name="system.attributes.level.value" class="noborder"
                 type="text" value="{{system.attributes.level.value}}" placeholder="" /></div>
           </div>
 
-          <div class="header-field header-field-height header-field-compact">
+          <div class="header-field header-field-height">
             <div class="headerinputtext">Height</div>
             <div class="headerinputfield sla-header-input charname"><input name="system.sla.height.value" class="noborder" type="text"
                 value="{{system.sla.height.value}}" placeholder="" /></div>
           </div>
-          <div class="header-field header-field-weight header-field-compact">
+          <div class="header-field header-field-weight">
             <div class="headerinputtext">Weight</div>
             <div class="headerinputfield sla-header-input charname"><input name="system.sla.weightText.value" class="noborder" type="text"
                 value="{{system.sla.weightText.value}}" placeholder="" /></div>
+          </div>
+          <div class="header-field header-field-rest">
+            <div class="headerinputtext">&nbsp;</div>
+            <button type="button" class="sla-sheet-action sla-rest-button sla-header-rest-pill" title="Take a short or long rest">Rest</button>
           </div>
 
         </div>
@@ -203,7 +207,16 @@
           {{/if}}
           <!-- Trauma Response -->
           <div class="" style="margin-left: 6px; margin-right: 0px; flex: 0; grid-column-start: 1; grid-column-end: 3;">
-            <div class="resource-label sla-stat-heading sla-trauma-heading">{{ localize 'Mosh.TraumaResponse' }}</div>
+            <div class="sla-trauma-header-row">
+              <div class="resource-label sla-stat-heading sla-trauma-heading">{{ localize 'Mosh.TraumaResponse' }}</div>
+              <div class="sla-session-ability-row">
+                <label class="sla-session-ability-label" title="Check when the session trauma ability has been used">
+                  <input type="checkbox" class="sla-session-ability-used" {{#if system.sla.sessionAbilityUsed}}checked{{/if}} />
+                  <span>Session ability used</span>
+                </label>
+                <button type="button" class="sla-new-session" title="Start a new session — resets session ability">New Session</button>
+              </div>
+            </div>
             <textarea name="system.other.stressdesc.value" rows="4" class="textarea-input trauma-response-box" type="text"
               data-target="system.other.stressdesc.value" placeholder="Trauma response">{{system.other.stressdesc.value}}</textarea>
           </div>
@@ -382,12 +395,55 @@
     <a class="tab-select" data-tab="special-rules">Special Rules</a>
     {{#if isEbbUser}}<a class="tab-select" data-tab="ebb">Ebb</a>{{/if}}
     {{#if isVevaphon}}<a class="tab-select" data-tab="morph">Morph</a>{{/if}}
+    <a class="tab-select" data-tab="contacts">Contacts</a>
     <a class="tab-select" data-tab="description">{{ localize 'Mosh.Bio' }}</a>
     <a class="tab-select" data-tab="notes">{{ localize 'Mosh.Notes' }}</a>
   </nav>
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
+
+    {{!-- Contacts Tab --}}
+    <div class="tab items" data-group="primary" data-tab="contacts">
+      <div class="sla-panel">
+        <div class="sla-banner">
+          <div>
+            <div class="sla-kicker">Operative Network</div>
+            <div class="sla-title">Contacts & Associates</div>
+          </div>
+          <div class="sla-tags">
+            <span class="sla-tag">{{slaContactCount}} contact{{#unless (compare 'int' slaContactCount '===' 1)}}s{{/unless}}</span>
+          </div>
+        </div>
+
+        <div class="sla-contacts-toolbar">
+          <button type="button" class="sla-sheet-action sla-contact-add"><i class="fas fa-plus"></i> Add Contact</button>
+        </div>
+
+        {{#if slaContacts.length}}
+        <div class="sla-contacts-list">
+          {{#each slaContacts as |contact|}}
+          <div class="sla-contact-card" data-contact-id="{{contact.id}}">
+            <div class="sla-contact-header">
+              <div class="sla-contact-disposition sla-contact-disposition-{{contact.disposition}}"></div>
+              <div class="sla-contact-name">{{contact.name}}</div>
+              <div class="sla-contact-role">{{contact.role}}</div>
+              <div class="sla-contact-controls">
+                <button type="button" class="sla-contact-edit" data-contact-id="{{contact.id}}" title="Edit contact"><i class="fas fa-edit"></i></button>
+                <button type="button" class="sla-contact-delete" data-contact-id="{{contact.id}}" title="Delete contact"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+            {{#if contact.notes}}
+            <div class="sla-contact-notes">{{contact.notes}}</div>
+            {{/if}}
+          </div>
+          {{/each}}
+        </div>
+        {{else}}
+        <div class="sla-note-pill sla-note-pill-wide">No contacts yet. Add allies, fixers, squad members, and other NPCs the operative knows.</div>
+        {{/if}}
+      </div>
+    </div>
 
     {{!-- Biography Tab --}}
     <div class="tab biography" data-group="primary" data-tab="description">
@@ -399,6 +455,11 @@
         <div class="sla-card-label">Ammo Spend Ledger</div>
         <div class="sla-card-copy">Total spent: {{system.sla.ammoSpendTotal.value}} cR</div>
         <textarea readonly rows="6" class="textarea-input">{{system.sla.ammoLedger.value}}</textarea>
+      </div>
+      <div class="sla-card sla-activity-log-card" style="margin-bottom: 12px;">
+        <div class="sla-card-label">Operative Activity Log</div>
+        <div class="sla-card-copy">Rolls, rests, drug use, panic — automatically recorded. Newest first.</div>
+        <textarea readonly rows="8" class="textarea-input sla-activity-log-textarea">{{system.sla.activityLog.value}}</textarea>
       </div>
       {{editor enriched.notes target="system.notes" button=true editable=true}}
     </div>
@@ -478,7 +539,15 @@
           </div>
           <div class="resource">
             <label class="resource-label">SCL</label>
-            <input type="text" name="system.sla.scl.value" value="{{system.sla.scl.value}}" data-dtype="String" />
+            <div class="sla-scl-control">
+              <input type="text" name="system.sla.scl.value" value="{{system.sla.scl.value}}" data-dtype="String" class="sla-scl-input" />
+              <div class="sla-scl-buttons">
+                <button type="button" class="sla-scl-adjust" data-delta="1" title="+1 SCL">+1</button>
+                <button type="button" class="sla-scl-adjust" data-delta="-1" title="-1 SCL">-1</button>
+                <button type="button" class="sla-scl-adjust" data-delta="0.5" title="+0.5 SCL">+½</button>
+                <button type="button" class="sla-scl-adjust" data-delta="-0.5" title="-0.5 SCL">-½</button>
+              </div>
+            </div>
           </div>
           <div class="resource">
             <label class="resource-label">Employer / Squad</label>

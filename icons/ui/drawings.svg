@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Stylus body -->
+  <polygon points="8,4 24,4 28,8 16,30 4,8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Stylus grip band -->
+  <line x1="6" y1="10" x2="26" y2="10" stroke="currentColor" stroke-width="1.5"/>
+  <!-- Tip -->
+  <polygon points="16,25 13,29 19,29" fill="currentColor"/>
+  <!-- SLA insignia on stylus face -->
+  <text x="16" y="19" text-anchor="middle" font-family="sans-serif" font-size="7" font-weight="bold" fill="currentColor">SLA</text>
+</svg>
