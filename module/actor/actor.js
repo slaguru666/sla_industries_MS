@@ -402,14 +402,6 @@ export class MothershipActor extends Actor {
   // Prepare Character type specific data
   _deriveCharacter() {
     const system = this.system;
-    //clamp stress.value to stress.min so stale stored values never show below the floor
-    if (system.other?.stress) {
-      const stressMin = Number(system.other.stress.min ?? 0);
-      const stressVal = Number(system.other.stress.value ?? 0);
-      if (Number.isFinite(stressMin) && Number.isFinite(stressVal) && stressVal < stressMin) {
-        system.other.stress.value = stressMin;
-      }
-    }
     //armor points + damage reduction
       //init vars
       let armorPoints = 0;
@@ -497,44 +489,11 @@ export class MothershipActor extends Actor {
   }
 
   async useSlaDrug(itemId) {
-    const result = await SLADrugSystem.useDrug({ actor: this, itemId });
-    if (result?.ok !== false) {
-      const item = this.items.get(itemId);
-      if (item) await this.addSlaActivityLog(`Drug used: ${item.name}.`);
-    }
-    return result;
+    return SLADrugSystem.useDrug({ actor: this, itemId });
   }
 
   async closeSlaDrug(itemId = "", drug = "") {
-    const result = await SLADrugSystem.closeDrug({ actor: this, itemId, drug });
-    if (result?.ok !== false) {
-      const drugName = drug || (itemId ? (this.items.get(itemId)?.name ?? "Unknown drug") : "Unknown drug");
-      await this.addSlaActivityLog(`Drug effect ended: ${drugName}.`);
-    }
-    return result;
-  }
-
-  /**
-   * Append a timestamped line to the operative's activity log.
-   * Keeps newest entries at the top and trims to ~10 KB.
-   */
-  async addSlaActivityLog(entry) {
-    try {
-      const now = new Date();
-      const ts = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
-      const line = `[${ts}] ${entry}`;
-      const current = String(this.system?.sla?.activityLog?.value ?? "");
-      const combined = current ? `${line}\n${current}` : line;
-      // Trim oldest lines until under 10 KB
-      const MAX = 10240;
-      if (combined.length > MAX) {
-        const lines = combined.split("\n");
-        while (lines.join("\n").length > MAX && lines.length > 1) lines.pop();
-        await this.update({ "system.sla.activityLog.value": lines.join("\n") });
-      } else {
-        await this.update({ "system.sla.activityLog.value": combined });
-      }
-    } catch (_) { /* log failures are non-fatal */ }
+    return SLADrugSystem.closeDrug({ actor: this, itemId, drug });
   }
 
   //central flavor text library for all chat messages
@@ -640,9 +599,123 @@ export class MothershipActor extends Actor {
     return rollStringParsed;
   }
 
+  clampSlaRollTarget(rollTarget, rollString = "") {
+    const numericTarget = Number(rollTarget);
+    if (!Number.isFinite(numericTarget)) return rollTarget;
+    const usesD100 = String(rollString ?? "").includes("1d100");
+    if (!usesD100) return numericTarget;
+    return Math.min(98, numericTarget);
+  }
+
+  isSlaAutomaticFailure(total, rollString = "") {
+    const numericTotal = Number(total);
+    if (!Number.isFinite(numericTotal)) return false;
+    const usesD100 = String(rollString ?? "").includes("1d100");
+    return usesD100 && numericTotal === 99;
+  }
+
+  getSlaChatVariant(context = {}) {
+    const actorClass = String(this.system?.class?.value ?? "").trim();
+    const employer = String(this.system?.sla?.employer?.value ?? "").trim();
+    const sector = String(this.system?.sla?.sector?.value ?? "").trim();
+    const skill = String(context?.skill ?? "").trim();
+    const skillCategory = String(context?.skillCategory ?? "").trim();
+    const tableName = String(context?.tableName ?? "").trim();
+    const header = String(context?.msgHeader ?? "").trim();
+    const weaponName = String(context?.weapon?.name ?? "").trim();
+    const itemName = String(context?.item?.name ?? "").trim();
+    const extra = String(context?.extra ?? "").trim();
+
+    const haystack = [
+      actorClass,
+      employer,
+      sector,
+      skill,
+      skillCategory,
+      tableName,
+      header,
+      weaponName,
+      itemName,
+      extra
+    ].join(" ").toLowerCase();
+
+    if (context?.isSlaEbbSkill || /\bebb\b|ebon|brain\swaste|flux|telekinesis|blast|awareness/.test(haystack)) {
+      return { key: "ebb", label: "Ebb", emblem: "EBB" };
+    }
+    if (/\bdark\s?night\b/.test(haystack)) {
+      return { key: "darknight", label: "DarkNight", emblem: "DN" };
+    }
+    if (/\bshiver\b/.test(haystack)) {
+      return { key: "shiver", label: "Shiver", emblem: "SV" };
+    }
+    if (/\bmort\b|mortuary|undertaker|corpse|cadaver/.test(haystack)) {
+      return { key: "mort", label: "Mort", emblem: "MT" };
+    }
+    if (/\btek\b|technical|engineer|engineering|medic|medical|science|research/.test(haystack)) {
+      return { key: "tek", label: "Tek", emblem: "TK" };
+    }
+    if (/\bops\b|operations|opscon|ops\scon|operative|squad/.test(haystack)) {
+      return { key: "ops", label: "Ops", emblem: "OP" };
+    }
+    return { key: "sla", label: "SLA", emblem: "SLA" };
+  }
+
+  getSlaSeverityMeta({ severity = null, tableName = "", specialRoll = "", tableResultNumber = null } = {}) {
+    const rawSeverity = Number(severity);
+    if (Number.isFinite(rawSeverity)) {
+      if (rawSeverity >= 5) return { key: "critical", label: "Critical", cssClass: "sla-severity-critical" };
+      if (rawSeverity >= 3) return { key: "severe", label: "Severe", cssClass: "sla-severity-severe" };
+      return { key: "minor", label: "Minor", cssClass: "sla-severity-minor" };
+    }
+
+    const name = String(tableName ?? "").toLowerCase();
+    const special = String(specialRoll ?? "").toLowerCase();
+    const numericResult = Number(tableResultNumber);
+
+    if (!Number.isFinite(numericResult)) {
+      return { key: "minor", label: "Minor", cssClass: "sla-severity-minor" };
+    }
+
+    const isPanic = special === "paniccheck" || name.includes("panic");
+    const isWound = name.includes("wound");
+
+    if (isPanic) {
+      if (numericResult >= 16) return { key: "critical", label: "Catastrophic", cssClass: "sla-severity-critical" };
+      if (numericResult >= 9) return { key: "severe", label: "Severe", cssClass: "sla-severity-severe" };
+      return { key: "minor", label: "Minor", cssClass: "sla-severity-minor" };
+    }
+
+    if (isWound) {
+      if (numericResult >= 8) return { key: "critical", label: "Critical", cssClass: "sla-severity-critical" };
+      if (numericResult >= 4) return { key: "severe", label: "Severe", cssClass: "sla-severity-severe" };
+      return { key: "minor", label: "Minor", cssClass: "sla-severity-minor" };
+    }
+
+    return { key: "minor", label: "Minor", cssClass: "sla-severity-minor" };
+  }
+
+  async addSlaActivityLog(entry, { maxEntries = 40 } = {}) {
+    const text = String(entry ?? "").trim();
+    if (!text || this.type !== "character") return null;
+
+    const timestamp = new Date().toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+    const currentLog = String(this.system?.sla?.activityLog?.value ?? "").trim();
+    const existingLines = currentLog ? currentLog.split("\n").filter(Boolean) : [];
+    const nextLines = [`[${timestamp}] ${text}`, ...existingLines].slice(0, Math.max(1, maxEntries));
+    await this.update({ "system.sla.activityLog.value": nextLines.join("\n") });
+    return nextLines[0];
+  }
+
   //central roll parsing function | TAKES '1d100',[Foundry roll object],true,true,41,'<' | RETURNS enriched Foundry roll object
   parseRollResult(rollString, rollResult, zeroBased, checkCrit, rollTarget, comparison, specialRoll) {
     //init vars
+    rollTarget = this.clampSlaRollTarget(rollTarget, rollString);
     let doubles = new Set([0, 11, 22, 33, 44, 55, 66, 77, 88, 99]);
     let enrichedRollResult = rollResult;
     let rollFormula = enrichedRollResult.formula;
@@ -711,29 +784,29 @@ export class MothershipActor extends Actor {
       if (rollString.includes("[")) {
         //set whether each die succeeded
           //die 0
-      if (comparison === '<' && die0value < rollTarget && die0value < 90) {
+      if (comparison === '<' && die0value < rollTarget && !this.isSlaAutomaticFailure(die0value, rollString)) {
         die0success = true;
       }
-      if (comparison === '<=' && die0value <= rollTarget && die0value < 90) {
+      if (comparison === '<=' && die0value <= rollTarget && !this.isSlaAutomaticFailure(die0value, rollString)) {
         die0success = true;
       }
-      if (comparison === '>' && die0value > rollTarget && die0value < 90) {
+      if (comparison === '>' && die0value > rollTarget && !this.isSlaAutomaticFailure(die0value, rollString)) {
         die0success = true;
       }
-      if (comparison === '>=' && die0value >= rollTarget && die0value < 90) {
+      if (comparison === '>=' && die0value >= rollTarget && !this.isSlaAutomaticFailure(die0value, rollString)) {
         die0success = true;
       }
           //die 1
-      if (comparison === '<' && die1value < rollTarget && die1value < 90) {
+      if (comparison === '<' && die1value < rollTarget && !this.isSlaAutomaticFailure(die1value, rollString)) {
         die1success = true;
       }
-      if (comparison === '<=' && die1value <= rollTarget && die1value < 90) {
+      if (comparison === '<=' && die1value <= rollTarget && !this.isSlaAutomaticFailure(die1value, rollString)) {
         die1success = true;
       }
-      if (comparison === '>' && die1value > rollTarget && die1value < 90) {
+      if (comparison === '>' && die1value > rollTarget && !this.isSlaAutomaticFailure(die1value, rollString)) {
         die1success = true;
       }
-      if (comparison === '>=' && die1value >= rollTarget && die1value < 90) {
+      if (comparison === '>=' && die1value >= rollTarget && !this.isSlaAutomaticFailure(die1value, rollString)) {
         die1success = true;
       }
         //set whether each die are a crit
@@ -875,8 +948,8 @@ export class MothershipActor extends Actor {
       //add data point: detect success/failure
       if (rollTarget || rollTarget === 0) {
         //check for auto failure
-        if (enrichedRollResult.total >= 90) {
-          //result >= 90 is a failure
+        if (this.isSlaAutomaticFailure(enrichedRollResult.total, rollString)) {
+          // result 99 on d100 is always a failure
           enrichedRollResult.success = false;
         } else {
           //compare values based on compararison setting
@@ -951,7 +1024,7 @@ export class MothershipActor extends Actor {
             compareIcon = '<i class="fas fa-greater-than-equal"></i>';
           }
           //prepare formula
-          if (rollTarget) {
+          if (rollTarget || rollTarget === 0) {
             //show dice against target
             diceFormula = rollString + ' ' + compareIcon + ' ' + rollTarget;
           } else {
@@ -1376,6 +1449,12 @@ export class MothershipActor extends Actor {
     }
 	  //generate chat message
       //prepare data
+      const severityMeta = this.getSlaSeverityMeta({
+        tableName,
+        specialRoll,
+        tableResultNumber
+      });
+
       let messageData = {
         actor: this,
         tableResult: tableResult,
@@ -1390,7 +1469,14 @@ export class MothershipActor extends Actor {
         woundText: woundText,
         secondRoll: secondRoll,
         parsedRollResult2: parsedRollResult2,
-        specialRoll: specialRoll
+        specialRoll: specialRoll,
+        severityMeta: severityMeta,
+        chatStyle: this.getSlaChatVariant({
+          tableName,
+          msgHeader: tableName,
+          isSlaEbbSkill: false,
+          extra: specialRoll
+        })
       };
       //prepare template
       messageTemplate = 'systems/sla-mothership/templates/chat/rollTable.html';
@@ -1409,6 +1495,7 @@ export class MothershipActor extends Actor {
     }, {
       keepId: true
     });
+    await this.addSlaActivityLog?.(`${tableName}: ${parsedRollResult.success ? "success" : "failure"} on ${rollString}${tableResultNumber !== null ? ` -> ${tableResultNumber}` : ""}.`);
     if (game.modules.get("dice-so-nice") && game.modules.get("dice-so-nice").active) {
         //log what was done
         slaDebug(`Rolled on table ID: ${tableId}, with: rollString:${rollString}, aimFor:${aimFor}, zeroBased:${zeroBased}, checkCrit:${checkCrit}, rollAgainst:${rollAgainst}, comparison:${comparison}`);
@@ -1691,7 +1778,7 @@ export class MothershipActor extends Actor {
         window: {title: dlgTitle},
         classes: ["macro-popup-dialog"],
         position: {width: 600},
-        content: skillHeader + `<div class="skill-dialog-scroll">${skillList}</div>` + buttonDesc,
+        content: skillHeader + skillList + buttonDesc,
         buttons: []
       };
       //add adv/normal/dis buttons if we need a rollString
@@ -2513,7 +2600,13 @@ export class MothershipActor extends Actor {
           targetingResult: targetingResult,
           needsDesc: needsDesc,
           woundEffect: woundEffect,
-          specialRoll: specialRoll
+          specialRoll: specialRoll,
+          chatStyle: this.getSlaChatVariant({
+            weapon,
+            msgHeader,
+            isSlaEbbSkill: false,
+            extra: ammoContext?.label ?? ""
+          })
         };
         let chatData = {
           user: game.user.id,
@@ -2528,6 +2621,7 @@ export class MothershipActor extends Actor {
         const content = await foundry.applications.handlebars.renderTemplate(template, messageData);
         chatData.content = content;
         await ChatMessage.create(chatData);
+        await this.addSlaActivityLog?.(`${weapon.name}: damage roll resolved.${targetingResult ? ` ${targetingResult.targetName} took ${targetingResult.finalDamage} damage.` : ""}`);
       //log what was done
       console.log(`Rolled damage on:${weapon.name}`);
       //return messageData
@@ -2544,6 +2638,13 @@ export class MothershipActor extends Actor {
       rollTarget = Number(effectiveRollBreakdown?.total ?? 0) || 0;
     } else {
       rollTarget = rollTargetOverride;
+    }
+    rollTarget = this.clampSlaRollTarget(rollTarget, rollString);
+    if (effectiveRollBreakdown && (String(rollString ?? "").includes("1d100"))) {
+      effectiveRollBreakdown = {
+        ...effectiveRollBreakdown,
+        total: rollTarget
+      };
     }
     //roll the dice
       //parse the roll string
@@ -2707,9 +2808,9 @@ export class MothershipActor extends Actor {
         }
         if (ammoUsage) {
           const roundLabel = ammoUsage.shots === 1 ? 'round' : 'rounds';
-          const ammoPrefix = `<strong>${ammoUsage.label}</strong> fire with <strong>${ammoUsage.ammoLabel}</strong> spent <strong>${ammoUsage.shots}</strong> ${roundLabel}. Magazine <strong>${ammoUsage.loaded}/${weapon.system.shots}</strong>. Reserve <strong>${ammoUsage.reserve}</strong>. Ammo cost <strong>${ammoUsage.totalCost}</strong> cR. ${ammoUsage.ammoRule}`;
+          const ammoPrefix = `<strong>${ammoUsage.label}</strong> fire with <strong>${ammoUsage.ammoLabel}</strong> spent <strong>${ammoUsage.shots}</strong> ${roundLabel}. Magazine <strong>${ammoUsage.loaded}/${weapon.system.shots}</strong>. Reserve <strong>${ammoUsage.reserve}</strong>. Firing spend <strong>${ammoUsage.totalCost}</strong> cR. ${ammoUsage.ammoRule}`;
           const accountingText = ammoAccounting
-            ? ` Credits now <strong>${ammoAccounting.newCredits}</strong> cR. Running ammo spend <strong>${ammoAccounting.spendTotal}</strong> cR.`
+            ? ` Credits now <strong>${ammoAccounting.newCredits}</strong> cR. Running firing spend <strong>${ammoAccounting.spendTotal}</strong> cR.`
             : "";
           flavorText = flavorText ? `${ammoPrefix}${accountingText}<br>${flavorText}` : `${ammoPrefix}${accountingText}`;
         }
@@ -2999,7 +3100,14 @@ export class MothershipActor extends Actor {
       targetingResult: targetingResult,
       firstEdition: game.settings.get('sla-mothership', 'firstEdition'),
       useCalm: game.settings.get('sla-mothership', 'useCalm'),
-      androidPanic: game.settings.get('sla-mothership', 'androidPanic')
+      androidPanic: game.settings.get('sla-mothership', 'androidPanic'),
+      chatStyle: this.getSlaChatVariant({
+        weapon,
+        skill,
+        skillCategory: String(attackContext?.skillCategory ?? "").trim(),
+        msgHeader,
+        isSlaEbbSkill
+      })
       };
       //prepare template
       messageTemplate = 'systems/sla-mothership/templates/chat/rollCheck.html';
@@ -3018,6 +3126,11 @@ export class MothershipActor extends Actor {
     }, {
       keepId: true
     });
+      const skillLabel = String(skill ?? "").trim();
+      const actionLabel = weapon
+        ? weapon.name
+        : (skillLabel ? `${attributeLabel} / ${skillLabel}` : attributeLabel);
+      await this.addSlaActivityLog?.(`${actionLabel}: ${parsedRollResult.success ? "success" : "failure"} (${parsedRollResult.total} vs ${rollTarget}).`);
       //is DSN active?
     if (game.modules.get("dice-so-nice") && game.modules.get("dice-so-nice").active) {
         //log what was done
@@ -3039,18 +3152,6 @@ export class MothershipActor extends Actor {
       if (fearSaveResult && fearSaveResult.success === false) {
         await this.rollTable("panicCheck", null, null, null, null, null, null);
       }
-    }
-    // Activity log
-    if (this.type === "character" && specialRoll !== "damage") {
-      try {
-        const rollLabel = skill && skill !== "none" ? skill : (attribute ? String(attribute).charAt(0).toUpperCase() + String(attribute).slice(1) : "Roll");
-        const resultNum = Number(parsedRollResult?.total ?? 0);
-        const outcome = parsedRollResult?.success
-          ? (parsedRollResult.critical ? "Critical success" : "Pass")
-          : (parsedRollResult?.critical ? "Critical failure" : "Fail");
-        const critTag = parsedRollResult?.critical ? " ★" : "";
-        await this.addSlaActivityLog(`${rollLabel}: rolled ${resultNum} vs ${rollTarget} — ${outcome}${critTag}`);
-      } catch (_) {}
     }
     return [messageData];
   }
@@ -4812,55 +4913,10 @@ export class MothershipActor extends Actor {
 
   getSlaSpeciesMinimumWounds() {
     const species = String(this.system?.sla?.species?.value ?? "").trim();
-    if (["Frother", "Shaktar", "Stormer 313 Malice", "Stormer 711 Xeno", "Stormer Vevaphon"].includes(species)) {
+    if (["Frother", "Shaktar", "Stormer 313 Malice", "Stormer 711 Xeno"].includes(species)) {
       return 3;
     }
     return 2;
-  }
-
-  isSlaVevaphon() {
-    const species = String(this.system?.sla?.species?.value ?? "").trim();
-    return species === "Stormer Vevaphon";
-  }
-
-  getSlaVevaphonInstability() {
-    return Math.max(0, Math.min(12, Number(this.system?.sla?.vevaphonInstability?.value ?? 0) || 0));
-  }
-
-  getSlaVevaphonMorphForm() {
-    return String(this.system?.sla?.morphForm?.value ?? "").trim() || "Brute Form";
-  }
-
-  async setSlaVevaphonMorphForm(formName) {
-    if (!this.isSlaVevaphon()) return null;
-    const validForms = ["Brute Form", "Stalker Form", "Raptor Form"];
-    const resolved = validForms.find((entry) => entry === formName) ?? formName;
-    const currentInstability = this.getSlaVevaphonInstability();
-    const newInstability = Math.min(12, currentInstability + 1);
-    await this.update({
-      "system.sla.morphForm.value": resolved,
-      "system.sla.vevaphonInstability.value": newInstability
-    });
-    const instabilityWarning = newInstability >= 10
-      ? " ⚠ Instability critical — Morph Panic risk on failed Sanity save."
-      : newInstability >= 6
-        ? " Instability elevated — minor morph effects active."
-        : "";
-    ui.notifications.info(`${this.name} shifts to ${resolved}. Instability: ${newInstability}/12.${instabilityWarning}`);
-    return { morphForm: resolved, instability: newInstability };
-  }
-
-  async adjustSlaVevaphonInstability(delta = 1) {
-    if (!this.isSlaVevaphon()) return null;
-    const current = this.getSlaVevaphonInstability();
-    const next = Math.max(0, Math.min(12, current + delta));
-    await this.update({ "system.sla.vevaphonInstability.value": next });
-    if (next >= 12) {
-      ui.notifications.warn(`${this.name} has reached maximum Instability (12). The Vevaphon is lost — immediate retirement or death.`);
-    } else if (next >= 10) {
-      ui.notifications.warn(`${this.name} — Instability ${next}/12. Morph Panic risk: failed Sanity save triggers a Morph Panic event.`);
-    }
-    return next;
   }
 
   async enforceSlaSpeciesWounds() {
@@ -4961,14 +5017,7 @@ export class MothershipActor extends Actor {
     return this.items
       .filter((item) => {
         const name = String(item.name ?? "").trim();
-        if (item.type === "ability") {
-          // Vevaphon morph form abilities are NOT Ebb items — exclude them
-          if (item.system?.sla?.morphForm === true) return false;
-          // Also exclude by name so hand-placed morph abilities are safe even without the flag
-          const morphNames = ["Brute Form", "Stalker Form", "Raptor Form"];
-          if (morphNames.includes(name)) return false;
-          return true;
-        }
+        if (item.type === "ability") return true;
         if (item.type !== "skill") return false;
         return name === "Formulate" || name === "Biofeedback" || name === "Ebb (Core)" || name.startsWith("Ebb ");
       })
@@ -5344,8 +5393,6 @@ export class MothershipActor extends Actor {
     if (shouldPanic) {
       await this.rollTable("panicCheck", null, null, null, null, null, null);
     }
-    const saveOutcome = saveResult ? (saveResult.success ? "Pass" : "Fail") : "n/a";
-    await this.addSlaActivityLog(`Flux ${forcePanic ? "Panic forced" : "Save"} — Fear save ${saveOutcome}. Flux ${this.system?.sla?.flux?.value ?? 0}/${this.system?.sla?.flux?.max ?? 0}.${shouldPanic ? " Panic triggered." : ""}`);
     return { saveResult, state, panicTriggered: shouldPanic };
   }
 
@@ -5531,7 +5578,8 @@ export class MothershipActor extends Actor {
       insert: rollInsert,
       onlyDesc: true,
       swapNameDesc,
-      swapName
+      swapName,
+      severityMeta: this.getSlaSeverityMeta({ severity: item?.system?.severity })
     };
 
     const chatData = {

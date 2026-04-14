@@ -1,5 +1,22 @@
 import { SLADrugSystem } from "../sla-drug-system.js";
 
+function isAmmoPurchaseItem(itemData = {}) {
+  const system = itemData?.system ?? {};
+  const sla = system?.sla ?? {};
+  const name = String(itemData?.name ?? "").trim().toLowerCase();
+  const category = String(sla.category ?? "").trim().toLowerCase();
+  const calibre = String(sla.calibre ?? "").trim();
+  const ammoTag = String(sla.ammoTag ?? "").trim();
+  return category === "ammunition" || Boolean((calibre && ammoTag) || name.startsWith("ammo:"));
+}
+
+function formatSlaTimestamp() {
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "short",
+    timeStyle: "short"
+  }).format(new Date());
+}
+
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -128,11 +145,38 @@ export class MothershipItemSheet extends foundry.appv1.sheets.ItemSheet {
 
   async _updateObject(event, formData) {
     const updateData = foundry.utils.expandObject(formData);
+    const currentQty = Math.max(0, Number(this.item.system?.quantity ?? 0) || 0);
     if (Object.prototype.hasOwnProperty.call(updateData?.system ?? {}, "weight")) {
       const parsed = Number(updateData.system.weight ?? 0) || 0;
       updateData.system.weight = Math.round(parsed * 10) / 10;
     }
     await this.item.update(updateData, { diff: false });
+
+    const nextQtyRaw = updateData?.system?.quantity;
+    const nextQty = nextQtyRaw === undefined ? currentQty : Math.max(0, Number(nextQtyRaw ?? 0) || 0);
+    const increase = Math.max(0, nextQty - currentQty);
+    const actor = this.item.parent;
+    if (!increase || actor?.documentName !== "Actor") return;
+
+    const unitCost = Number(updateData?.system?.cost ?? this.item.system?.cost ?? 0) || 0;
+    const total = Math.round(unitCost * increase * 100) / 100;
+    if (!total) return;
+
+    const currentCredits = Number(actor.system?.credits?.value ?? 0) || 0;
+    const newCredits = Math.round((currentCredits - total) * 100) / 100;
+    const updateActorData = { "system.credits.value": newCredits };
+
+    if (isAmmoPurchaseItem(this.item.toObject())) {
+      const stamp = formatSlaTimestamp();
+      const currentLedger = String(actor.system?.sla?.ammoLedger?.value ?? "").trim();
+      const entry = `[${stamp}] PURCHASE | ${this.item.name ?? "Ammo"} | ${increase} round${increase === 1 ? "" : "s"} | -${total} cR | balance ${newCredits} cR`;
+      const ledgerLines = [entry, ...currentLedger.split("\n").filter(Boolean)].slice(0, 60);
+      updateActorData["system.sla.ammoLedger.value"] = ledgerLines.join("\n");
+    }
+
+    await actor.update(updateActorData);
+    ui.notifications.info(`${actor.name}: deducted ${total} cR for ${increase} more ${this.item.name ?? "item"}. Credits now ${newCredits} cR.`);
+    await actor.addSlaActivityLog?.(`Purchased +${increase} ${this.item.name ?? "item"} for ${total} cR. Credits now ${newCredits} cR.`);
   }
 }
 

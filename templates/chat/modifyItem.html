@@ -1,15 +1,25 @@
-<div class="mosh" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+<div class="mosh sla-chat-shell sla-chat-shell-item-update" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
 {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
     <div class="rollcontainer">
-        <div class="flexrow" style="margin-bottom : 5px;">
-            {{#if (compare 'int' msgHeader.length '>=' 22)}}
-            <div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{{msgHeader}}}</div>
-            {{else}}
-            <div class="rollweaponh1" >{{{msgHeader}}}</div>
-            {{/if}}
-            <div style="text-align: right"><img class="roll-image" src="{{{msgImgPath}}}" /></div>
+        <div class="sla-chat-hero">
+            <div class="sla-chat-hero-main">
+                <div class="sla-chat-kicker-row">
+                    <div class="sla-chat-kicker">Item Update</div>
+                    <div class="sla-chat-meta-row">
+                        <span class="sla-chat-type-badge sla-chat-type-item">UPD</span>
+                    </div>
+                </div>
+                {{#if (compare 'int' msgHeader.length '>=' 22)}}
+                <div class="rollweaponh1 sla-chat-hero-title sla-chat-hero-title-tight">{{{msgHeader}}}</div>
+                {{else}}
+                <div class="rollweaponh1 sla-chat-hero-title">{{{msgHeader}}}</div>
+                {{/if}}
+            </div>
+            <div class="sla-chat-hero-media">
+                <img class="roll-image" src="{{{msgImgPath}}}" />
+            </div>
         </div>
-        <div class="description" style="margin-bottom: 10px;">
+        <div class="description sla-chat-section sla-chat-section-target">
             <div class="body">{{{flavorText}}}</div>
         </div>
     </div>

@@ -141,6 +141,30 @@ function decorateSkillWithTraitPreview(skill, traitRows = []) {
   return skill;
 }
 
+function getPurchasableItemTotalCost(itemData = {}) {
+  const system = itemData?.system ?? itemData?.data ?? {};
+  const unitCost = Number(system.cost ?? 0) || 0;
+  const quantity = Math.max(1, Number(system.quantity ?? 1) || 1);
+  return Math.round(unitCost * quantity * 100) / 100;
+}
+
+function isAmmoPurchaseItem(itemData = {}) {
+  const system = itemData?.system ?? itemData?.data ?? {};
+  const sla = system?.sla ?? {};
+  const name = String(itemData?.name ?? "").trim().toLowerCase();
+  const category = String(sla.category ?? "").trim().toLowerCase();
+  const calibre = String(sla.calibre ?? "").trim();
+  const ammoTag = String(sla.ammoTag ?? "").trim();
+  return category === "ammunition" || Boolean((calibre && ammoTag) || name.startsWith("ammo:"));
+}
+
+function formatSlaTimestamp() {
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "short",
+    timeStyle: "short"
+  }).format(new Date());
+}
+
 const SLA_SPECIES_RULES = {
   Human: [
     { key: "adaptable", label: "Adaptable", summary: "Once per session, reroll one Stat check and take the better result.", optional: false, default: true }
@@ -677,19 +701,26 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
     //Quantity adjuster
     html.on('mousedown', '.item-quantity', ev => {
       const li = ev.currentTarget.closest(".item");
-      //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
-      var item;
-      item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
-      
-      let amount = item.system.quantity;
+      const sourceItem = this.actor.getEmbeddedDocument("Item", li.dataset.itemId);
+      if (!sourceItem) return;
+      const item = foundry.utils.duplicate(sourceItem);
+      const amount = Math.max(0, Number(item.system?.quantity ?? 0) || 0);
+      let delta = 0;
 
-      if (event.button == 0) {
-        item.system.quantity = Number(amount) + 1;
-      } else if (event.button == 2) {
-        item.system.quantity = Number(amount) - 1;
+      if (ev.button === 0) {
+        delta = 1;
+      } else if (ev.button === 2) {
+        delta = -1;
       }
 
-      this.actor.updateEmbeddedDocuments('Item', [item]);
+      if (!delta) return;
+      item.system.quantity = Math.max(0, amount + delta);
+
+      this.actor.updateEmbeddedDocuments('Item', [item]).then(async () => {
+        if (delta > 0) {
+          await this._applySlaQuantityIncreaseDebit(sourceItem, delta);
+        }
+      });
     });
 
     //Severity adjuster
@@ -1193,6 +1224,91 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
       });
     }
 
+  }
+
+  /* -------------------------------------------- */
+
+  async _onDrop(event) {
+    const data = TextEditor.getDragEventData(event);
+    if (data?.type !== "Item") return super._onDrop(event);
+
+    const droppedItem = await Item.implementation.fromDropData(data).catch(() => null);
+    if (!droppedItem) return super._onDrop(event);
+
+    if (droppedItem.parent?.uuid === this.actor.uuid) {
+      return super._onDrop(event);
+    }
+
+    const shouldDebitPurchase = !droppedItem.parent || droppedItem.parent.documentName !== "Actor";
+    const itemData = droppedItem.toObject();
+    delete itemData._id;
+    delete itemData.folder;
+    const created = await this.actor.createEmbeddedDocuments("Item", [itemData], {
+      slaPurchaseDebit: true,
+      slaPurchaseSource: data.uuid ?? droppedItem.uuid ?? ""
+    });
+    if (shouldDebitPurchase) {
+      await this._applySlaPurchaseDebit(created);
+    }
+    return created;
+  }
+
+  async _applySlaPurchaseDebit(createdDocs = []) {
+    const documents = Array.isArray(createdDocs) ? createdDocs : [createdDocs];
+    const total = Math.round(documents.reduce((sum, doc) => sum + getPurchasableItemTotalCost(doc?.toObject?.() ?? doc), 0) * 100) / 100;
+    if (!total) return;
+
+    const currentCredits = Number(this.actor.system?.credits?.value ?? 0) || 0;
+    const newCredits = Math.round((currentCredits - total) * 100) / 100;
+    const updateData = { "system.credits.value": newCredits };
+
+    const itemNames = documents.map((doc) => doc?.name).filter(Boolean).join(", ");
+    const ammoDocs = documents
+      .map((doc) => doc?.toObject?.() ?? doc)
+      .filter((doc) => isAmmoPurchaseItem(doc));
+    if (ammoDocs.length) {
+      const stamp = formatSlaTimestamp();
+      const currentLedger = String(this.actor.system?.sla?.ammoLedger?.value ?? "").trim();
+      const purchaseEntries = ammoDocs.map((doc) => {
+        const system = doc?.system ?? doc?.data ?? {};
+        const quantity = Math.max(1, Number(system.quantity ?? 1) || 1);
+        const unitCost = Number(system.cost ?? 0) || 0;
+        const lineCost = Math.round(unitCost * quantity * 100) / 100;
+        return `[${stamp}] PURCHASE | ${doc?.name ?? "Ammo"} | ${quantity} round${quantity === 1 ? "" : "s"} | -${lineCost} cR | balance ${newCredits} cR`;
+      });
+      const ledgerLines = [...purchaseEntries, ...currentLedger.split("\n").filter(Boolean)].slice(0, 60);
+      updateData["system.sla.ammoLedger.value"] = ledgerLines.join("\n");
+    }
+
+    await this.actor.update(updateData);
+
+    ui.notifications.info(`${this.actor.name}: deducted ${total} cR for ${itemNames || "purchased item"}. Credits now ${newCredits} cR.`);
+    await this.actor.addSlaActivityLog?.(`Purchased ${itemNames || "item"} for ${total} cR. Credits now ${newCredits} cR.`);
+  }
+
+  async _applySlaQuantityIncreaseDebit(itemDoc, increase = 0) {
+    const added = Math.max(0, Number(increase ?? 0) || 0);
+    if (!added || !itemDoc) return;
+
+    const unitCost = Number(itemDoc.system?.cost ?? 0) || 0;
+    const total = Math.round(unitCost * added * 100) / 100;
+    if (!total) return;
+
+    const currentCredits = Number(this.actor.system?.credits?.value ?? 0) || 0;
+    const newCredits = Math.round((currentCredits - total) * 100) / 100;
+    const updateData = { "system.credits.value": newCredits };
+
+    if (isAmmoPurchaseItem(itemDoc)) {
+      const stamp = formatSlaTimestamp();
+      const currentLedger = String(this.actor.system?.sla?.ammoLedger?.value ?? "").trim();
+      const entry = `[${stamp}] PURCHASE | ${itemDoc.name ?? "Ammo"} | ${added} round${added === 1 ? "" : "s"} | -${total} cR | balance ${newCredits} cR`;
+      const ledgerLines = [entry, ...currentLedger.split("\n").filter(Boolean)].slice(0, 60);
+      updateData["system.sla.ammoLedger.value"] = ledgerLines.join("\n");
+    }
+
+    await this.actor.update(updateData);
+    ui.notifications.info(`${this.actor.name}: deducted ${total} cR for ${added} more ${itemDoc.name ?? "item"}. Credits now ${newCredits} cR.`);
+    await this.actor.addSlaActivityLog?.(`Purchased +${added} ${itemDoc.name ?? "item"} for ${total} cR. Credits now ${newCredits} cR.`);
   }
 
   /* -------------------------------------------- */

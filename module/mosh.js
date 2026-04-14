@@ -175,16 +175,37 @@ Hooks.once('init', async function () {
 
   Hooks.on("renderActorDirectory", (app, html) => {
     installSlaSidebarButtons(app, html);
+    if (!game.user?.isGM) enforceSlaPlayerDirectoryRestrictions("actors", html);
   });
 
   Hooks.on("renderSidebarTab", (app, html) => {
     const isActorsTab = app?.tabName === "actors" || app?.options?.id === "actors";
-    if (!isActorsTab) return;
-    installSlaSidebarButtons(app, html);
+    if (isActorsTab) installSlaSidebarButtons(app, html);
+    if (!game.user?.isGM) {
+      hideSlaRestrictedSidebarTabs();
+      enforceSlaPlayerSidebarTabRestrictions(app, html);
+    }
+  });
+
+  Hooks.on("renderSceneDirectory", (_app, html) => {
+    if (!game.user?.isGM) enforceSlaPlayerDirectoryRestrictions("scenes", html);
+  });
+
+  Hooks.on("renderJournalDirectory", (_app, html) => {
+    if (!game.user?.isGM) enforceSlaPlayerDirectoryRestrictions("journal", html);
+  });
+
+  Hooks.on("renderRollTableDirectory", (_app, html) => {
+    if (!game.user?.isGM) enforceSlaPlayerDirectoryRestrictions("tables", html);
+  });
+
+  Hooks.on("renderCompendiumDirectory", (_app, html) => {
+    if (!game.user?.isGM) enforceSlaPlayerDirectoryRestrictions("compendium", html);
   });
 
   Hooks.on("renderCombatTracker", (app, html) => {
     installSlaCombatTrackerControls(app, html);
+    if (!game.user?.isGM) enforceSlaPlayerDirectoryRestrictions("combat", html);
   });
 
   Hooks.on("updateCombat", async (combat, changed) => {
@@ -247,6 +268,7 @@ Hooks.once("ready", async function () {
   }
 
   patchSlaInitiativeSystem();
+  if (!game.user?.isGM) hideSlaRestrictedSidebarTabs();
   
 });
 
@@ -1254,33 +1276,19 @@ export function formatCreditsNumber(num) {
 // SLA Industries Pause Screen Animation
 // ─────────────────────────────────────────────────────────────────────────────
 
+let slaPauseRefreshHandle = null;
+
 function injectSlaPauseAnimation() {
-  const pauseEl = document.querySelector('#pause');
-  if (!pauseEl) return;
-
-  // Don't inject twice
-  if (pauseEl.querySelector('.sla-pause-root')) return;
-
-  // Aggressively hide ALL of Foundry's default pause content
-  // Hide every direct child that isn't our injected element
-  Array.from(pauseEl.children).forEach(child => {
-    child.style.setProperty('display', 'none', 'important');
-  });
-  // Also kill any descendant with animation or image content
-  pauseEl.querySelectorAll('figure, img, svg, h3, p, .fas, .fa-cog, canvas').forEach(el => {
-    el.style.setProperty('display', 'none', 'important');
-  });
+  document.body?.classList.add("sla-pause-active");
+  if (document.querySelector('.sla-pause-root')) {
+    return;
+  }
 
   const svgHTML = `
   <div class="sla-pause-root" aria-label="SLA Industries – Game Paused">
-    <svg
-      class="sla-pause-svg"
-      viewBox="-120 -120 240 260"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-    >
+    <div class="sla-pause-stage">
+    <svg class="sla-pause-svg" viewBox="-120 -120 240 260" xmlns="http://www.w3.org/2000/svg" role="img">
       <defs>
-        <!-- Red glow filter for the logo and satellites -->
         <filter id="sla-glow-red" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="3.5" result="blur"/>
           <feMerge>
@@ -1288,7 +1296,6 @@ function injectSlaPauseAnimation() {
             <feMergeNode in="SourceGraphic"/>
           </feMerge>
         </filter>
-        <!-- Subtle glow for rings -->
         <filter id="sla-glow-ring" x="-30%" y="-30%" width="160%" height="160%">
           <feGaussianBlur stdDeviation="1.5" result="blur"/>
           <feMerge>
@@ -1296,23 +1303,17 @@ function injectSlaPauseAnimation() {
             <feMergeNode in="SourceGraphic"/>
           </feMerge>
         </filter>
-        <!-- Radial gradient for background disc -->
         <radialGradient id="sla-bg-grad" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stop-color="#1a0000" stop-opacity="0.95"/>
           <stop offset="100%" stop-color="#000000" stop-opacity="0.0"/>
         </radialGradient>
-        <!-- Clip for the inner content -->
         <clipPath id="sla-clip-outer">
           <circle cx="0" cy="0" r="108"/>
         </clipPath>
       </defs>
-
-      <!-- Ambient background disc -->
-      <circle cx="0" cy="0" r="108" fill="url(#sla-bg-grad)"/>
-
-      <!-- ── Outer ring (clockwise) ── -->
+      <circle cx="0" cy="0" r="108" fill="url(#sla-bg-grad)" class="sla-pause-core-glow"/>
       <g class="sla-ring-outer">
-        <!-- Dashed orbit path -->
+        <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="18s" repeatCount="indefinite"/>
         <circle cx="0" cy="0" r="90"
           fill="none"
           stroke="#8b1a1a"
@@ -1321,11 +1322,9 @@ function injectSlaPauseAnimation() {
           opacity="0.7"
           filter="url(#sla-glow-ring)"
         />
-        <!-- 3 red satellite dots at 0°, 120°, 240° -->
         <circle cx="0"  cy="-90" r="5" fill="#cc2222" filter="url(#sla-glow-red)" class="sla-sat"/>
         <circle cx="77.9" cy="45" r="5" fill="#cc2222" filter="url(#sla-glow-red)" class="sla-sat"/>
         <circle cx="-77.9" cy="45" r="5" fill="#cc2222" filter="url(#sla-glow-red)" class="sla-sat"/>
-        <!-- Thin tick marks every 30° on outer ring -->
         <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(0)"/>
         <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(30)"/>
         <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(60)"/>
@@ -1339,9 +1338,8 @@ function injectSlaPauseAnimation() {
         <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(300)"/>
         <line x1="0" y1="-86" x2="0" y2="-94" stroke="#8b1a1a" stroke-width="1" transform="rotate(330)"/>
       </g>
-
-      <!-- ── Inner ring (counter-clockwise) ── -->
       <g class="sla-ring-inner">
+        <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="13s" repeatCount="indefinite"/>
         <circle cx="0" cy="0" r="62"
           fill="none"
           stroke="#6b1010"
@@ -1350,15 +1348,11 @@ function injectSlaPauseAnimation() {
           opacity="0.6"
           filter="url(#sla-glow-ring)"
         />
-        <!-- 3 smaller orange-red dots at 60°, 180°, 300° offset for variety -->
         <circle cx="53.7"  cy="-31" r="3.5" fill="#dd4422" filter="url(#sla-glow-red)" class="sla-sat-inner"/>
         <circle cx="-53.7" cy="-31" r="3.5" fill="#dd4422" filter="url(#sla-glow-red)" class="sla-sat-inner"/>
         <circle cx="0"     cy="62"  r="3.5" fill="#dd4422" filter="url(#sla-glow-red)" class="sla-sat-inner"/>
       </g>
-
-      <!-- ── Central "SLA" logotype ── -->
-      <g filter="url(#sla-glow-red)">
-        <!-- Hexagonal backing plate -->
+      <g filter="url(#sla-glow-red)" class="sla-pause-logo-core">
         <polygon
           points="0,-38 33,-19 33,19 0,38 -33,19 -33,-19"
           fill="#1a0000"
@@ -1366,7 +1360,6 @@ function injectSlaPauseAnimation() {
           stroke-width="1.2"
           opacity="0.9"
         />
-        <!-- SLA text -->
         <text
           x="0" y="14"
           text-anchor="middle"
@@ -1378,35 +1371,27 @@ function injectSlaPauseAnimation() {
           class="sla-pause-logo-text"
         >SLA</text>
       </g>
-
-      <!-- ── Thin separator lines ── -->
       <line x1="-70" y1="48" x2="70" y2="48" stroke="#8b1a1a" stroke-width="0.5" opacity="0.7"/>
-
-      <!-- ── "STAND BY" label ── -->
       <text
-        x="0" y="70"
+        x="0" y="68"
         text-anchor="middle"
         font-family="'Oswald', 'Courier New', monospace"
-        font-size="13"
-        font-weight="400"
-        letter-spacing="5"
-        fill="#cc4444"
+        font-size="11.5"
+        font-weight="500"
+        letter-spacing="3.2"
+        fill="#ff7b7b"
         class="sla-pause-standby"
-      >STAND BY</text>
-
-      <!-- ── "SLA INDUSTRIES" footer text ── -->
+      >PLEASE STAND BY</text>
       <text
-        x="0" y="95"
+        x="0" y="94"
         text-anchor="middle"
         font-family="'Oswald', 'Arial Narrow', sans-serif"
-        font-size="7"
+        font-size="8"
         font-weight="300"
         letter-spacing="3"
-        fill="#661111"
-        opacity="0.85"
+        fill="#b13b3b"
+        opacity="0.92"
       >SLA INDUSTRIES</text>
-
-      <!-- ── Scanning line sweep ── -->
       <line
         x1="0" y1="-90" x2="0" y2="0"
         stroke="#ff2222"
@@ -1415,36 +1400,137 @@ function injectSlaPauseAnimation() {
         class="sla-pause-scan"
       />
     </svg>
+    </div>
   </div>`;
+  document.body?.insertAdjacentHTML('beforeend', svgHTML);
+}
 
-  // Inject directly into the pause element (not into figure, which we hid)
-  pauseEl.insertAdjacentHTML('beforeend', svgHTML);
+function removeSlaPauseAnimation() {
+  document.querySelector(".sla-pause-root")?.remove();
+  document.body?.classList.remove("sla-pause-active");
+}
+
+function queueSlaPauseRefresh(delay = 0) {
+  window.clearTimeout(slaPauseRefreshHandle);
+  slaPauseRefreshHandle = window.setTimeout(() => {
+    if (!game?.paused) return;
+    injectSlaPauseAnimation();
+  }, delay);
 }
 
 Hooks.once('ready', () => {
-  // Inject if game is already paused on load
-  if (game.paused) injectSlaPauseAnimation();
-});
-
-// Use the pauseGame hook exclusively — don't use a MutationObserver
-// which could fight Foundry's own show/hide logic on the #pause element.
-Hooks.on('pauseGame', (paused) => {
-  if (paused) {
-    // Two-frame delay — Foundry renders the pause figure asynchronously
-    requestAnimationFrame(() => requestAnimationFrame(() => injectSlaPauseAnimation()));
-  } else {
-    // On unpause: remove our injected content so it can be re-injected cleanly next time
-    const slaRoot = document.querySelector('#pause .sla-pause-root');
-    if (slaRoot) slaRoot.remove();
-    // Restore Foundry's original pause children (they were hidden inline, unhide them)
-    const pauseEl = document.querySelector('#pause');
-    if (pauseEl) {
-      pauseEl.querySelectorAll(':scope > *:not(.sla-pause-root)').forEach(child => {
-        child.style.removeProperty('display');
-      });
-    }
+  if (game.paused) {
+    queueSlaPauseRefresh(0);
+    queueSlaPauseRefresh(60);
+    queueSlaPauseRefresh(180);
   }
 });
+
+Hooks.on('pauseGame', (paused) => {
+  if (paused) {
+    requestAnimationFrame(() => requestAnimationFrame(() => injectSlaPauseAnimation()));
+    queueSlaPauseRefresh(0);
+    queueSlaPauseRefresh(60);
+    queueSlaPauseRefresh(180);
+    queueSlaPauseRefresh(360);
+  } else {
+    removeSlaPauseAnimation();
+  }
+});
+
+function getSlaHtmlRoot(html) {
+  return html instanceof HTMLElement ? html : html?.[0] ?? null;
+}
+
+function hideSlaRestrictedSidebarTabs() {
+  [
+    "#sidebar-tabs [data-tab='tables']",
+    "#sidebar-tabs [aria-controls='tables']",
+    "#sidebar-tabs [data-tab='compendium']",
+    "#sidebar-tabs [aria-controls='compendium']"
+  ].forEach((selector) => {
+    document.querySelectorAll(selector).forEach((el) => {
+      el.closest("li")?.remove();
+      if (el instanceof HTMLElement) el.remove();
+    });
+  });
+}
+
+function removeSlaElements(root, selectors = []) {
+  selectors.forEach((selector) => {
+    root.querySelectorAll(selector).forEach((el) => el.remove());
+  });
+}
+
+function pruneEmptySlaFolders(root) {
+  const folders = Array.from(root.querySelectorAll(".directory-item.folder"));
+  folders.reverse().forEach((folder) => {
+    const visibleDocuments = Array.from(folder.querySelectorAll(".directory-item.document, li.document")).filter((node) => node.offsetParent !== null);
+    const visibleFolders = Array.from(folder.querySelectorAll(":scope > .directory-list > .directory-item.folder, :scope > ol > li.folder")).filter((node) => node.offsetParent !== null);
+    if (!visibleDocuments.length && !visibleFolders.length) folder.remove();
+  });
+}
+
+function shouldShowSlaPlayerJournal(entry) {
+  if (!entry) return false;
+  const name = String(entry.name ?? "").trim();
+  if (/^operative handbook$/i.test(name)) return true;
+  if (entry.getFlag?.("sla-mothership", "playerVisible") === true) return true;
+  return entry.testUserPermission?.(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) ?? false;
+}
+
+function filterSlaJournalDirectory(root) {
+  const rows = Array.from(root.querySelectorAll("[data-entry-id], [data-document-id]"));
+  rows.forEach((row) => {
+    const id = row.dataset.entryId ?? row.dataset.documentId;
+    if (!id) return;
+    const entry = game.journal?.get?.(id);
+    if (!shouldShowSlaPlayerJournal(entry)) row.remove();
+  });
+  pruneEmptySlaFolders(root);
+}
+
+function enforceSlaPlayerDirectoryRestrictions(kind, html) {
+  const root = getSlaHtmlRoot(html);
+  if (!root || game.user?.isGM) return;
+
+  removeSlaElements(root, [
+    ".directory-header .header-actions",
+    ".directory-header .action-buttons",
+    ".sla-sidebar-actions",
+    ".qbm-scene-directory-actions",
+    ".qbm-launch",
+    ".sla-world-tools-launch",
+    ".sla-create-operative",
+    ".sla-create-random-operative",
+    ".sla-refresh-content",
+    ".sla-gear-cache-open",
+    ".sla-briefing-desk-open",
+    ".sla-bpn-dispatch-open",
+    ".sla-npc-director-open",
+    ".sla-npc-director-actor-open",
+    ".sla-ops-clock-open",
+    ".npp-generate-sidebar-btn"
+  ]);
+
+  if (kind === "journal") {
+    filterSlaJournalDirectory(root);
+  }
+
+  if (kind === "tables" || kind === "compendium") {
+    root.innerHTML = "";
+  }
+}
+
+function enforceSlaPlayerSidebarTabRestrictions(app, html) {
+  const tabName = app?.tabName ?? app?.options?.id ?? "";
+  if (tabName === "actors") return enforceSlaPlayerDirectoryRestrictions("actors", html);
+  if (tabName === "scenes") return enforceSlaPlayerDirectoryRestrictions("scenes", html);
+  if (tabName === "journal") return enforceSlaPlayerDirectoryRestrictions("journal", html);
+  if (tabName === "tables") return enforceSlaPlayerDirectoryRestrictions("tables", html);
+  if (tabName === "compendium") return enforceSlaPlayerDirectoryRestrictions("compendium", html);
+  if (tabName === "combat") return enforceSlaPlayerDirectoryRestrictions("combat", html);
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SLA Industries — UI Icon Injection

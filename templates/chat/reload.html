@@ -1,17 +1,26 @@
-<div class="mosh" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+<div class="mosh sla-chat-shell sla-chat-shell-reload" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
 {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
     <div class="rollcontainer">
-        <div class="flexrow" style="margin-bottom : 5px;">
-            {{#if (compare 'int' item.name.length '>=' 22)}}
-            <div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{{item.name}}}</div>
-            {{else}}
-            <div class="rollweaponh1" >{{{item.name}}}</div>
-            {{/if}}
-            <div style="text-align: right"><img class="roll-image" src="systems/sla-mothership/images/icons/ui/macros/reload.png" /></div>
+        <div class="sla-chat-hero">
+            <div class="sla-chat-hero-main">
+                <div class="sla-chat-kicker-row">
+                    <div class="sla-chat-kicker">Reload Action</div>
+                    <div class="sla-chat-meta-row">
+                        <span class="sla-chat-type-badge sla-chat-type-reload">RLD</span>
+                    </div>
+                </div>
+                {{#if (compare 'int' item.name.length '>=' 22)}}
+                <div class="rollweaponh1 sla-chat-hero-title sla-chat-hero-title-tight">{{{item.name}}}</div>
+                {{else}}
+                <div class="rollweaponh1 sla-chat-hero-title">{{{item.name}}}</div>
+                {{/if}}
+            </div>
+            <div class="sla-chat-hero-media">
+                <img class="roll-image" src="systems/sla-mothership/images/icons/ui/macros/reload.png" />
+            </div>
         </div>
-        <div class="description">
+        <div class="description sla-chat-section sla-chat-section-target">
             <div class="body">{{{msgBody}}}</div>
         </div>
-        <div style="margin-bottom : 16px;"></div>
     </div>
 </div>

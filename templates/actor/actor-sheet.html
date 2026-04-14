@@ -12,7 +12,7 @@
           from 1 to 12 and will create that number of columns.  --}}
 
       <div class="header">
-        <img class="profile sla-portrait-static" src="{{img}}" data-edit="img" title="{{name}}" height="150"
+        <img class="profile" src="{{img}}" data-edit="img" title="{{name}}" height="150"
           width="150" />
 
         <div class="headergrid">
@@ -31,6 +31,10 @@
               <input type="checkbox" name="system.sla.lad" data-dtype="Boolean" {{checked system.sla.lad}} />
               <span>L.A.D.</span>
             </label>
+          </div>
+          <div class="header-field header-field-rest">
+            <div class="headerinputtext">&nbsp;</div>
+            <button type="button" class="sla-sheet-action sla-rest-button sla-header-rest-pill" title="Take a short or long rest">Rest</button>
           </div>
           <div class="header-field header-field-credits">
             <div class="headerinputtext">{{ localize 'Mosh.Credits' }}</div>
@@ -52,27 +56,22 @@
                 value="{{system.rank.value}}" placeholder="" /></div>
           </div>
 
-          <div class="header-field header-field-sla-rank">
-            <div class="headerinputtext">S.C.L</div>
+          <div class="header-field header-field-sla-rank header-field-compact">
+            <div class="headerinputtext">S.C.L.</div>
             <div class="headerinputfield sla-header-input charname"><input name="system.attributes.level.value" class="noborder"
                 type="text" value="{{system.attributes.level.value}}" placeholder="" /></div>
           </div>
 
-          <div class="header-field header-field-height">
+          <div class="header-field header-field-height header-field-compact">
             <div class="headerinputtext">Height</div>
             <div class="headerinputfield sla-header-input charname"><input name="system.sla.height.value" class="noborder" type="text"
                 value="{{system.sla.height.value}}" placeholder="" /></div>
           </div>
-          <div class="header-field header-field-weight">
+          <div class="header-field header-field-weight header-field-compact">
             <div class="headerinputtext">Weight</div>
             <div class="headerinputfield sla-header-input charname"><input name="system.sla.weightText.value" class="noborder" type="text"
                 value="{{system.sla.weightText.value}}" placeholder="" /></div>
           </div>
-          <div class="header-field header-field-rest">
-            <div class="headerinputtext">&nbsp;</div>
-            <button type="button" class="sla-sheet-action sla-rest-button sla-header-rest-pill" title="Take a short or long rest">Rest</button>
-          </div>
-
         </div>
       </div>
 
@@ -206,16 +205,14 @@
           </div>
           {{/if}}
           <!-- Trauma Response -->
-          <div class="" style="margin-left: 6px; margin-right: 0px; flex: 0; grid-column-start: 1; grid-column-end: 3;">
-            <div class="sla-trauma-header-row">
-              <div class="resource-label sla-stat-heading sla-trauma-heading">{{ localize 'Mosh.TraumaResponse' }}</div>
-              <div class="sla-session-ability-row">
-                <label class="sla-session-ability-label" title="Check when the session trauma ability has been used">
-                  <input type="checkbox" class="sla-session-ability-used" {{#if system.sla.sessionAbilityUsed}}checked{{/if}} />
-                  <span>Session ability used</span>
-                </label>
-                <button type="button" class="sla-new-session" title="Start a new session — resets session ability">New Session</button>
-              </div>
+          <div class="sla-trauma-panel" style="margin-left: 6px; margin-right: 0px; flex: 0; grid-column-start: 1; grid-column-end: 3;">
+            <div class="resource-label sla-stat-heading sla-trauma-heading">{{ localize 'Mosh.TraumaResponse' }}</div>
+            <div class="sla-trauma-controls">
+              <label class="sla-trauma-toggle" title="Mark the trauma response as used this session">
+                <input type="checkbox" class="sla-session-ability-used" {{checked system.sla.sessionAbilityUsed}} />
+                <span>Used This Session</span>
+              </label>
+              <button type="button" class="sla-inline-mini-button sla-new-session" title="Reset trauma response use for a new session">New Session</button>
             </div>
             <textarea name="system.other.stressdesc.value" rows="4" class="textarea-input trauma-response-box" type="text"
               data-target="system.other.stressdesc.value" placeholder="Trauma response">{{system.other.stressdesc.value}}</textarea>
@@ -390,60 +387,17 @@
     <a class="tab-select" data-tab="skills">{{ localize 'Mosh.Skills' }}</a>
     <a class="tab-select" data-tab="weapons">{{ localize 'Mosh.Weapons' }}</a>
     <a class="tab-select" data-tab="items">{{ localize 'Mosh.Items' }}</a>
+    <a class="tab-select" data-tab="drugs">Drugs</a>
     <a class="tab-select" data-tab="sla">SLA</a>
     <a class="tab-select" data-tab="traits">Traits</a>
     <a class="tab-select" data-tab="special-rules">Special Rules</a>
     {{#if isEbbUser}}<a class="tab-select" data-tab="ebb">Ebb</a>{{/if}}
-    {{#if isVevaphon}}<a class="tab-select" data-tab="morph">Morph</a>{{/if}}
-    <a class="tab-select" data-tab="contacts">Contacts</a>
     <a class="tab-select" data-tab="description">{{ localize 'Mosh.Bio' }}</a>
     <a class="tab-select" data-tab="notes">{{ localize 'Mosh.Notes' }}</a>
   </nav>
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-
-    {{!-- Contacts Tab --}}
-    <div class="tab items" data-group="primary" data-tab="contacts">
-      <div class="sla-panel">
-        <div class="sla-banner">
-          <div>
-            <div class="sla-kicker">Operative Network</div>
-            <div class="sla-title">Contacts & Associates</div>
-          </div>
-          <div class="sla-tags">
-            <span class="sla-tag">{{slaContactCount}} contact{{#unless (compare 'int' slaContactCount '===' 1)}}s{{/unless}}</span>
-          </div>
-        </div>
-
-        <div class="sla-contacts-toolbar">
-          <button type="button" class="sla-sheet-action sla-contact-add"><i class="fas fa-plus"></i> Add Contact</button>
-        </div>
-
-        {{#if slaContacts.length}}
-        <div class="sla-contacts-list">
-          {{#each slaContacts as |contact|}}
-          <div class="sla-contact-card" data-contact-id="{{contact.id}}">
-            <div class="sla-contact-header">
-              <div class="sla-contact-disposition sla-contact-disposition-{{contact.disposition}}"></div>
-              <div class="sla-contact-name">{{contact.name}}</div>
-              <div class="sla-contact-role">{{contact.role}}</div>
-              <div class="sla-contact-controls">
-                <button type="button" class="sla-contact-edit" data-contact-id="{{contact.id}}" title="Edit contact"><i class="fas fa-edit"></i></button>
-                <button type="button" class="sla-contact-delete" data-contact-id="{{contact.id}}" title="Delete contact"><i class="fas fa-trash"></i></button>
-              </div>
-            </div>
-            {{#if contact.notes}}
-            <div class="sla-contact-notes">{{contact.notes}}</div>
-            {{/if}}
-          </div>
-          {{/each}}
-        </div>
-        {{else}}
-        <div class="sla-note-pill sla-note-pill-wide">No contacts yet. Add allies, fixers, squad members, and other NPCs the operative knows.</div>
-        {{/if}}
-      </div>
-    </div>
 
     {{!-- Biography Tab --}}
     <div class="tab biography" data-group="primary" data-tab="description">
@@ -452,14 +406,14 @@
     {{!-- Notes Tab --}}
     <div class="tab biography" data-group="primary" data-tab="notes">
       <div class="sla-card" style="margin-bottom: 12px;">
-        <div class="sla-card-label">Ammo Spend Ledger</div>
-        <div class="sla-card-copy">Total spent: {{system.sla.ammoSpendTotal.value}} cR</div>
-        <textarea readonly rows="6" class="textarea-input">{{system.sla.ammoLedger.value}}</textarea>
+        <div class="sla-card-label">Operation Log</div>
+        <div class="sla-card-copy">Recent rolls, outcomes, and field actions for this operative.</div>
+        <textarea readonly rows="10" class="textarea-input">{{system.sla.activityLog.value}}</textarea>
       </div>
-      <div class="sla-card sla-activity-log-card" style="margin-bottom: 12px;">
-        <div class="sla-card-label">Operative Activity Log</div>
-        <div class="sla-card-copy">Rolls, rests, drug use, panic — automatically recorded. Newest first.</div>
-        <textarea readonly rows="8" class="textarea-input sla-activity-log-textarea">{{system.sla.activityLog.value}}</textarea>
+      <div class="sla-card" style="margin-bottom: 12px;">
+        <div class="sla-card-label">Ammo Economy Ledger</div>
+        <div class="sla-card-copy">Firing spend total: {{system.sla.ammoSpendTotal.value}} cR. Purchases are logged below as separate entries.</div>
+        <textarea readonly rows="6" class="textarea-input">{{system.sla.ammoLedger.value}}</textarea>
       </div>
       {{editor enriched.notes target="system.notes" button=true editable=true}}
     </div>
@@ -474,7 +428,6 @@
             <span class="sla-tag">{{system.sla.bpn.value}}</span>
             <span class="sla-tag">SCL {{system.sla.scl.value}}</span>
             {{#if isEbbUser}}<span class="sla-tag">Ebb {{system.sla.ebbRating.value}}</span>{{/if}}
-            {{#if isVevaphon}}<span class="sla-tag sla-instability-tag {{vevaphonInstabilityClass}}">Instability {{system.sla.vevaphonInstability.value}}/12</span>{{/if}}
           </div>
         </div>
 
@@ -539,15 +492,7 @@
           </div>
           <div class="resource">
             <label class="resource-label">SCL</label>
-            <div class="sla-scl-control">
-              <input type="text" name="system.sla.scl.value" value="{{system.sla.scl.value}}" data-dtype="String" class="sla-scl-input" />
-              <div class="sla-scl-buttons">
-                <button type="button" class="sla-scl-adjust" data-delta="1" title="+1 SCL">+1</button>
-                <button type="button" class="sla-scl-adjust" data-delta="-1" title="-1 SCL">-1</button>
-                <button type="button" class="sla-scl-adjust" data-delta="0.5" title="+0.5 SCL">+½</button>
-                <button type="button" class="sla-scl-adjust" data-delta="-0.5" title="-0.5 SCL">-½</button>
-              </div>
-            </div>
+            <input type="text" name="system.sla.scl.value" value="{{system.sla.scl.value}}" data-dtype="String" />
           </div>
           <div class="resource">
             <label class="resource-label">Employer / Squad</label>
@@ -885,112 +830,19 @@
       </ol>
     </div>
     {{/if}}
-    {{#if isVevaphon}}
-    <div class="tab items" data-group="primary" data-tab="morph">
-      <div class="sla-panel">
-        <div class="sla-banner">
-          <div>
-            <div class="sla-kicker">Stormer Vevaphon</div>
-            <div class="sla-title">Polymorphic Form Control</div>
-          </div>
-          <div class="sla-tags">
-            <span class="sla-tag">Form: {{system.sla.morphForm.value}}</span>
-            <span class="sla-tag sla-instability-tag {{vevaphonInstabilityClass}}">Instability {{system.sla.vevaphonInstability.value}} / 12</span>
-            <span class="sla-tag">Sanity {{system.stats.sanity.value}}</span>
-          </div>
-        </div>
-
-        <div class="grid grid-2col sla-card-grid">
-          <div class="sla-card">
-            <div class="sla-card-label">Instability Track</div>
-            <div class="sla-instability-bar-wrap">
-              <div class="sla-instability-bar {{vevaphonInstabilityClass}}" style="width: {{vevaphonInstabilityPercent}}%;"></div>
-              <div class="sla-instability-bar-label {{vevaphonInstabilityClass}}">{{system.sla.vevaphonInstability.value}} / 12</div>
-            </div>
-            <div class="sla-card-copy">
-              {{#if vevaphonInstabilityCritical}}⚠ CRITICAL — Morph Panic risk on every failed Sanity save.{{/if}}
-              {{#if vevaphonInstabilityElevated}}Instability elevated — minor morph effects trigger each scene.{{/if}}
-              {{#unless vevaphonInstabilityElevated}}Instability nominal. Morphing is available without additional risk.{{/unless}}
-            </div>
-            <div class="sla-action-row" style="gap: 6px; flex-wrap: wrap;">
-              <button type="button" class="sla-instability-increase">+1 Instability</button>
-              <button type="button" class="sla-instability-decrease">-1 Instability</button>
-            </div>
-            <div class="sla-card-copy" style="margin-top: 8px;">At 12, the Vevaphon is lost — immediate retirement or death.</div>
-          </div>
-          <div class="sla-card">
-            <div class="sla-card-label">Active Morph Form</div>
-            <div class="sla-card-title">{{system.sla.morphForm.value}}</div>
-            <div class="sla-card-copy">Each morph shift costs 1 Instability. Changing form mid-scene requires a Sanity save at Instability 6+.</div>
-            <div class="sla-morph-form-buttons">
-              <button type="button" class="sla-morph-shift" data-form="Brute Form" {{#if (compare 'str' system.sla.morphForm.value '===' 'Brute Form')}}disabled{{/if}}>
-                <span class="sla-morph-btn-name">Brute Form</span>
-                <span class="sla-morph-btn-meta">STR+10, BODY+10 | Knockdown Immune</span>
-              </button>
-              <button type="button" class="sla-morph-shift" data-form="Stalker Form" {{#if (compare 'str' system.sla.morphForm.value '===' 'Stalker Form')}}disabled{{/if}}>
-                <span class="sla-morph-btn-name">Stalker Form</span>
-                <span class="sla-morph-btn-meta">SPD+10, Stealth+20 | Armour Incompatible</span>
-              </button>
-              <button type="button" class="sla-morph-shift" data-form="Raptor Form" {{#if (compare 'str' system.sla.morphForm.value '===' 'Raptor Form')}}disabled{{/if}}>
-                <span class="sla-morph-btn-name">Raptor Form</span>
-                <span class="sla-morph-btn-meta">COM+10, SPD+5 | Critical Wound Bonus</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid grid-2col sla-card-grid">
-          <div class="sla-card">
-            <div class="sla-card-label">Morph Panic Reference</div>
-            <div class="sla-card-copy">Triggered at Instability 10+ on a failed Sanity save. Roll 1d6:</div>
-            <div class="sla-note-list">
-              <div class="sla-note-pill sla-note-pill-wide">1. Cascade Shift — random morph form, +1 Instability.</div>
-              <div class="sla-note-pill sla-note-pill-wide">2. Identity Bleed — forgets name and callsign until end of scene.</div>
-              <div class="sla-note-pill sla-note-pill-wide">3. Partial Lock — one limb freezes. -10 physical rolls using that limb.</div>
-              <div class="sla-note-pill sla-note-pill-wide">4. Tissue Rejection — 1d5 damage, armour does not apply.</div>
-              <div class="sla-note-pill sla-note-pill-wide">5. Threat Imprint — locked on nearest visible target.</div>
-              <div class="sla-note-pill sla-note-pill-wide">6. Full Reversion — base form, lose morph bonuses, -1 Instability.</div>
-            </div>
-          </div>
-          <div class="sla-card">
-            <div class="sla-card-label">Morph Notes</div>
-            <textarea name="system.sla.morphNotes.value" rows="10" class="textarea-input" data-target="system.sla.morphNotes.value">{{system.sla.morphNotes.value}}</textarea>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/if}}
     {{!-- Owned Items Tab --}}
     <div class="tab items" data-group="primary" data-tab="items">
-      {{#if drugAlerts.length}}
-      <div class="sla-drug-alerts">
-        {{#each drugAlerts as |alert id|}}
-        <div class="sla-drug-alert {{alert.state}}">
-          <div class="sla-drug-alert-main">
-            <div class="sla-drug-alert-name">{{alert.name}}</div>
-            <div class="sla-drug-alert-meta">
-              <span class="sla-drug-alert-state">{{alert.stateLabel}}</span>
-              {{#if alert.duration}}<span class="sla-drug-alert-duration">{{alert.duration}}</span>{{/if}}
-            </div>
-          </div>
-          <div class="sla-drug-alert-summary">{{alert.summary}}</div>
-          <button type="button" class="drug-close-btn drug-close" data-item-id="{{alert.itemId}}" data-drug-id="{{alert.drugId}}">Close</button>
-        </div>
-        {{/each}}
-      </div>
-      {{/if}}
-
       {{#if system.settings.firstEdition}}
       <!-- ARMOR -->
       <ol class="items-list" role="table">
         <li class="item flexrow item-header" role="rowgroup">
           <div class="item-image" role="cell"></div>
           <div class="skill-stat" style="flex-grow: 2.5;" role="cell">{{ localize 'Mosh.ArmorName' }}</div>
-          <div class="skill-stat" role="cell" title="Armour Protection — reduces incoming damage before it reaches your wounds. Higher is better.">{{ localize 'Mosh.AP' }}</div>
-          <div class="skill-stat" role="cell" title="Damage Reduction — subtracts directly from wound damage after AP is applied. Each point absorbed is one less point of damage taken.">{{ localize 'Mosh.DR' }}</div>
-		      <div class="skill-stat" role="cell" title="Speed penalty — how much this armour slows movement. Expressed as a % penalty to physical speed checks.">{{ localize 'Mosh.Speed' }}</div>
-		      <div class="skill-stat" role="cell" title="Oxygen supply — current / maximum charges for sealed suits and vacuum armour. N/A means the suit is not airtight.">{{ localize 'Mosh.Oxygen' }}</div>
-          <div class="skill-stat" role="cell" title="Carry state — Eqp means wearing it now (weight counts against your equipped load). Stow means packed away (counts as stowed weight).">Carry</div>
+          <div class="skill-stat" role="cell">{{ localize 'Mosh.AP' }}</div>
+          <div class="skill-stat" role="cell">{{ localize 'Mosh.DR' }}</div>
+		      <div class="skill-stat" role="cell">{{ localize 'Mosh.Speed' }}</div>
+		      <div class="skill-stat" role="cell">{{ localize 'Mosh.Oxygen' }}</div>
+          <div class="skill-stat" role="cell">Carry</div>
           <div class="item-controls" role="cell">
             <a class="item-control item-create" title="{{ localize 'Mosh.CreateArmor' }}" data-type="armor"><i class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
           </div>
@@ -1027,10 +879,10 @@
         <li class="item flexrow item-header" role="rowgroup">
           <div class="item-image" role="cell"></div>
           <div class="skill-stat" style="flex-grow: 2.5;" role="cell">{{ localize 'Mosh.ArmorName' }}</div>
-          <div class="skill-stat" role="cell" title="Save Bonus — this value is added to your Body save when checking to resist physical damage while wearing this armour.">{{ localize 'Mosh.SaveBonus' }}</div>
-		      <div class="skill-stat" role="cell" title="Speed penalty — how much this armour slows movement. Expressed as a % penalty to physical speed checks.">{{ localize 'Mosh.Speed' }}</div>
-		      <div class="skill-stat" role="cell" title="Oxygen supply — current / maximum charges for sealed suits and vacuum armour. N/A means the suit is not airtight.">{{ localize 'Mosh.Oxygen' }}</div>
-          <div class="skill-stat" role="cell" title="Carry state — Eqp means wearing it now (weight counts against your equipped load). Stow means packed away (counts as stowed weight).">Carry</div>
+          <div class="skill-stat" role="cell">{{ localize 'Mosh.SaveBonus' }}</div>
+		      <div class="skill-stat" role="cell">{{ localize 'Mosh.Speed' }}</div>
+		      <div class="skill-stat" role="cell">{{ localize 'Mosh.Oxygen' }}</div>
+          <div class="skill-stat" role="cell">Carry</div>
           <div class="item-controls" role="cell">
             <a class="item-control item-create" title="{{ localize 'Mosh.CreateArmor' }}" data-type="armor"><i class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
           </div>
@@ -1062,57 +914,15 @@
       </ol>
       {{/if}}
 
-      <!-- DRUGS -->
-      <ol class="items-list sla-drug-list">
-        <li class="item flexrow item-header">
-          <div class="item-image"></div>
-          <div class="skill-stat" style="flex-grow: 1.6;">Drug</div>
-          <div class="skill-stat" title="Quantity — number of doses currently carried.">Qty</div>
-          <div class="skill-stat" title="Rating — the potency tier of this drug. Higher ratings mean stronger effects and harder addiction saves.">Rating</div>
-          <div class="skill-stat" title="Value — street price per dose in credits (cR).">Value</div>
-          <div class="skill-stat" title="Weight — total carry weight for all doses of this drug.">Weight</div>
-          <div class="skill-stat" title="Carry state — Eqp means on your person and immediately accessible. Stow means packed away in your kit.">Carry</div>
-          <div class="skill-stat" title="State — current drug status. Ready means unused. Active means the drug is currently in effect. Crashed means the effect has ended and the character may be experiencing comedown penalties.">State</div>
-          <div class="skill-stat" title="Duration — how many rounds or minutes of effect remain. Blank or 0 means the drug is not currently active.">Duration</div>
-          <div class="item-controls">
-            <a class="item-control item-create" title="Create Drug" data-type="drug"><i class="fas fa-plus"></i> Add</a>
-          </div>
-        </li>
-        {{#each drugRows as |drug id|}}
-        <li class="item flexrow dropitem" data-item-id="{{drug.itemId}}" data-drug-id="{{drug.drugId}}">
-          <div class="item-image"><img src="{{drug.img}}" title="{{drug.name}}" width="24" height="24" /></div>
-          <div class="skill-name list-roll description-roll drug-item-summary" style="flex-grow: 1.6;">{{drug.name}}<span>{{drug.summary}}</span></div>
-          <div class="skill-stat item-quantity">{{drug.quantity}}</div>
-          <div class="skill-stat">{{drug.rating}}</div>
-          <div class="skill-stat">{{drug.cost}}</div>
-          <div class="skill-stat">{{drug.slaCarry.totalWeight}} kg</div>
-          <div class="skill-stat">
-            <div class="sla-carry-toggle-row">
-              <button type="button" class="sla-carry-toggle {{#if (compare 'str' drug.slaCarry.state '===' 'equipped')}}active{{/if}}" data-state="equipped">Eqp</button>
-              <button type="button" class="sla-carry-toggle {{#if (compare 'str' drug.slaCarry.state '===' 'stowed')}}active{{/if}}" data-state="stowed">Stow</button>
-            </div>
-          </div>
-          <div class="skill-stat">{{drug.statusLabel}}</div>
-          <div class="skill-stat">{{drug.duration}}</div>
-          <div class="item-controls">
-            <button type="button" class="drug-use-btn drug-use" {{#unless drug.canUse}}disabled{{/unless}}>Use</button>
-            <button type="button" class="drug-close-btn drug-close" {{#unless drug.canClose}}disabled{{/unless}}>Close</button>
-            <a class="item-control item-edit" title="Edit Drug"><i class="fas fa-edit"></i></a>
-            <a class="item-control item-delete" title="Delete Drug"><i class="fas fa-trash"></i></a>
-          </div>
-        </li>
-        {{/each}}
-      </ol>
-
       <!-- ITEMS -->
       <ol class="items-list">
         <li class="item flexrow item-header">
           <div class="item-image"></div>
-          <div class="skill-stat" style="flex-grow: 1.5;" title="Hover over any item name to see its description.">{{ localize 'Mosh.ItemName' }}</div>
-          <div class="skill-stat" title="Quantity — how many of this item you are carrying.">{{ localize 'Mosh.Quantity' }}</div>
-          <div class="skill-stat" title="Weight — total carry weight for all units of this item (kg).">{{ localize 'Mosh.Weight' }}</div>
-          <div class="skill-stat" title="Carry state — Eqp means on your person and ready to use. Stow means packed away. Equipped items count against your active carry limit; stowed items count against your total carry limit.">Carry</div>
-          <div class="skill-stat" title="Value — purchase price in credits (cR). Sell price is typically half.">{{ localize 'Mosh.Value' }}</div>
+          <div class="skill-stat" style="flex-grow: 1.5;">{{ localize 'Mosh.ItemName' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.Quantity' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.Weight' }}</div>
+          <div class="skill-stat">Carry</div>
+          <div class="skill-stat">{{ localize 'Mosh.Value' }}</div>
           <div class="item-controls">
             <a class="item-control item-create" title="{{ localize 'Mosh.CreateItem' }}" data-type="item"><i class="fas fa-plus"></i> Add</a>
           </div>
@@ -1144,6 +954,66 @@
       </div>
 
     </div>
+    <div class="tab items" data-group="primary" data-tab="drugs">
+      {{#if drugAlerts.length}}
+      <div class="sla-drug-alerts">
+        {{#each drugAlerts as |alert id|}}
+        <div class="sla-drug-alert {{alert.state}}">
+          <div class="sla-drug-alert-main">
+            <div class="sla-drug-alert-name">{{alert.name}}</div>
+            <div class="sla-drug-alert-meta">
+              <span class="sla-drug-alert-state">{{alert.stateLabel}}</span>
+              {{#if alert.duration}}<span class="sla-drug-alert-duration">{{alert.duration}}</span>{{/if}}
+            </div>
+          </div>
+          <div class="sla-drug-alert-summary">{{alert.summary}}</div>
+          <button type="button" class="drug-close-btn drug-close" data-item-id="{{alert.itemId}}" data-drug-id="{{alert.drugId}}">Close</button>
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+
+      <ol class="items-list sla-drug-list">
+        <li class="item flexrow item-header">
+          <div class="item-image"></div>
+          <div class="skill-stat" style="flex-grow: 1.6;">Drug</div>
+          <div class="skill-stat">Qty</div>
+          <div class="skill-stat">Rating</div>
+          <div class="skill-stat">Value</div>
+          <div class="skill-stat">Weight</div>
+          <div class="skill-stat">Carry</div>
+          <div class="skill-stat">State</div>
+          <div class="skill-stat">Duration</div>
+          <div class="item-controls">
+            <a class="item-control item-create" title="Create Drug" data-type="drug"><i class="fas fa-plus"></i> Add</a>
+          </div>
+        </li>
+        {{#each drugRows as |drug id|}}
+        <li class="item flexrow dropitem" data-item-id="{{drug.itemId}}" data-drug-id="{{drug.drugId}}">
+          <div class="item-image"><img src="{{drug.img}}" title="{{drug.name}}" width="24" height="24" /></div>
+          <div class="skill-name list-roll description-roll drug-item-summary" style="flex-grow: 1.6;">{{drug.name}}<span>{{drug.summary}}</span></div>
+          <div class="skill-stat item-quantity">{{drug.quantity}}</div>
+          <div class="skill-stat">{{drug.rating}}</div>
+          <div class="skill-stat">{{drug.cost}}</div>
+          <div class="skill-stat">{{drug.slaCarry.totalWeight}} kg</div>
+          <div class="skill-stat">
+            <div class="sla-carry-toggle-row">
+              <button type="button" class="sla-carry-toggle {{#if (compare 'str' drug.slaCarry.state '===' 'equipped')}}active{{/if}}" data-state="equipped">Eqp</button>
+              <button type="button" class="sla-carry-toggle {{#if (compare 'str' drug.slaCarry.state '===' 'stowed')}}active{{/if}}" data-state="stowed">Stow</button>
+            </div>
+          </div>
+          <div class="skill-stat">{{drug.statusLabel}}</div>
+          <div class="skill-stat">{{drug.duration}}</div>
+          <div class="item-controls">
+            <button type="button" class="drug-use-btn drug-use" {{#unless drug.canUse}}disabled{{/unless}}>Use</button>
+            <button type="button" class="drug-close-btn drug-close" {{#unless drug.canClose}}disabled{{/unless}}>Close</button>
+            <a class="item-control item-edit" title="Edit Drug"><i class="fas fa-edit"></i></a>
+            <a class="item-control item-delete" title="Delete Drug"><i class="fas fa-trash"></i></a>
+          </div>
+        </li>
+        {{/each}}
+      </ol>
+    </div>
     {{!-- Owned Skills Tab --}}
     <div class="tab items" data-group="primary" data-tab="skills">
       <div class="sla-card" style="margin-bottom: 12px;">
@@ -1154,10 +1024,10 @@
       <ol class="items-list" style="margin-bottom : 10px;">
         <li class="item flexrow item-header">
           <div class="item-image"></div>
-          <div class="skill-stat" style="flex-grow: 1.4;" title="Click a skill name to roll it against the relevant stat. Your bonus is added to a d100 roll — you succeed by rolling under the total.">{{ localize 'Mosh.SkillName' }}</div>
-          <div class="skill-stat" title="Category — broad skill grouping (Combat, Technical, Social, etc.) used for package sorting and Ebb discipline filtering.">Category</div>
-          <div class="skill-stat" title="Rank — your proficiency level in this skill. Untrained (no bonus), Basic (+1–9), Trained (+10–14), Expert (+15–19), Master (+20+).">{{ localize 'Mosh.SkillRank' }}</div>
-          <div class="skill-stat" title="Bonus — total modifier added to d100 rolls with this skill. Breakdown shown in small text below the value. Higher is better — you need to roll under (stat + bonus).">{{ localize 'Mosh.SkillBonus' }}</div>
+          <div class="skill-stat" style="flex-grow: 1.4;">{{ localize 'Mosh.SkillName' }}</div>
+          <div class="skill-stat">Category</div>
+          <div class="skill-stat">{{ localize 'Mosh.SkillRank' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.SkillBonus' }}</div>
           <div class="item-controls">
             <a class="item-control skill-create" title="{{ localize 'Mosh.CreateSkill' }}" data-type="skill"><i class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
           </div>
@@ -1216,7 +1086,7 @@
         <li class="item flexrow dropitem" data-item-id="{{condition._id}}">
           <div class="item-image"><img src="{{condition.img}}" title="{{condition.name}}" width="24" height="24"/></div>
           <div class="skill-name description-roll list-roll">{{condition.name}}</div>
-          <div class="skill-stat list-roll severity">{{condition.system.severity}}</div>
+          <div class="skill-stat list-roll severity" data-severity="{{condition.system.severity}}">{{condition.system.severity}}</div>
           <div class="skill-stat">
             {{#if condition.system.treatment.html}}
             <div class="treatment-button list-roll flex" style="margin: 0; position: relative; top: 50%; -ms-transform: translateY(-50%); transform: translateY(-50%);" data-key="condition" data-label="condition" data-max="3"  data-min="0">
@@ -1244,7 +1114,7 @@
     <div class="tab items" data-group="primary" data-tab="weapons">
       <div class="sla-card" style="margin-bottom: 12px;">
         <div class="sla-card-label">Weapons Readiness</div>
-        <div class="sla-card-copy">Ammo stacks: {{slaAmmoInventory.stackCount}} | Total loose rounds: {{slaAmmoInventory.roundCount}} | Running ammo spend: {{system.sla.ammoSpendTotal.value}} cR</div>
+        <div class="sla-card-copy">Ammo stacks: {{slaAmmoInventory.stackCount}} | Total loose rounds: {{slaAmmoInventory.roundCount}} | Running firing spend: {{system.sla.ammoSpendTotal.value}} cR</div>
         <div class="sla-card-copy">Carry: {{slaCarry.current}} / {{slaCarry.capacity}} kg | {{slaCarry.state}}</div>
         <div class="sla-action-row" style="margin-top: 8px;">
           <button type="button" class="sla-sheet-action weapon-reload-all">Reload All</button>
@@ -1254,13 +1124,13 @@
       <ol class="items-list">
         <li class="item flexrow item-header">
           <div class="item-image"></div>
-          <div class="skill-stat" style="flex-grow: 2;" title="Click a weapon name to make an attack roll using your Combat stat. Calibre and current ammo state shown below the name.">{{ localize 'Mosh.WeaponName' }}</div>
-          <div class="skill-stat" title="Damage — rolled on a successful hit. Melee weapons may add your Strength modifier. Anti-Armour (AA) weapons halve target armour before applying damage.">{{ localize 'Mosh.Damage' }}</div>
-          <div class="skill-stat" title="Ammo — currently loaded type (STD / AP / HE / HEAP) and reserve count. STD is standard. AP is armour-piercing (halves target armour, -1 damage). HE is high explosive (+1d5 damage, explosive wounds). HEAP combines AP and HE effects.">{{ localize 'Mosh.Ammo' }}</div>
-          <div class="skill-stat" title="Shots — current magazine / maximum magazine capacity. Click the reload icon to reload or swap ammo type.">{{ localize 'Mosh.Shots' }}</div>
-          <div class="skill-stat" title="Fire Mode — click to cycle between available modes. Single fires one shot. Burst fires several rounds for bonus damage but uses more ammo. Auto lays down suppressing fire.">Mode</div>
-          <div class="skill-stat" title="Carry state — Eqp means the weapon is drawn and ready. Stow means holstered or packed. Only equipped weapons can be used in combat without an action to draw.">Carry</div>
-          <div class="skill-stat" title="Range — maximum effective distance. At short range you roll normally. At medium range you take a penalty. At long range the penalty increases significantly. Beyond max range the weapon cannot reach.">{{ localize 'Mosh.Range' }}</div>
+          <div class="skill-stat" style="flex-grow: 2;">{{ localize 'Mosh.WeaponName' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.Damage' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.Ammo' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.Shots' }}</div>
+          <div class="skill-stat">Mode</div>
+          <div class="skill-stat">Carry</div>
+          <div class="skill-stat">{{ localize 'Mosh.Range' }}</div>
           <div class="item-controls">
             <a class="item-control weapon-create" title="{{ localize 'Mosh.CreateWeapon' }}" data-type="weapon"><i class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
           </div>

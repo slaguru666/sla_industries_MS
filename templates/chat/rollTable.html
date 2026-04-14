@@ -1,17 +1,45 @@
-<div class="mosh"  {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+<div class="mosh sla-chat-shell sla-chat-shell-table sla-chat-variant-{{chatStyle.key}}{{#if parsedRollResult.success}} sla-chat-shell-success{{else}} sla-chat-shell-failure{{/if}}" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
 {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
     <div class="rollcontainer">
-        <div class="flexrow" style="margin-bottom : 5px;">
-            <div class="rollweaponh1">{{{tableName}}}</div>
-            <div style="text-align: right"><img class="roll-image" src="{{{tableImg}}}" /></div>
+        <div class="sla-chat-hero">
+            <div class="sla-chat-hero-main">
+                <div class="sla-chat-kicker-row">
+                    <div class="sla-chat-kicker">Table Roll</div>
+                    <div class="sla-chat-meta-row">
+                        {{#if (compare 'str' specialRoll '===' 'panicCheck')}}
+                        <span class="sla-chat-type-badge sla-chat-type-panic">PNC</span>
+                        {{else if (compare 'str' tableName '===' 'Gunshot Wound')}}
+                        <span class="sla-chat-type-badge sla-chat-type-wound">WND</span>
+                        {{else if (compare 'str' tableName '===' 'Bleeding Wound')}}
+                        <span class="sla-chat-type-badge sla-chat-type-wound">WND</span>
+                        {{else if (compare 'str' tableName '===' 'Fire & Explosives Wound')}}
+                        <span class="sla-chat-type-badge sla-chat-type-wound">WND</span>
+                        {{else if (compare 'str' tableName '===' 'Gore & Massive Wound')}}
+                        <span class="sla-chat-type-badge sla-chat-type-wound">WND</span>
+                        {{else}}
+                        <span class="sla-chat-type-badge sla-chat-type-table">TBL</span>
+                        {{/if}}
+                        <div class="sla-chat-deptline"><span class="sla-chat-emblem">{{chatStyle.emblem}}</span><span class="sla-chat-dept">{{chatStyle.label}}</span></div>
+                    </div>
+                </div>
+                <div class="rollweaponh1 sla-chat-hero-title">{{{tableName}}}</div>
+            </div>
+            <div class="sla-chat-hero-media">
+                <img class="roll-image" src="{{{tableImg}}}" />
+            </div>
         </div>
-        {{{parsedRollResult.outcomeHtml}}}
-        <div class="description sla-chat-section" style="margin-bottom: 10px;">
+
+        <div class="description sla-chat-section">
             <div class="body">{{{msgDesc}}}</div>
         </div>
-        {{{parsedRollResult.rollHtml}}}
+
+        <div class="sla-chat-rollframe">
+            {{{parsedRollResult.outcomeHtml}}}
+            {{{parsedRollResult.rollHtml}}}
+        </div>
+
 		{{#if secondRoll}}
-			<div class="description sla-chat-section" style="margin-bottom: 10px;">
+			<div class="description sla-chat-section">
                 {{#if (compare 'str' specialRoll '===' 'panicCheck')}}
 				    <div class="body">{{ localize 'Mosh.RollingForPanicEffect' }}</div>
                 {{/if}}
@@ -19,34 +47,57 @@
 				    <div class="body">{{ localize 'Mosh.RollingForMaintenanceIssue' }}</div>
                 {{/if}}
 			</div>
-			{{{parsedRollResult2.rollHtml}}}
+            <div class="sla-chat-rollframe">
+			    {{{parsedRollResult2.rollHtml}}}
+            </div>
 		{{/if}}
+
         {{#if parsedRollResult.success}}
-            <div class="description sla-chat-section sla-chat-section-success" style="margin-bottom : 20px;">{{{flavorText}}}</div>
+            <div class="description sla-chat-section sla-chat-section-success">{{{flavorText}}}</div>
         {{else}}
             {{#if woundText}}
-                {{{woundText}}}<br><br>
+                <div class="sla-chat-section sla-chat-section-danger {{severityMeta.cssClass}}">
+                    <div class="sla-chat-section-heading">
+                        <span class="sla-chat-severity-pill {{severityMeta.cssClass}}">{{severityMeta.label}}</span>
+                    </div>
+                    {{{woundText}}}
+                </div>
             {{/if}}
             {{#if (compare 'str' tableResultType '===' 'document')}}
-                <ol class="table-results">
-                {{#each tableResult}}
-                <li class="table-result flexrow" data-result-id="{{{this._id}}}">
-                    <img class="result-image" src="{{{this.img}}}">
-                    <div class="result-text"><a class="content-link broken" draggable="true" data-type="Item" data-uuid="undefined"><i class="fas fa-unlink"></i>{{{this.description}}}</a></div>
-                </li>
-                {{/each}}
-                </ol>
+                <div class="sla-chat-section sla-chat-section-target">
+                    <div class="sla-chat-section-title">Linked Results</div>
+                    <ol class="table-results">
+                    {{#each tableResult}}
+                    <li class="table-result flexrow" data-result-id="{{{this._id}}}">
+                        <img class="result-image" src="{{{this.img}}}">
+                        <div class="result-text"><a class="content-link broken" draggable="true" data-type="Item" data-uuid="undefined"><i class="fas fa-unlink"></i>{{{this.description}}}</a></div>
+                    </li>
+                    {{/each}}
+                    </ol>
+                </div>
             {{/if}}
             {{#if (compare 'str' tableResultType '===' 'text')}}
                 {{#if tableResultEdited}}
-                    <div class="description sla-chat-section sla-chat-section-danger" style="margin-bottom : 20px;">{{{tableResultEdited}}}{{{tableResultFooter}}}</div>
+                    <div class="description sla-chat-section sla-chat-section-danger {{severityMeta.cssClass}}">
+                        <div class="sla-chat-section-heading">
+                            <span class="sla-chat-severity-pill {{severityMeta.cssClass}}">{{severityMeta.label}}</span>
+                        </div>
+                        {{{tableResultEdited}}}{{{tableResultFooter}}}
+                    </div>
                 {{else}}
-                    <div class="description sla-chat-section sla-chat-section-danger" style="margin-bottom : 20px;">{{{tableResult.[0].description}}}{{{tableResultFooter}}}</div>
+                    <div class="description sla-chat-section sla-chat-section-danger {{severityMeta.cssClass}}">
+                        <div class="sla-chat-section-heading">
+                            <span class="sla-chat-severity-pill {{severityMeta.cssClass}}">{{severityMeta.label}}</span>
+                        </div>
+                        {{{tableResult.[0].description}}}{{{tableResultFooter}}}
+                    </div>
                 {{/if}}
             {{/if}}
             {{#if (compare 'str' specialRoll '===' 'maintenanceCheck')}}
                 {{#if critFail}}
-                <br><br>@UUID[Compendium.mosh.macros_hotbar_1e.IgWvaabVqzKDzLL4]{Make a Panic Check}
+                <div class="sla-chat-section sla-chat-section-danger">
+                    <div class="body">@UUID[Compendium.mosh.macros_hotbar_1e.IgWvaabVqzKDzLL4]{Make a Panic Check}</div>
+                </div>
                 {{/if}}
             {{/if}}
         {{/if}}

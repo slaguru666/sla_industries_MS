@@ -1,38 +1,58 @@
-<div class="mosh{{#if isSlaEbbSkill}} sla-ebb-chat{{/if}}" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+<div class="mosh sla-chat-shell sla-chat-shell-check{{#if isSlaEbbSkill}} sla-chat-shell-ebb{{/if}} sla-chat-variant-{{chatStyle.key}}{{#if parsedRollResult.success}} sla-chat-shell-success{{else}} sla-chat-shell-failure{{/if}}{{#if parsedRollResult.critical}} sla-chat-shell-critical{{/if}}" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
 {{#if weapon._id}}data-item-id="{{weapon._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
     <div class="rollcontainer">
-        <div class="flexrow" style="margin-bottom : 5px;">
-            {{#if (compare 'int' msgHeader.length '>=' 22)}}
-            <div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{{msgHeader}}}</div>
-            {{else}}
-            <div class="rollweaponh1" >{{{msgHeader}}}</div>
-            {{/if}}
-            <div style="text-align: right"><img class="roll-image" src="{{{msgImgPath}}}" /></div>
+        <div class="sla-chat-hero">
+            <div class="sla-chat-hero-main">
+                <div class="sla-chat-kicker-row">
+                    <div class="sla-chat-kicker">{{#if (compare 'str' specialRoll '===' 'damage')}}Attack Roll{{else if isSlaEbbSkill}}Ebb Check{{else}}Normal Roll{{/if}}</div>
+                    <div class="sla-chat-meta-row">
+                        {{#if (compare 'str' specialRoll '===' 'damage')}}
+                        <span class="sla-chat-type-badge sla-chat-type-attack">ATK</span>
+                        {{else if isSlaEbbSkill}}
+                        <span class="sla-chat-type-badge sla-chat-type-ebb">EBB</span>
+                        {{else}}
+                        <span class="sla-chat-type-badge sla-chat-type-normal">CHK</span>
+                        {{/if}}
+                        <div class="sla-chat-deptline"><span class="sla-chat-emblem">{{chatStyle.emblem}}</span><span class="sla-chat-dept">{{chatStyle.label}}</span></div>
+                    </div>
+                </div>
+                {{#if (compare 'int' msgHeader.length '>=' 22)}}
+                <div class="rollweaponh1 sla-chat-hero-title sla-chat-hero-title-tight">{{{msgHeader}}}</div>
+                {{else}}
+                <div class="rollweaponh1 sla-chat-hero-title">{{{msgHeader}}}</div>
+                {{/if}}
+            </div>
+            <div class="sla-chat-hero-media">
+                <img class="roll-image" src="{{{msgImgPath}}}" />
+            </div>
         </div>
+
         {{#if (compare 'str' specialRoll '!==' 'damage')}}
-            {{{parsedRollResult.outcomeHtml}}}
-            <div class="description" style="margin-bottom: 10px;">
-                <div class="body">
-                    {{#if (compare 'int' parsedRollResult.total '>=' 90)}}
-						  <span class="high-failure">{{ localize 'Mosh.YouRolled90OrHigher' }}</span>
-                    {{else}}
-                        {{#if isSlaEbbSkill}}
+            <div class="sla-chat-summary">
+                {{#if (compare 'int' parsedRollResult.total '>=' 90)}}
+                    <span class="high-failure">{{ localize 'Mosh.YouRolled90OrHigher' }}</span>
+                {{else}}
+                    {{#if isSlaEbbSkill}}
                         {{#if (compare 'int' skillValue '>' 0)}}
                         You {{{outcomeVerb}}} {{{comparisonText}}} your <strong>{{{attribute}}}</strong> plus the <strong>{{{skill}}}</strong> discipline.
                         {{else}}
                         You {{{outcomeVerb}}} {{{comparisonText}}} your <strong>{{{attribute}}}</strong> while channeling <strong>{{{skill}}}</strong>.
                         {{/if}}
-                        {{else}}
+                    {{else}}
                         {{#if (compare 'int' skillValue '>' 0)}}
                         You {{{outcomeVerb}}} {{{comparisonText}}} your <strong>{{{attribute}}}</strong> plus <strong>{{{skill}}}</strong> skill bonus.
                         {{else}}
                         You {{{outcomeVerb}}} {{{comparisonText}}} your <strong>{{{attribute}}}</strong>.
                         {{/if}}
-                        {{/if}}
                     {{/if}}
-                </div>
+                {{/if}}
             </div>
-            {{{parsedRollResult.rollHtml}}}
+
+            <div class="sla-chat-rollframe">
+                {{{parsedRollResult.outcomeHtml}}}
+                {{{parsedRollResult.rollHtml}}}
+            </div>
+
             {{#if isSlaEbbSkill}}
             <div class="sla-chat-section sla-chat-section-ebb-meta">
                 <div class="sla-chat-section-title">Ebb Discipline</div>
@@ -51,78 +71,50 @@
             </div>
             {{/if}}
         {{/if}}
-        <div class="description" style="margin-bottom : 20px;">
+
         {{#if (compare 'str' specialRoll '===' 'damage')}}
-            <div class="description sla-chat-section">{{{flavorText}}}</div>
+            <div class="sla-chat-section sla-chat-section-damage">{{{flavorText}}}</div>
             {{#if needsDesc}}
-            <div style="margin-bottom : 10px;"></div>
-            <div class="grid grid-2col" style="grid-template-columns: 10px 75px auto">
-                <div style="border-bottom:1px solid #999; height: 50%;"></div>
-                <div style= "font-size:0.65rem; text-align:center;">DESCRIPTION</div>  
-                <div style="border-bottom:1px solid #999; height: 50%;"></div>
-            </div>
-            <div style="margin-bottom : 10px;"></div>
-            <div class="description">
+            <div class="sla-chat-divider">Description</div>
+            <div class="description sla-chat-section">
                 <div class="body">{{{weapon.system.description}}}</div>
                 {{#if woundEffect}}
-                <div class="body">
-                    <br><strong>{{ localize 'Mosh.WoundEffect' }}</strong>
-                    <div style="margin-bottom : 3px;"></div>
-                    {{{woundEffect}}}
+                <div class="body sla-chat-wound-block">
+                    <strong>{{ localize 'Mosh.WoundEffect' }}</strong>
+                    <div class="sla-chat-wound-link">{{{woundEffect}}}</div>
                 </div>
                 {{/if}}
-            {{/if}}
             </div>
-            <div style="margin-bottom : 16px;"></div>
+            {{/if}}
         {{else}}
             {{#if parsedRollResult.success}}
+                {{#if flavorText}}<div class="sla-chat-section sla-chat-section-success">{{{flavorText}}}</div>{{/if}}
+                {{#if criticalSuccessOptions.length}}
+                <div class="sla-chat-section sla-chat-section-success">
+                    <div class="sla-chat-section-title">Critical Success Options</div>
+                    <ol class="sla-chat-list">
+                        {{#each criticalSuccessOptions as |option|}}
+                        <li>{{option}}</li>
+                        {{/each}}
+                    </ol>
+                </div>
+                {{/if}}
                 {{#if weapon}}
-                    <div class="description sla-chat-section">{{{flavorText}}}</div>
-                    {{#if criticalSuccessOptions.length}}
-                    <div class="sla-chat-section sla-chat-section-success">
-                        <div class="sla-chat-section-title">Critical Success Options</div>
-                        <ol class="sla-chat-list">
-                            {{#each criticalSuccessOptions as |option|}}
-                            <li>{{option}}</li>
-                            {{/each}}
-                        </ol>
-                    </div>
-                    {{/if}}
                     {{#if needsDesc}}
-                    <div style="margin-bottom : 10px;"></div>
-                    <div class="grid grid-2col" style="grid-template-columns: 10px 75px auto">
-                        <div style="border-bottom:1px solid #999; height: 50%;"></div>
-                        <div style= "font-size:0.65rem; text-align:center;">{{ localize 'Mosh.Description' }}</div>  
-                        <div style="border-bottom:1px solid #999; height: 50%;"></div>
-                    </div>
-                    <div style="margin-bottom : 10px;"></div>
-                    <div class="description">
+                    <div class="sla-chat-divider">{{ localize 'Mosh.Description' }}</div>
+                    <div class="description sla-chat-section">
                         <div class="body">{{{weapon.system.description}}}</div>
                         {{#if woundEffect}}
-                        <div class="body">
-                            <br><strong>{{ localize 'Mosh.WoundEffect' }}</strong>
-                            <div style="margin-bottom : 3px;"></div>
-                            {{{woundEffect}}}
+                        <div class="body sla-chat-wound-block">
+                            <strong>{{ localize 'Mosh.WoundEffect' }}</strong>
+                            <div class="sla-chat-wound-link">{{{woundEffect}}}</div>
                         </div>
                         {{/if}}
-                    {{/if}}
-                    </div>
-                    <div style="margin-bottom : 16px;"></div>
-                {{else}}
-                    <div class="sla-chat-section">{{{flavorText}}}</div>
-                    {{#if criticalSuccessOptions.length}}
-                    <div class="sla-chat-section sla-chat-section-success">
-                        <div class="sla-chat-section-title">Critical Success Options</div>
-                        <ol class="sla-chat-list">
-                            {{#each criticalSuccessOptions as |option|}}
-                            <li>{{option}}</li>
-                            {{/each}}
-                        </ol>
                     </div>
                     {{/if}}
                 {{/if}}
             {{else}}
-                {{#if flavorText}}<div class="sla-chat-section">{{{flavorText}}}</div>{{/if}}
+                {{#if flavorText}}<div class="sla-chat-section sla-chat-section-danger">{{{flavorText}}}</div>{{/if}}
                 {{#if criticalFailureTable}}
                 <div class="sla-chat-section sla-chat-section-danger">
                     <div class="sla-chat-section-title">{{criticalFailureTable.label}}</div>
@@ -132,15 +124,18 @@
                 </div>
                 {{/if}}
                 {{#if critFail}}
-                <br><br>@UUID[Compendium.mosh.macros_hotbar_1e.IgWvaabVqzKDzLL4]{Make a Panic Check}
+                <div class="sla-chat-section sla-chat-section-danger">
+                    <div class="body">@UUID[Compendium.mosh.macros_hotbar_1e.IgWvaabVqzKDzLL4]{Make a Panic Check}</div>
+                </div>
                 {{/if}}
             {{/if}}
         {{/if}}
+
         {{#if targetingResult}}
         <div class="sla-chat-section sla-chat-section-target">
             <div class="sla-chat-section-title">Target Resolution</div>
             <div class="body"><strong>{{targetingResult.targetName}}</strong> took <strong>{{targetingResult.finalDamage}}</strong> damage.</div>
-            <div class="body">Rolled {{targetingResult.rawDamage}}. Armour reduced {{targetingResult.armourReduced}}{{#if targetingResult.armourPiercing}} after AP/anti-armour effects{{/if}}.</div>
+            <div class="body">Rolled {{targetingResult.rawDamage}}. Armour reduced {{targetingResult.armourReduced}}{{#if targetingResult.armourPiercing}} after AP or anti-armour effects{{/if}}.</div>
             {{#if targetingResult.additionalTargets}}
             <div class="body">{{targetingResult.additionalTargets}} additional targeted token(s) were ignored for this automatic application.</div>
             {{/if}}
@@ -152,6 +147,5 @@
             {{/if}}
         </div>
         {{/if}}
-        </div>
     </div>
 </div>

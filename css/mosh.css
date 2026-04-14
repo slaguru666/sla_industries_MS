@@ -63,11 +63,82 @@
   background: none;
 }
 
+body.sla-pause-active #pause {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 #pause figcaption {
   font-family: "Roboto", sans-serif;
   color: #ffffff;
   opacity: .3;
   padding-left: 6px;
+}
+
+body > .sla-pause-root {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at center, rgba(109, 0, 0, 0.08), transparent 28%),
+    rgba(0, 0, 0, 0.16);
+}
+
+body > .sla-pause-root .sla-pause-stage {
+  width: min(34vw, 420px);
+  height: min(42vw, 500px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body > .sla-pause-root .sla-pause-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 18px rgba(170, 24, 24, 0.26));
+}
+
+body > .sla-pause-root .sla-pause-standby {
+  animation: slaPausePulse 1.75s ease-in-out infinite;
+  text-shadow: 0 0 10px rgba(255, 100, 100, 0.45);
+}
+
+body > .sla-pause-root .sla-pause-scan {
+  animation: slaPauseScan 2.8s ease-in-out infinite;
+}
+
+body > .sla-pause-root .sla-pause-logo-core {
+  animation: slaPauseLogoPulse 2.6s ease-in-out infinite;
+}
+
+body > .sla-pause-root .sla-pause-core-glow {
+  animation: slaPauseCoreGlow 2.8s ease-in-out infinite;
+}
+
+@keyframes slaPausePulse {
+  0%, 100% { opacity: 0.42; }
+  50% { opacity: 1; }
+}
+
+@keyframes slaPauseScan {
+  0% { opacity: 0.08; }
+  50% { opacity: 0.34; }
+  100% { opacity: 0.08; }
+}
+
+@keyframes slaPauseLogoPulse {
+  0%, 100% { opacity: 0.86; filter: brightness(0.95); }
+  50% { opacity: 1; filter: brightness(1.18); }
+}
+
+@keyframes slaPauseCoreGlow {
+  0%, 100% { opacity: 0.62; }
+  50% { opacity: 0.92; }
 }
 
 /* Paragraph */
@@ -474,7 +545,7 @@ p {
   font-family: "Roboto", sans-serif;
   font-size: 11pt;
   font-weight: 500;
-  color: #444;
+  color: grey;
 }
 
 .mosh .resource-label {
@@ -1574,7 +1645,7 @@ p {
 
 .mosh .headergrid {
   display: grid;
-  grid-template-columns: 1.2fr 1.2fr 1.1fr 0.95fr 1fr 1fr 1fr;
+  grid-template-columns: 1.15fr 1.15fr 1fr 0.9fr 0.95fr 0.95fr 0.95fr 0.9fr;
   grid-template-rows: auto auto auto;
   gap: 0.35rem 0.5rem;
   padding: 1.45em 1em 1em;
@@ -1646,7 +1717,7 @@ p {
 }
 
 .mosh .header-field-lad {
-  grid-column: 1 / span 3;
+  grid-column: 1 / span 2;
   grid-row: 3;
   align-self: start;
 }
@@ -1657,7 +1728,7 @@ p {
 }
 
 .mosh .header-field-race {
-  grid-column: 6 / span 2;
+  grid-column: 6 / span 3;
   grid-row: 2;
 }
 
@@ -1676,12 +1747,21 @@ p {
   grid-row: 3;
 }
 
+.mosh .header-field-rest {
+  grid-column: 3;
+  grid-row: 3;
+  align-self: start;
+  justify-self: start;
+  width: 100%;
+  max-width: 78px;
+}
+
 .mosh .sla-header-checkbox {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
   min-height: 2rem;
-  padding: 0.25rem 0.9rem;
+  padding: 0.2rem 0.7rem;
   border: 2px solid #111;
   border-radius: 999px;
   background: #fff;
@@ -1703,6 +1783,21 @@ p {
 .mosh .sla-header-checkbox span {
   line-height: 1;
   white-space: nowrap;
+  font-size: 0.86rem;
+  letter-spacing: 0.05em;
+}
+
+.mosh .sla-header-rest-pill {
+  min-width: 0;
+  width: 100%;
+  justify-content: center;
+  align-self: start;
+  background: linear-gradient(180deg, #4aa8ff 0%, #1b64d8 100%) !important;
+  color: #f4fbff !important;
+  border: 1px solid rgba(134, 209, 255, 0.9) !important;
+  box-shadow: 0 0 0 1px rgba(9, 29, 56, 0.45), 0 0 14px rgba(58, 152, 255, 0.28);
+  padding: 0.28rem 0.55rem !important;
+  font-size: 0.86rem !important;
 }
 
 .mosh .header-field-compact .headerinputfield {
@@ -1746,7 +1841,8 @@ p {
   height: auto;
   padding: 6px;
   border-radius: 10px;
-  border: 0;
+  border: 2px solid rgba(102, 209, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(8, 18, 30, 0.9), 0 0 14px rgba(54, 176, 255, 0.35);
 }
 
 .mosh .rollcontainer {
@@ -1843,15 +1939,7 @@ p {
   margin-top: -8px;
   margin-bottom: 3px;
   padding: 5px;
-  color: #444;
-}
-
-/* Skill roll dialog — scrollable list so Roll button is always visible */
-.macro-popup-dialog .skill-dialog-scroll {
-  max-height: min(420px, 55vh);
-  overflow-y: auto;
-  margin-bottom: 4px;
-  padding-right: 2px;
+  color: grey;
 }
 
 .mosh .rollattribute {
@@ -2325,130 +2413,11 @@ p {
   font-weight: 700;
 }
 
-.mosh .sla-flux-stage.stable { background: rgba(81, 163, 109, 0.25); color: #1a5c35; }
-.mosh .sla-flux-stage.charged { background: rgba(203, 161, 68, 0.25); color: #5a3f00; }
-.mosh .sla-flux-stage.frayed { background: rgba(194, 112, 55, 0.28); color: #6b2e00; }
-.mosh .sla-flux-stage.breach { background: rgba(161, 59, 59, 0.32); color: #6b1414; }
-.mosh .sla-flux-stage.catastrophic { background: rgba(99, 31, 31, 0.5); color: #3d0000; }
-
-/* ── Vevaphon Instability ─────────────────────────────────────── */
-.mosh .sla-instability-bar-wrap {
-  position: relative;
-  margin-top: 10px;
-  height: 22px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(17, 17, 17, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.mosh .sla-instability-bar {
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, rgba(81, 163, 109, 0.9), rgba(203, 161, 68, 0.92));
-  transition: width 0.3s ease;
-}
-
-.mosh .sla-instability-bar-label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Josefin Sans", "Roboto", sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  pointer-events: none;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.55);
-  color: #fff;
-}
-
-.mosh .sla-instability-bar-label.instability-critical {
-  color: #ffe0e0;
-  text-shadow: 0 1px 3px rgba(80,0,0,0.8);
-}
-
-.mosh .sla-instability-bar.instability-elevated {
-  background: linear-gradient(90deg, rgba(203, 161, 68, 0.92), rgba(194, 112, 55, 0.96));
-}
-
-.mosh .sla-instability-bar.instability-critical {
-  background: linear-gradient(90deg, rgba(194, 112, 55, 0.96), rgba(161, 59, 59, 0.98));
-}
-
-.mosh .sla-instability-tag.instability-nominal {
-  background: rgba(81, 163, 109, 0.18);
-  color: #1a5c35;
-  border-color: rgba(81, 163, 109, 0.35);
-}
-
-.mosh .sla-instability-tag.instability-elevated {
-  background: rgba(203, 161, 68, 0.22);
-  color: #5a3f00;
-  border-color: rgba(203, 161, 68, 0.45);
-}
-
-.mosh .sla-instability-tag.instability-critical {
-  background: rgba(161, 59, 59, 0.28);
-  color: #6b1414;
-  border-color: rgba(161, 59, 59, 0.55);
-  font-weight: 700;
-}
-
-.mosh .sla-morph-form-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.mosh .sla-morph-shift {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  padding: 8px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: linear-gradient(180deg, #3a3f50, #22262e);
-  color: #d8dde6;
-  font-family: "Josefin Sans", "Roboto", sans-serif;
-  border-radius: 4px;
-  cursor: pointer;
-  text-align: left;
-  transition: background 0.15s ease;
-  width: 100%;
-}
-
-.mosh .sla-morph-shift:hover:not([disabled]) {
-  background: linear-gradient(180deg, #4f5568, #303642);
-}
-
-.mosh .sla-morph-shift[disabled] {
-  background: linear-gradient(180deg, rgba(100, 160, 80, 0.3), rgba(60, 110, 50, 0.3));
-  border-color: rgba(100, 160, 80, 0.5);
-  color: #1a5c35;
-  cursor: default;
-}
-
-.mosh .sla-morph-btn-name {
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.mosh .sla-morph-btn-meta {
-  font-size: 0.7rem;
-  opacity: 0.75;
-  text-transform: none;
-  letter-spacing: 0;
-  font-family: inherit;
-}
-/* ── End Vevaphon ─────────────────────────────────────────────── */
+.mosh .sla-flux-stage.stable { background: rgba(81, 163, 109, 0.25); color: #dff7e7; }
+.mosh .sla-flux-stage.charged { background: rgba(203, 161, 68, 0.25); color: #fff2c8; }
+.mosh .sla-flux-stage.frayed { background: rgba(194, 112, 55, 0.28); color: #ffe2cc; }
+.mosh .sla-flux-stage.breach { background: rgba(161, 59, 59, 0.32); color: #ffd7d7; }
+.mosh .sla-flux-stage.catastrophic { background: rgba(99, 31, 31, 0.5); color: #fff0f0; }
 
 .mosh .sla-action-row button,
 .mosh .sla-generator button,
@@ -2781,6 +2750,17 @@ p {
   border-color: rgba(42, 20, 15, 0.28) !important;
 }
 
+.window-app.sla-window-theme-legacy .mosh .textarea-input,
+.window-app.sla-window-theme-legacy .mosh .trauma-response-box {
+  background: #fffaf1 !important;
+  color: #17120f !important;
+  border: 1px solid rgba(42, 20, 15, 0.22) !important;
+}
+
+.window-app.sla-window-theme-legacy .mosh .trauma-response-box::placeholder {
+  color: rgba(31, 23, 18, 0.48) !important;
+}
+
 .window-app.sla-window-theme-legacy .mosh .mainstatlabel,
 .window-app.sla-window-theme-legacy .mosh .stresslabel,
 .window-app.sla-window-theme-legacy .mosh .items-list .item-header {
@@ -3042,12 +3022,61 @@ p {
 }
 
 .mosh .trauma-response-box {
+  display: block;
+  width: 100%;
   min-height: 92px;
-  max-height: 132px;
+  max-height: 150px;
+  padding: 10px 12px;
+  box-sizing: border-box;
   font-size: 0.92rem;
   line-height: 1.25;
   overflow-y: auto;
   resize: vertical;
+  border-radius: 12px;
+}
+
+.mosh .sla-trauma-panel {
+  display: grid;
+  grid-template-rows: auto auto minmax(112px, auto);
+  row-gap: 8px;
+  min-width: 0;
+}
+
+.mosh .sla-trauma-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.mosh .sla-trauma-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(14, 20, 28, 0.72);
+  color: #e7eef6;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.mosh .sla-trauma-toggle input[type="checkbox"] {
+  margin: 0;
+  accent-color: #3f92ff;
+}
+
+.mosh .sla-trauma-controls .sla-inline-mini-button {
+  min-width: 0;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.67rem;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
 .mosh .sla-stat-heading {
@@ -3286,6 +3315,17 @@ p {
   border-color: rgba(17, 22, 27, 0.24) !important;
 }
 
+.window-app.sla-window-theme-modern .mosh .textarea-input,
+.window-app.sla-window-theme-modern .mosh .trauma-response-box {
+  background: #11161d !important;
+  color: #f4f7fa !important;
+  border: 1px solid rgba(212, 190, 148, 0.24) !important;
+}
+
+.window-app.sla-window-theme-modern .mosh .trauma-response-box::placeholder {
+  color: rgba(244, 247, 250, 0.52) !important;
+}
+
 .mosh.sla-sheet-theme-modern .textarea-input {
   background: #11161d;
   color: #f4f7fa;
@@ -3444,7 +3484,7 @@ p {
   line-height: 1;
   cursor: pointer;
   position: relative;
-  top: -4px;
+  top: -1px;
 }
 
 .mosh .sla-health-label-row {
@@ -3453,7 +3493,7 @@ p {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 18px;
+  min-height: 24px;
 }
 
 .mosh .sla-health-label-row .resource-label {
@@ -4048,6 +4088,494 @@ p {
     flex-direction: column;
   }
 }
+
+/* SLA chat outcome redesign */
+.chat-message .mosh.sla-chat-shell,
+.mosh.sla-chat-shell {
+  --sla-chat-bg: linear-gradient(180deg, #151318 0%, #0e0d11 100%);
+  --sla-chat-surface: rgba(32, 25, 32, 0.92);
+  --sla-chat-panel: rgba(17, 21, 28, 0.94);
+  --sla-chat-panel-soft: rgba(27, 33, 43, 0.92);
+  --sla-chat-ink: #f4efe7;
+  --sla-chat-muted: #d2c5b8;
+  --sla-chat-accent: #cf3148;
+  --sla-chat-accent-soft: rgba(207, 49, 72, 0.18);
+  --sla-chat-line: rgba(207, 49, 72, 0.48);
+  --sla-chat-glow: rgba(207, 49, 72, 0.22);
+}
+
+.chat-message .mosh.sla-chat-shell .rollcontainer,
+.mosh.sla-chat-shell .rollcontainer {
+  background: var(--sla-chat-bg);
+  border: 1px solid var(--sla-chat-line);
+  border-radius: 18px;
+  padding: 10px 10px 12px;
+  color: var(--sla-chat-ink);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.chat-message .mosh.sla-chat-shell .rollcontainer .body,
+.chat-message .mosh.sla-chat-shell .description,
+.chat-message .mosh.sla-chat-shell .description .body,
+.mosh.sla-chat-shell .rollcontainer .body,
+.mosh.sla-chat-shell .description,
+.mosh.sla-chat-shell .description .body {
+  color: var(--sla-chat-ink);
+}
+
+.mosh.sla-chat-shell .sla-chat-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 62px;
+  gap: 10px;
+  align-items: stretch;
+  margin-bottom: 10px;
+}
+
+.mosh.sla-chat-shell .sla-chat-hero-main {
+  min-width: 0;
+}
+
+.mosh.sla-chat-shell .sla-chat-kicker {
+  margin-bottom: 6px;
+  color: #ffcf9a;
+  font-family: "Futura PT Cond Bold", "Josefin Sans", "Roboto", sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.95;
+}
+
+.mosh.sla-chat-shell .sla-chat-kicker-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.mosh.sla-chat-shell .sla-chat-meta-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.mosh.sla-chat-shell .sla-chat-deptline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.mosh.sla-chat-shell .sla-chat-emblem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid var(--sla-chat-line);
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  color: var(--sla-chat-ink);
+  font-size: 0.62rem;
+  font-family: "Futura PT Cond Bold", "Josefin Sans", "Roboto", sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.03), 0 0 10px var(--sla-chat-glow);
+}
+
+.mosh.sla-chat-shell .sla-chat-dept {
+  color: var(--sla-chat-muted);
+  font-size: 0.68rem;
+  font-family: "Futura PT Cond Bold", "Josefin Sans", "Roboto", sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mosh.sla-chat-shell .sla-chat-type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.14);
+  font-size: 0.62rem;
+  font-family: "Futura PT Cond Bold", "Josefin Sans", "Roboto", sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fff7ef;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 0 12px rgba(0,0,0,0.18);
+}
+
+.mosh.sla-chat-shell .sla-chat-type-normal {
+  background: linear-gradient(180deg, rgba(49, 72, 99, 0.98), rgba(21, 34, 48, 0.98));
+  border-color: rgba(128, 182, 232, 0.34);
+}
+
+.mosh.sla-chat-shell .sla-chat-type-attack {
+  background: linear-gradient(180deg, rgba(120, 34, 38, 0.98), rgba(61, 18, 22, 0.98));
+  border-color: rgba(239, 112, 112, 0.36);
+}
+
+.mosh.sla-chat-shell .sla-chat-type-panic {
+  background: linear-gradient(180deg, rgba(132, 65, 24, 0.98), rgba(68, 35, 12, 0.98));
+  border-color: rgba(255, 181, 110, 0.36);
+}
+
+.mosh.sla-chat-shell .sla-chat-type-wound {
+  background: linear-gradient(180deg, rgba(128, 18, 46, 0.98), rgba(67, 10, 25, 0.98));
+  border-color: rgba(230, 88, 128, 0.38);
+}
+
+.mosh.sla-chat-shell .sla-chat-type-ebb {
+  background: linear-gradient(180deg, rgba(22, 98, 94, 0.98), rgba(11, 47, 45, 0.98));
+  border-color: rgba(106, 208, 193, 0.38);
+}
+
+.mosh.sla-chat-shell .sla-chat-type-heal {
+  background: linear-gradient(180deg, rgba(22, 98, 58, 0.98), rgba(12, 48, 29, 0.98));
+  border-color: rgba(118, 223, 159, 0.38);
+}
+
+.mosh.sla-chat-shell .sla-chat-type-reload {
+  background: linear-gradient(180deg, rgba(110, 87, 28, 0.98), rgba(58, 45, 13, 0.98));
+  border-color: rgba(235, 205, 116, 0.38);
+}
+
+.mosh.sla-chat-shell .sla-chat-type-table {
+  background: linear-gradient(180deg, rgba(72, 57, 112, 0.98), rgba(36, 28, 58, 0.98));
+  border-color: rgba(161, 135, 235, 0.34);
+}
+
+.mosh.sla-chat-shell .sla-chat-type-item {
+  background: linear-gradient(180deg, rgba(66, 66, 76, 0.98), rgba(28, 28, 36, 0.98));
+  border-color: rgba(180, 180, 195, 0.3);
+}
+
+.chat-message .mosh.sla-chat-shell .rollweaponh1,
+.mosh.sla-chat-shell .rollweaponh1 {
+  min-height: 0;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--sla-chat-line);
+  background: linear-gradient(180deg, rgba(40, 18, 24, 0.98), rgba(22, 18, 28, 0.98));
+  color: #fff7ef;
+  font-size: 1.02rem;
+  line-height: 1.08;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.mosh.sla-chat-shell .sla-chat-hero-title-tight {
+  font-size: 0.9rem;
+  line-height: 1.14;
+}
+
+.mosh.sla-chat-shell .sla-chat-hero-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--sla-chat-line);
+  background: linear-gradient(180deg, rgba(18, 25, 36, 0.96), rgba(9, 13, 18, 0.96));
+}
+
+.mosh.sla-chat-shell .roll-image {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.mosh.sla-chat-shell .sla-chat-summary {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(245, 236, 226, 0.98), rgba(229, 217, 203, 0.98));
+  color: #16120f;
+  border: 1px solid rgba(255, 219, 176, 0.48);
+  font-size: 0.98rem;
+  line-height: 1.28;
+}
+
+.mosh.sla-chat-shell .sla-chat-summary strong {
+  color: #0f0c0a;
+}
+
+.mosh.sla-chat-shell .sla-chat-rollframe {
+  margin: 0 0 10px;
+}
+
+.mosh.sla-chat-shell .sla-roll-result,
+.mosh.sla-chat-shell .dice-roll,
+.mosh.sla-chat-shell .dice-result,
+.mosh.sla-chat-shell .roll-result,
+.mosh.sla-chat-shell .dice-total,
+.mosh.sla-chat-shell .dice-formula {
+  color: #f4efe7;
+}
+
+.mosh.sla-chat-shell .dice-formula {
+  background: linear-gradient(180deg, rgba(24, 57, 77, 0.98), rgba(12, 33, 49, 0.98));
+  border: 1px solid rgba(88, 181, 219, 0.52);
+  border-radius: 10px;
+  color: #d9f3ff;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.mosh.sla-chat-shell .dice-total,
+.mosh.sla-chat-shell .roll-result {
+  background: linear-gradient(180deg, rgba(23, 28, 37, 0.98), rgba(12, 15, 20, 0.98));
+  border: 1px solid rgba(228, 195, 121, 0.48);
+  border-radius: 12px;
+  color: #fff5df;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.03), 0 0 12px rgba(228, 195, 121, 0.12);
+}
+
+.mosh.sla-chat-shell .sla-roll-outcome {
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-weight: 700;
+}
+
+.mosh.sla-chat-shell .sla-roll-outcome.sla-success,
+.mosh.sla-chat-shell .dice-total.sla-crit-success {
+  background: linear-gradient(180deg, rgba(10, 84, 46, 0.95), rgba(10, 55, 31, 0.95));
+  color: #dcffe7;
+  border-color: rgba(119, 225, 154, 0.45);
+}
+
+.mosh.sla-chat-shell .sla-roll-outcome.sla-failure,
+.mosh.sla-chat-shell .dice-total.sla-crit-failure {
+  background: linear-gradient(180deg, rgba(112, 20, 24, 0.95), rgba(67, 13, 18, 0.95));
+  color: #ffe2e2;
+  border-color: rgba(255, 133, 133, 0.45);
+}
+
+.mosh.sla-chat-shell .sla-chat-section {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(207, 49, 72, 0.28);
+  border-radius: 12px;
+  background: var(--sla-chat-panel);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+
+.mosh.sla-chat-shell .sla-chat-section-title {
+  margin-bottom: 7px;
+  color: #ffd8a3;
+  font-size: 0.73rem;
+  letter-spacing: 0.16em;
+}
+
+.mosh.sla-chat-shell .sla-chat-section-success {
+  background: linear-gradient(180deg, rgba(18, 58, 36, 0.96), rgba(12, 35, 23, 0.96));
+  border-color: rgba(96, 213, 141, 0.35);
+}
+
+.mosh.sla-chat-shell .sla-chat-section-danger {
+  background: linear-gradient(180deg, rgba(74, 20, 26, 0.96), rgba(45, 14, 17, 0.96));
+  border-color: rgba(231, 104, 104, 0.38);
+}
+
+.mosh.sla-chat-shell .sla-chat-section-heading {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.45rem;
+}
+
+.mosh.sla-chat-shell .sla-chat-severity-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.62rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.24);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.mosh.sla-chat-shell .sla-chat-section-danger.sla-severity-minor {
+  background: linear-gradient(180deg, rgba(92, 57, 18, 0.96), rgba(55, 34, 12, 0.96));
+  border-color: rgba(255, 190, 74, 0.5);
+}
+
+.mosh.sla-chat-shell .sla-chat-section-danger.sla-severity-severe {
+  background: linear-gradient(180deg, rgba(90, 18, 26, 0.97), rgba(52, 10, 15, 0.97));
+  border-color: rgba(255, 91, 91, 0.52);
+}
+
+.mosh.sla-chat-shell .sla-chat-section-danger.sla-severity-critical {
+  background:
+    radial-gradient(circle at top right, rgba(181, 237, 255, 0.12), transparent 42%),
+    linear-gradient(180deg, rgba(102, 8, 28, 0.98), rgba(45, 8, 21, 0.98));
+  border-color: rgba(204, 237, 255, 0.84);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 0 14px rgba(162, 231, 255, 0.08);
+}
+
+.mosh.sla-chat-shell .sla-chat-section-target {
+  background: linear-gradient(180deg, rgba(28, 35, 48, 0.96), rgba(15, 20, 28, 0.96));
+  border-color: rgba(96, 165, 214, 0.28);
+}
+
+.mosh.sla-chat-shell .sla-chat-section-damage {
+  background: linear-gradient(180deg, rgba(58, 21, 26, 0.98), rgba(33, 13, 16, 0.98));
+  border-color: rgba(237, 122, 122, 0.34);
+}
+
+.mosh.sla-chat-shell .sla-chat-section-heal {
+  background: linear-gradient(180deg, rgba(18, 59, 42, 0.98), rgba(11, 34, 25, 0.98));
+  border-color: rgba(96, 210, 160, 0.34);
+}
+
+.mosh.sla-chat-shell .sla-chat-section-ebb-meta {
+  background: linear-gradient(180deg, rgba(24, 53, 51, 0.98), rgba(13, 29, 28, 0.98));
+  border-color: rgba(106, 208, 193, 0.28);
+}
+
+.mosh.sla-chat-shell .sla-chat-divider {
+  margin: 0 0 8px;
+  color: #ffcf9a;
+  font-size: 0.72rem;
+  font-family: "Futura PT Cond Bold", "Josefin Sans", "Roboto", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.mosh.sla-chat-shell .sla-chat-chip {
+  background: linear-gradient(180deg, rgba(246, 197, 84, 0.95), rgba(194, 132, 22, 0.95));
+  color: #18120d;
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
+.mosh.sla-chat-shell .sla-chat-list li {
+  margin-bottom: 6px;
+}
+
+.mosh.sla-chat-shell .sla-chat-wound-block {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.mosh.sla-chat-shell .sla-chat-wound-link {
+  margin-top: 6px;
+}
+
+.mosh.sla-chat-shell .sla-effect-damage {
+  color: #ff9d8d;
+}
+
+.mosh.sla-chat-shell .sla-effect-heal {
+  color: #97f0bb;
+}
+
+.mosh.sla-chat-shell.sla-chat-shell-ebb {
+  --sla-chat-bg: linear-gradient(180deg, #112726 0%, #0b1516 100%);
+  --sla-chat-accent: #2dc1b3;
+  --sla-chat-accent-soft: rgba(45, 193, 179, 0.18);
+  --sla-chat-line: rgba(70, 205, 188, 0.44);
+  --sla-chat-glow: rgba(70, 205, 188, 0.22);
+}
+
+.mosh.sla-chat-shell.sla-chat-shell-reload,
+.mosh.sla-chat-shell.sla-chat-shell-item-update,
+.mosh.sla-chat-shell.sla-chat-shell-actor-update {
+  --sla-chat-line: rgba(214, 187, 122, 0.34);
+  --sla-chat-bg: linear-gradient(180deg, #18181b 0%, #101014 100%);
+}
+
+.mosh.sla-chat-shell.sla-chat-shell-item {
+  --sla-chat-line: rgba(178, 135, 228, 0.34);
+  --sla-chat-bg: linear-gradient(180deg, #17131b 0%, #0e0d12 100%);
+}
+
+.mosh.sla-chat-shell.sla-chat-variant-sla {
+  --sla-chat-accent: #cf3148;
+  --sla-chat-accent-soft: rgba(207, 49, 72, 0.18);
+  --sla-chat-line: rgba(207, 49, 72, 0.48);
+  --sla-chat-glow: rgba(207, 49, 72, 0.22);
+}
+
+.mosh.sla-chat-shell.sla-chat-variant-mort {
+  --sla-chat-bg: linear-gradient(180deg, #181416 0%, #0f0c0d 100%);
+  --sla-chat-panel: rgba(25, 20, 22, 0.95);
+  --sla-chat-accent: #b09aa7;
+  --sla-chat-accent-soft: rgba(176, 154, 167, 0.14);
+  --sla-chat-line: rgba(176, 154, 167, 0.42);
+  --sla-chat-glow: rgba(176, 154, 167, 0.2);
+}
+
+.mosh.sla-chat-shell.sla-chat-variant-shiver {
+  --sla-chat-bg: linear-gradient(180deg, #131b23 0%, #0b1016 100%);
+  --sla-chat-panel: rgba(16, 25, 35, 0.95);
+  --sla-chat-accent: #78b8ff;
+  --sla-chat-accent-soft: rgba(120, 184, 255, 0.16);
+  --sla-chat-line: rgba(120, 184, 255, 0.42);
+  --sla-chat-glow: rgba(120, 184, 255, 0.2);
+}
+
+.mosh.sla-chat-shell.sla-chat-variant-darknight {
+  --sla-chat-bg: linear-gradient(180deg, #18131f 0%, #0d0b11 100%);
+  --sla-chat-panel: rgba(23, 18, 31, 0.95);
+  --sla-chat-accent: #8b73ff;
+  --sla-chat-accent-soft: rgba(139, 115, 255, 0.16);
+  --sla-chat-line: rgba(139, 115, 255, 0.42);
+  --sla-chat-glow: rgba(139, 115, 255, 0.2);
+}
+
+.mosh.sla-chat-shell.sla-chat-variant-tek {
+  --sla-chat-bg: linear-gradient(180deg, #141c1d 0%, #0b1112 100%);
+  --sla-chat-panel: rgba(18, 29, 29, 0.95);
+  --sla-chat-accent: #52d3be;
+  --sla-chat-accent-soft: rgba(82, 211, 190, 0.16);
+  --sla-chat-line: rgba(82, 211, 190, 0.42);
+  --sla-chat-glow: rgba(82, 211, 190, 0.22);
+}
+
+.mosh.sla-chat-shell.sla-chat-variant-ops {
+  --sla-chat-bg: linear-gradient(180deg, #1a1712 0%, #100d09 100%);
+  --sla-chat-panel: rgba(28, 23, 16, 0.95);
+  --sla-chat-accent: #e1b15d;
+  --sla-chat-accent-soft: rgba(225, 177, 93, 0.16);
+  --sla-chat-line: rgba(225, 177, 93, 0.42);
+  --sla-chat-glow: rgba(225, 177, 93, 0.2);
+}
+
+.mosh.sla-chat-shell.sla-chat-variant-ebb {
+  --sla-chat-bg: linear-gradient(180deg, #112726 0%, #0b1516 100%);
+  --sla-chat-panel: rgba(13, 33, 33, 0.95);
+  --sla-chat-accent: #2dc1b3;
+  --sla-chat-accent-soft: rgba(45, 193, 179, 0.18);
+  --sla-chat-line: rgba(70, 205, 188, 0.44);
+  --sla-chat-glow: rgba(70, 205, 188, 0.22);
+}
+
+.mosh .sla-wound-effect-link {
+  border: 1px solid rgba(255, 193, 118, 0.55);
+  background: linear-gradient(180deg, rgba(45, 23, 14, 0.95), rgba(27, 14, 9, 0.95));
+  color: #ffd6a0;
+}
+
+.mosh .sla-wound-effect-link:hover,
+.mosh .sla-wound-effect-link:focus {
+  background: linear-gradient(180deg, rgba(79, 36, 16, 0.98), rgba(44, 20, 9, 0.98));
+  color: #fff0d1;
+  box-shadow: 0 0 0 1px rgba(255, 193, 118, 0.22), 0 0 14px rgba(255, 193, 118, 0.16);
+}
 .mosh .description,
 .mosh .description .body,
 .mosh .rollcontainer .body {
@@ -4071,6 +4599,46 @@ p {
 .mosh .sla-chat-section-danger {
   border-color: rgba(141, 31, 24, 0.4);
   background: rgba(141, 31, 24, 0.08);
+}
+
+.mosh .sla-chat-section-heading {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.35rem;
+}
+
+.mosh .sla-chat-severity-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.62rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.12);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.mosh .sla-severity-minor,
+.mosh .sla-chat-severity-pill.sla-severity-minor {
+  background: linear-gradient(180deg, rgba(255, 216, 140, 0.32), rgba(255, 189, 79, 0.18));
+  border-color: rgba(224, 152, 24, 0.42);
+  color: #9b5b00;
+}
+
+.mosh .sla-severity-severe,
+.mosh .sla-chat-severity-pill.sla-severity-severe {
+  background: linear-gradient(180deg, rgba(255, 145, 145, 0.24), rgba(233, 63, 63, 0.14));
+  border-color: rgba(179, 27, 27, 0.34);
+  color: #9e1717;
+}
+
+.mosh .sla-severity-critical,
+.mosh .sla-chat-severity-pill.sla-severity-critical {
+  background: linear-gradient(180deg, rgba(232, 247, 255, 0.94), rgba(196, 233, 255, 0.82));
+  border-color: rgba(84, 145, 199, 0.42);
+  color: #611120;
+  box-shadow: 0 0 14px rgba(126, 196, 245, 0.16);
 }
 
 .mosh .sla-chat-section-target {
@@ -4155,6 +4723,25 @@ p {
   color: #136235;
 }
 
+.mosh .severity[data-severity="1"],
+.mosh .severity[data-severity="2"] {
+  color: #ffca61;
+}
+
+.mosh .severity[data-severity="3"],
+.mosh .severity[data-severity="4"] {
+  color: #ff7b7b;
+}
+
+.mosh .severity[data-severity="5"],
+.mosh .severity[data-severity="6"],
+.mosh .severity[data-severity="7"],
+.mosh .severity[data-severity="8"],
+.mosh .severity[data-severity="9"] {
+  color: #eef9ff;
+  text-shadow: 0 0 10px rgba(162, 231, 255, 0.25);
+}
+
 .mosh .sla-chat-chip {
   display: inline-block;
   margin-bottom: 8px;
@@ -4215,14 +4802,10 @@ p {
 }
 
 .mosh.sla-dossier-sheet .headergrid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-rows: auto auto auto auto;
+  grid-template-columns: 1.15fr 1.15fr 0.9fr 0.95fr 0.95fr 0.95fr;
+  grid-template-rows: auto auto auto;
   gap: 0.45rem 0.7rem;
   padding: 1.2rem 1rem 0.95rem;
-}
-
-.mosh.sla-dossier-sheet .headergrid {
-  grid-template-columns: 1.1fr 1.1fr 0.9fr 1fr 1fr;
 }
 
 .mosh.sla-dossier-sheet .sla-sheet-wordmark {
@@ -4244,7 +4827,7 @@ p {
 }
 
 .mosh.sla-dossier-sheet .header-field-lad {
-  grid-column: 1 / span 2;
+  grid-column: 1;
   grid-row: 3;
   align-self: start;
 }
@@ -4255,23 +4838,32 @@ p {
 }
 
 .mosh.sla-dossier-sheet .header-field-race {
-  grid-column: 5;
+  grid-column: 5 / span 2;
   grid-row: 2;
 }
 
 .mosh.sla-dossier-sheet .header-field-sla-rank {
-  grid-column: 3;
-  grid-row: 4;
+  grid-column: 4;
+  grid-row: 3;
 }
 
 .mosh.sla-dossier-sheet .header-field-height {
-  grid-column: 4;
-  grid-row: 4;
+  grid-column: 5;
+  grid-row: 3;
 }
 
 .mosh.sla-dossier-sheet .header-field-weight {
-  grid-column: 5;
-  grid-row: 4;
+  grid-column: 6;
+  grid-row: 3;
+}
+
+.mosh.sla-dossier-sheet .header-field-rest {
+  grid-column: 2;
+  grid-row: 3;
+  align-self: start;
+  justify-self: start;
+  width: 100%;
+  max-width: 78px;
 }
 
 .mosh.sla-dossier-sheet .abilities,
@@ -4482,932 +5074,4 @@ p {
   color: #d1a06e;
   background: #1a120c;
   border: 1px solid #8a5a31;
-}
-
-/* ============================================================
-   SLA PASS 4 — SCL Controls, Session Tracking, Contacts, Rest
-   ============================================================ */
-
-/* SCL fractional control */
-.sla-scl-control {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.sla-scl-input {
-  width: 100%;
-}
-
-.sla-scl-buttons {
-  display: flex;
-  gap: 3px;
-}
-
-.sla-scl-buttons .sla-scl-adjust {
-  flex: 1;
-  padding: 2px 0;
-  font-size: 0.72rem;
-  font-weight: 700;
-  border: 1px solid rgba(170, 2, 0, 0.4);
-  background: rgba(170, 2, 0, 0.12);
-  color: #cc3333;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background 0.15s;
-  line-height: 1.4;
-}
-
-.sla-scl-buttons .sla-scl-adjust:hover {
-  background: rgba(170, 2, 0, 0.28);
-  color: #f0f0f0;
-}
-
-/* Trauma Response / Session Ability Tracking */
-.sla-trauma-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 4px;
-}
-
-.sla-session-ability-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sla-session-ability-label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.75rem;
-  color: #aaa;
-  cursor: pointer;
-  user-select: none;
-}
-
-.sla-session-ability-label input[type="checkbox"] {
-  margin: 0;
-  cursor: pointer;
-}
-
-.sla-session-ability-label span {
-  white-space: nowrap;
-}
-
-.sla-new-session {
-  font-size: 0.72rem;
-  padding: 2px 8px;
-  border: 1px solid rgba(170, 2, 0, 0.4);
-  background: rgba(170, 2, 0, 0.12);
-  color: #cc3333;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background 0.15s;
-  white-space: nowrap;
-}
-
-.sla-new-session:hover {
-  background: rgba(170, 2, 0, 0.28);
-  color: #f0f0f0;
-}
-
-/* Rest button — in save-action-strip */
-.sla-rest-button {
-  /* inherits .sla-sheet-action but add a distinct colour */
-  background: rgba(40, 90, 150, 0.18) !important;
-  border-color: rgba(60, 120, 200, 0.45) !important;
-  color: #7ab8f5 !important;
-}
-
-.sla-rest-button:hover {
-  background: rgba(40, 90, 150, 0.36) !important;
-  color: #d8eaff !important;
-}
-
-/* Contacts Tab */
-.sla-contacts-toolbar {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.sla-contacts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.sla-contact-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  padding: 10px 12px;
-}
-
-.sla-contact-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.sla-contact-disposition {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.sla-contact-disposition-ally {
-  background: #4eb765;
-  box-shadow: 0 0 6px rgba(78, 183, 101, 0.5);
-}
-
-.sla-contact-disposition-neutral {
-  background: #aaa;
-}
-
-.sla-contact-disposition-hostile {
-  background: #cc5050;
-  box-shadow: 0 0 6px rgba(204, 80, 80, 0.5);
-}
-
-.sla-contact-disposition-unknown {
-  background: #777;
-  border: 1px dashed #aaa;
-}
-
-.sla-contact-name {
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: #f0f0f0;
-  flex: 1;
-}
-
-.sla-contact-role {
-  font-size: 0.78rem;
-  color: #999;
-  font-style: italic;
-  flex: 1;
-}
-
-.sla-contact-controls {
-  display: flex;
-  gap: 6px;
-  margin-left: auto;
-}
-
-.sla-contact-controls button {
-  background: transparent;
-  border: none;
-  color: #888;
-  cursor: pointer;
-  padding: 2px 4px;
-  font-size: 0.8rem;
-  transition: color 0.15s;
-}
-
-.sla-contact-controls button:hover {
-  color: #f0f0f0;
-}
-
-.sla-contact-controls .sla-contact-delete:hover {
-  color: #cc5050;
-}
-
-.sla-contact-notes {
-  margin-top: 6px;
-  font-size: 0.8rem;
-  color: #bbb;
-  line-height: 1.5;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding-top: 6px;
-}
-
-/* LAD + Rest button row in header */
-.sla-lad-rest-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.sla-header-rest-button {
-  font-size: 0.72rem !important;
-  padding: 2px 9px !important;
-  border-radius: 3px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  white-space: nowrap !important;
-  line-height: 1.5 !important;
-}
-
-/* ============================================================
-   SLA — Header grid: LAD · Credits · SCL · Height · Weight · Rest
-   ============================================================ */
-
-/* 8-column grid — col 8 holds the Rest button at the far right */
-.mosh .headergrid {
-  grid-template-columns: 1.1fr 1.3fr 0.85fr 0.85fr 0.85fr 0.85fr 0.85fr 0.9fr !important;
-}
-
-/* Row 2: Name (1-4), Class (5-6), Race (7-8) */
-.mosh .headernamegrid,
-.mosh .header-field-name {
-  grid-column: 1 / span 4 !important;
-  grid-row: 2;
-}
-.mosh .header-field-class {
-  grid-column: 5 / span 2 !important;
-  grid-row: 2;
-}
-.mosh .header-field-race {
-  grid-column: 7 / span 2 !important;
-  grid-row: 2;
-}
-
-/* Row 3: LAD (1) · Credits (2) · SCL (3) · Height (4) · Weight (5) · Rest (6-8) */
-.mosh .header-field-lad {
-  grid-column: 1 !important;
-  grid-row: 3;
-  align-self: start;
-}
-.mosh .header-field-credits {
-  grid-column: 2 !important;
-  grid-row: 3;
-}
-.mosh .header-field-sla-rank {
-  grid-column: 3 !important;
-  grid-row: 3;
-}
-.mosh .header-field-height {
-  grid-column: 4 !important;
-  grid-row: 3;
-}
-.mosh .header-field-weight {
-  grid-column: 5 !important;
-  grid-row: 3;
-}
-.mosh .header-field-rest {
-  grid-column: 6 / span 3 !important;
-  grid-row: 3;
-  align-self: end;
-}
-
-/* Rest header pill — blue rounded, matching Wound/Panic shape */
-.mosh .sla-header-rest-pill {
-  background: linear-gradient(180deg, #3a8fd1, #1a5fa0) !important;
-  color: #e8f4ff !important;
-  border-color: rgba(100, 180, 255, 0.3) !important;
-  min-width: 0 !important;
-  width: 100%;
-  padding: 6px 10px !important;
-  font-size: 0.82rem !important;
-}
-.mosh .sla-header-rest-pill:hover {
-  background: linear-gradient(180deg, #4ea8f0, #2472bc) !important;
-  box-shadow: 0 0 12px rgba(60, 140, 255, 0.4) !important;
-  color: #fff !important;
-}
-
-/* Dossier sheet overrides */
-.mosh.sla-dossier-sheet .header-field-lad {
-  grid-column: 1 !important;
-}
-.mosh.sla-dossier-sheet .header-field-credits {
-  grid-column: 2 !important;
-}
-.mosh.sla-dossier-sheet .header-field-rest {
-  grid-column: 6 / span 3 !important;
-}
-
-/* ============================================================
-   Portrait — static neon blue border (no animation)
-   ============================================================ */
-.mosh .sla-portrait-static {
-  outline: 2px solid #3a9fd6;
-  outline-offset: 2px;
-  box-shadow: 0 0 8px 2px rgba(58, 159, 214, 0.55);
-  border-radius: 6px;
-}
-
-/* ============================================================
-   Activity log textarea
-   ============================================================ */
-.sla-activity-log-textarea {
-  font-family: 'Roboto Mono', 'Courier New', monospace !important;
-  font-size: 0.75rem !important;
-  line-height: 1.55 !important;
-  overflow-y: auto !important;
-  resize: vertical !important;
-}
-
-/* ============================================================
-   SLA Industries Pause Screen Animation
-   ============================================================ */
-
-/* Make the pause overlay a centered flex column — only when visible.
-   Do NOT set display here globally: Foundry controls show/hide via
-   its own display:none and we must not override that with !important. */
-#pause:not([hidden]):not(.hidden) {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Nuke all of Foundry's default pause children */
-#pause > *:not(.sla-pause-root) {
-  display: none !important;
-}
-#pause figure,
-#pause h3,
-#pause img,
-#pause canvas,
-#pause figure *,
-#pause .fas,
-#pause .fa-cog {
-  display: none !important;
-}
-
-/* Root container for the injected SVG — full centered column */
-.sla-pause-root {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 100% !important;
-  height: 100% !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-}
-
-/* Main SVG — large and prominent */
-.sla-pause-svg {
-  width: min(360px, 60vw) !important;
-  height: auto !important;
-  overflow: visible !important;
-}
-
-/* ── Outer ring: rotates clockwise ── */
-.sla-ring-outer {
-  transform-origin: 0px 0px;
-  animation: sla-spin-cw 12s linear infinite;
-}
-
-/* ── Inner ring: rotates counter-clockwise ── */
-.sla-ring-inner {
-  transform-origin: 0px 0px;
-  animation: sla-spin-ccw 8s linear infinite;
-}
-
-/* ── Scan line: sweeps clockwise like a radar ── */
-.sla-pause-scan {
-  transform-origin: 0px 0px;
-  animation: sla-spin-cw 4s linear infinite;
-}
-
-/* ── Logo pulse ── */
-.sla-pause-logo-text {
-  animation: sla-logo-pulse 3s ease-in-out infinite;
-}
-
-/* ── "STAND BY" blinking ── */
-.sla-pause-standby {
-  animation: sla-standby-blink 1.8s step-start infinite;
-}
-
-/* ─── Keyframes ─────────────────────────────────────────── */
-
-@keyframes sla-spin-cw {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-@keyframes sla-spin-ccw {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(-360deg); }
-}
-
-@keyframes sla-logo-pulse {
-  0%, 100% { fill: #ff2222; filter: drop-shadow(0 0 4px #ff2222); }
-  50%       { fill: #ff5555; filter: drop-shadow(0 0 10px #ff4444); }
-}
-
-@keyframes sla-standby-blink {
-  0%, 60% { opacity: 1; }
-  61%, 100% { opacity: 0; }
-}
-/* ============================================================
-   SLA Industries — Custom UI Icon Set  (v2 — scoped selectors)
-   Replaces Foundry's Font Awesome icons via CSS mask-image
-   ============================================================ */
-
-/* ── Sidebar Tabs ─────────────────────────────────────────── */
-
-/* chat — chat */
-#sidebar-tabs [data-tab="chat"] i,
-#sidebar-tabs a[data-tab="chat"] i,
-nav#sidebar-tabs [data-tab="chat"] i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#sidebar-tabs [data-tab="chat"] i::before,
-#sidebar-tabs a[data-tab="chat"] i::before,
-nav#sidebar-tabs [data-tab="chat"] i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/chat.svg') !important;
-  mask-image: url('../icons/ui/chat.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* combat — combat */
-#sidebar-tabs [data-tab="combat"] i,
-#sidebar-tabs a[data-tab="combat"] i,
-nav#sidebar-tabs [data-tab="combat"] i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#sidebar-tabs [data-tab="combat"] i::before,
-#sidebar-tabs a[data-tab="combat"] i::before,
-nav#sidebar-tabs [data-tab="combat"] i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/combat.svg') !important;
-  mask-image: url('../icons/ui/combat.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* scenes — scenes */
-#sidebar-tabs [data-tab="scenes"] i,
-#sidebar-tabs a[data-tab="scenes"] i,
-nav#sidebar-tabs [data-tab="scenes"] i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#sidebar-tabs [data-tab="scenes"] i::before,
-#sidebar-tabs a[data-tab="scenes"] i::before,
-nav#sidebar-tabs [data-tab="scenes"] i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/scenes.svg') !important;
-  mask-image: url('../icons/ui/scenes.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* actors — actors */
-#sidebar-tabs [data-tab="actors"] i,
-#sidebar-tabs a[data-tab="actors"] i,
-nav#sidebar-tabs [data-tab="actors"] i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#sidebar-tabs [data-tab="actors"] i::before,
-#sidebar-tabs a[data-tab="actors"] i::before,
-nav#sidebar-tabs [data-tab="actors"] i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/actors.svg') !important;
-  mask-image: url('../icons/ui/actors.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* items — items */
-#sidebar-tabs [data-tab="items"] i,
-#sidebar-tabs a[data-tab="items"] i,
-nav#sidebar-tabs [data-tab="items"] i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#sidebar-tabs [data-tab="items"] i::before,
-#sidebar-tabs a[data-tab="items"] i::before,
-nav#sidebar-tabs [data-tab="items"] i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/items.svg') !important;
-  mask-image: url('../icons/ui/items.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* journal — journal */
-#sidebar-tabs [data-tab="journal"] i,
-#sidebar-tabs a[data-tab="journal"] i,
-nav#sidebar-tabs [data-tab="journal"] i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#sidebar-tabs [data-tab="journal"] i::before,
-#sidebar-tabs a[data-tab="journal"] i::before,
-nav#sidebar-tabs [data-tab="journal"] i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/journal.svg') !important;
-  mask-image: url('../icons/ui/journal.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* tables — tables */
-#sidebar-tabs [data-tab="tables"] i,
-#sidebar-tabs a[data-tab="tables"] i,
-nav#sidebar-tabs [data-tab="tables"] i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#sidebar-tabs [data-tab="tables"] i::before,
-#sidebar-tabs a[data-tab="tables"] i::before,
-nav#sidebar-tabs [data-tab="tables"] i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/tables.svg') !important;
-  mask-image: url('../icons/ui/tables.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* playlists — playlists */
-#sidebar-tabs [data-tab="playlists"] i,
-#sidebar-tabs a[data-tab="playlists"] i,
-nav#sidebar-tabs [data-tab="playlists"] i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#sidebar-tabs [data-tab="playlists"] i::before,
-#sidebar-tabs a[data-tab="playlists"] i::before,
-nav#sidebar-tabs [data-tab="playlists"] i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/playlists.svg') !important;
-  mask-image: url('../icons/ui/playlists.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* compendium — compendium */
-#sidebar-tabs [data-tab="compendium"] i,
-#sidebar-tabs a[data-tab="compendium"] i,
-nav#sidebar-tabs [data-tab="compendium"] i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#sidebar-tabs [data-tab="compendium"] i::before,
-#sidebar-tabs a[data-tab="compendium"] i::before,
-nav#sidebar-tabs [data-tab="compendium"] i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/compendium.svg') !important;
-  mask-image: url('../icons/ui/compendium.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* settings — settings */
-#sidebar-tabs [data-tab="settings"] i,
-#sidebar-tabs a[data-tab="settings"] i,
-nav#sidebar-tabs [data-tab="settings"] i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#sidebar-tabs [data-tab="settings"] i::before,
-#sidebar-tabs a[data-tab="settings"] i::before,
-nav#sidebar-tabs [data-tab="settings"] i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/settings.svg') !important;
-  mask-image: url('../icons/ui/settings.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* ── Scene Controls (left toolbar) ────────────────────────── */
-
-/* token — token */
-#controls [data-control="token"] > i,
-#controls li[data-control="token"] > i,
-#controls .scene-control[data-control="token"] > i,
-ol#controls [data-control="token"] > i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#controls [data-control="token"] > i::before,
-#controls li[data-control="token"] > i::before,
-#controls .scene-control[data-control="token"] > i::before,
-ol#controls [data-control="token"] > i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/token.svg') !important;
-  mask-image: url('../icons/ui/token.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* measure — measure */
-#controls [data-control="measure"] > i,
-#controls li[data-control="measure"] > i,
-#controls .scene-control[data-control="measure"] > i,
-ol#controls [data-control="measure"] > i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#controls [data-control="measure"] > i::before,
-#controls li[data-control="measure"] > i::before,
-#controls .scene-control[data-control="measure"] > i::before,
-ol#controls [data-control="measure"] > i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/measure.svg') !important;
-  mask-image: url('../icons/ui/measure.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* tiles — tiles */
-#controls [data-control="tiles"] > i,
-#controls li[data-control="tiles"] > i,
-#controls .scene-control[data-control="tiles"] > i,
-ol#controls [data-control="tiles"] > i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#controls [data-control="tiles"] > i::before,
-#controls li[data-control="tiles"] > i::before,
-#controls .scene-control[data-control="tiles"] > i::before,
-ol#controls [data-control="tiles"] > i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/tiles.svg') !important;
-  mask-image: url('../icons/ui/tiles.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* drawings — drawings */
-#controls [data-control="drawings"] > i,
-#controls li[data-control="drawings"] > i,
-#controls .scene-control[data-control="drawings"] > i,
-ol#controls [data-control="drawings"] > i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#controls [data-control="drawings"] > i::before,
-#controls li[data-control="drawings"] > i::before,
-#controls .scene-control[data-control="drawings"] > i::before,
-ol#controls [data-control="drawings"] > i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/drawings.svg') !important;
-  mask-image: url('../icons/ui/drawings.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* walls — walls */
-#controls [data-control="walls"] > i,
-#controls li[data-control="walls"] > i,
-#controls .scene-control[data-control="walls"] > i,
-ol#controls [data-control="walls"] > i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#controls [data-control="walls"] > i::before,
-#controls li[data-control="walls"] > i::before,
-#controls .scene-control[data-control="walls"] > i::before,
-ol#controls [data-control="walls"] > i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/walls.svg') !important;
-  mask-image: url('../icons/ui/walls.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* lighting — lighting */
-#controls [data-control="lighting"] > i,
-#controls li[data-control="lighting"] > i,
-#controls .scene-control[data-control="lighting"] > i,
-ol#controls [data-control="lighting"] > i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#controls [data-control="lighting"] > i::before,
-#controls li[data-control="lighting"] > i::before,
-#controls .scene-control[data-control="lighting"] > i::before,
-ol#controls [data-control="lighting"] > i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/lighting.svg') !important;
-  mask-image: url('../icons/ui/lighting.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* sounds — sounds */
-#controls [data-control="sounds"] > i,
-#controls li[data-control="sounds"] > i,
-#controls .scene-control[data-control="sounds"] > i,
-ol#controls [data-control="sounds"] > i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#controls [data-control="sounds"] > i::before,
-#controls li[data-control="sounds"] > i::before,
-#controls .scene-control[data-control="sounds"] > i::before,
-ol#controls [data-control="sounds"] > i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/sounds.svg') !important;
-  mask-image: url('../icons/ui/sounds.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-}
-
-/* notes — notes */
-#controls [data-control="notes"] > i,
-#controls li[data-control="notes"] > i,
-#controls .scene-control[data-control="notes"] > i,
-ol#controls [data-control="notes"] > i {
-  display: inline-block !important;
-  position: relative !important;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  vertical-align: middle !important;
-}
-#controls [data-control="notes"] > i::before,
-#controls li[data-control="notes"] > i::before,
-#controls .scene-control[data-control="notes"] > i::before,
-ol#controls [data-control="notes"] > i::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: currentColor !important;
-  -webkit-mask-image: url('../icons/ui/notes.svg') !important;
-  mask-image: url('../icons/ui/notes.svg') !important;
-  -webkit-mask-size: contain !important;
-  mask-size: contain !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
 }
