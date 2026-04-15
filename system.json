@@ -2,7 +2,7 @@
   "id": "sla-mothership",
   "title": "SLA Mothership",
   "description": "An SLA Industries conversion built on the unofficial Mothership system for Foundry VTT, preserving Mothership's core mechanics while adding SLA flux, Ebb, BPN, and equipment support.",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "esmodules": [
     "module/mosh.js"
   ],
@@ -160,7 +160,7 @@
   },
   "compatibility": {
     "minimum": "13",
-    "maximum": "13",
-    "verified": "13"
+    "verified": "14",
+    "maximum": "14"
   }
 }
