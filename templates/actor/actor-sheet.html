@@ -17,29 +17,18 @@
 
         <div class="headergrid">
           <div class="sla-sheet-wordmark">SLA Industries</div>
-          <!-- <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="150" width="150"/> -->
 
+          {{!-- REST button — top-right, above Race --}}
+          <div class="header-field header-field-rest">
+            <button type="button" class="sla-sheet-action sla-rest-button sla-header-rest-pill" title="Take a short or long rest">REST</button>
+          </div>
+
+          {{!-- ROW 2: Name / Class / Race --}}
           <!-- PLAYER NAME -->
           <div class="headernamegrid header-field header-field-name">
             <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
             <div class="headerinputfield sla-header-input charname"><input name="name" class="noborder" type="text"
                 value="{{name}}" placeholder="{{ localize 'Mosh.Name' }}" /></div>
-          </div>
-          <div class="header-field header-field-lad">
-            <div class="headerinputtext">L.A.D.</div>
-            <label class="sla-header-checkbox" title="Life After Death">
-              <input type="checkbox" name="system.sla.lad" data-dtype="Boolean" {{checked system.sla.lad}} />
-              <span>L.A.D.</span>
-            </label>
-          </div>
-          <div class="header-field header-field-rest">
-            <div class="headerinputtext">&nbsp;</div>
-            <button type="button" class="sla-sheet-action sla-rest-button sla-header-rest-pill" title="Take a short or long rest" style="font-size: 1rem; padding: 6px 18px; font-weight: 700; letter-spacing: 0.05em;">REST</button>
-          </div>
-          <div class="header-field header-field-credits">
-            <div class="headerinputtext">{{ localize 'Mosh.Credits' }}</div>
-            <div class="headerinputfield sla-header-input charname"><input name="system.credits.value" class="noborder" type="text"
-              value="{{system.credits.value}}" placeholder="" /></div>
           </div>
 
           <!-- CLASS -->
@@ -49,28 +38,42 @@
                 value="{{system.class.value}}" placeholder="" /></div>
           </div>
 
-          <!-- RANK -->
+          <!-- RACE -->
           <div class="header-field header-field-race">
             <div class="headerinputtext">Race</div>
             <div class="headerinputfield sla-header-input charname"><input name="system.rank.value" class="noborder" type="text"
                 value="{{system.rank.value}}" placeholder="" /></div>
           </div>
 
-          <div class="header-field header-field-sla-rank header-field-compact">
-            <div class="headerinputtext">S.C.L.</div>
-            <div class="headerinputfield sla-header-input charname"><input name="system.attributes.level.value" class="noborder"
-                type="text" value="{{system.attributes.level.value}}" placeholder="" /></div>
-          </div>
-
-          <div class="header-field header-field-height header-field-compact">
-            <div class="headerinputtext">Height</div>
-            <div class="headerinputfield sla-header-input charname"><input name="system.sla.height.value" class="noborder" type="text"
-                value="{{system.sla.height.value}}" placeholder="" /></div>
-          </div>
-          <div class="header-field header-field-weight header-field-compact">
-            <div class="headerinputtext">Weight</div>
-            <div class="headerinputfield sla-header-input charname"><input name="system.sla.weightText.value" class="noborder" type="text"
-                value="{{system.sla.weightText.value}}" placeholder="" /></div>
+          {{!-- ROW 3: Bottom row — all equal width, same font --}}
+          <div class="sla-header-bottom-row">
+            <div class="header-field header-field-lad">
+              <div class="headerinputtext">L.A.D.</div>
+              <label class="sla-header-checkbox" title="Life After Death">
+                <input type="checkbox" name="system.sla.lad" data-dtype="Boolean" {{checked system.sla.lad}} />
+                <span>L.A.D.</span>
+              </label>
+            </div>
+            <div class="header-field header-field-credits">
+              <div class="headerinputtext">{{ localize 'Mosh.Credits' }}</div>
+              <div class="headerinputfield sla-header-input charname"><input name="system.credits.value" class="noborder" type="text"
+                value="{{system.credits.value}}" placeholder="" /></div>
+            </div>
+            <div class="header-field header-field-sla-rank">
+              <div class="headerinputtext">S.C.L.</div>
+              <div class="headerinputfield sla-header-input charname"><input name="system.attributes.level.value" class="noborder"
+                  type="text" value="{{system.attributes.level.value}}" placeholder="" /></div>
+            </div>
+            <div class="header-field header-field-height">
+              <div class="headerinputtext">Height</div>
+              <div class="headerinputfield sla-header-input charname"><input name="system.sla.height.value" class="noborder" type="text"
+                  value="{{system.sla.height.value}}" placeholder="" /></div>
+            </div>
+            <div class="header-field header-field-weight">
+              <div class="headerinputtext">Weight</div>
+              <div class="headerinputfield sla-header-input charname"><input name="system.sla.weightText.value" class="noborder" type="text"
+                  value="{{system.sla.weightText.value}}" placeholder="" /></div>
+            </div>
           </div>
         </div>
       </div>
