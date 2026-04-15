@@ -1808,6 +1808,85 @@ p {
   padding-left: 0;
 }
 
+/* ── Vevaphon Morph Tab ─────────────────────────────────── */
+.mosh .sla-morph-track-bar {
+  position: relative;
+  height: 20px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.mosh .sla-morph-track-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  background: #3a8a3a;
+}
+.mosh .sla-morph-track-fill.instability-elevated { background: #c99d23; }
+.mosh .sla-morph-track-fill.instability-critical { background: #c0392b; }
+.mosh .sla-morph-track-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+}
+.mosh .sla-morph-btn-instab {
+  flex: 1;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: linear-gradient(180deg, #c99d23 0%, #a07c12 100%) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255,220,80,0.5) !important;
+  border-radius: 4px;
+}
+.mosh .sla-morph-btn-instab-down {
+  background: linear-gradient(180deg, #5a5a5a 0%, #333 100%) !important;
+  border-color: rgba(180,180,180,0.3) !important;
+}
+.mosh .sla-morph-form-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.mosh .sla-morph-form-btn:hover { background: rgba(255,255,255,0.09); }
+.mosh .sla-morph-form-btn.sla-morph-active {
+  background: rgba(58,138,58,0.25) !important;
+  border-color: rgba(80,200,80,0.5) !important;
+}
+.mosh .sla-morph-form-name {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #e0e0e0;
+  margin-bottom: 4px;
+}
+.mosh .sla-morph-active .sla-morph-form-name { color: #7ddb7d; }
+.mosh .sla-morph-form-summary {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.4;
+}
+.mosh .sla-tag.instability-elevated { background: #c99d23; color: #fff; }
+.mosh .sla-tag.instability-critical { background: #c0392b; color: #fff; }
+/* ─────────────────────────────────────────────────────────── */
+
 .mosh .header-field-compact .headerinputfield input {
   font-size: 0.9rem;
 }

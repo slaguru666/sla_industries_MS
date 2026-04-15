@@ -306,6 +306,19 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
       data.data.vevaphonInstabilityElevated = instab >= 6;
       data.data.vevaphonInstabilityCritical = instab >= 10;
       data.data.vevaphonInstabilityClass = instab >= 10 ? "instability-critical" : instab >= 6 ? "instability-elevated" : "instability-nominal";
+      data.data.vevaphonInstabilityDesc = instab >= 10
+        ? "Instability critical. Full reversion risk on every shift."
+        : instab >= 6
+        ? "Instability elevated. Sanity saves required when morphing mid-scene."
+        : "Instability nominal. Morphing is available without additional risk.";
+      data.data.vevaphonMorphPanic = [
+        { roll: 1, label: "Cascade Shift", desc: "Random morph form, +1 Instability." },
+        { roll: 2, label: "Identity Bleed", desc: "Forgets name and callsign until end of scene." },
+        { roll: 3, label: "Partial Lock", desc: "One limb freezes. −10 physical rolls using that limb." },
+        { roll: 4, label: "Tissue Rejection", desc: "1d5 damage, armour does not apply." },
+        { roll: 5, label: "Threat Imprint", desc: "Locked on nearest visible target." },
+        { roll: 6, label: "Full Reversion", desc: "Base form, lose morph bonuses, −1 Instability." }
+      ];
     }
     data.data.slaSpeciesTraitList = String(superData.sla.speciesNotes?.value ?? "").split(/\n+/).map((entry) => entry.trim()).filter(Boolean);
     data.data.slaPackageSkillList = String(superData.sla.packageSkills?.value ?? "").split(/\s*,\s*/).map((entry) => entry.trim()).filter(Boolean);
@@ -592,6 +605,8 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
     actorData.weapons = weapons;
     actorData.conditions = conditions;
     actorData.abilities = abilities;
+    const activeMorphFormName = String(actorData.system?.sla?.morphForm?.value ?? "").trim();
+    morphForms.forEach(f => { f.slaIsActiveMorphForm = f.name === activeMorphFormName; });
     actorData.slaMorphForms = morphForms;
     actorData.persTraits = persTraits.sort((left, right) => String(left?.name ?? "").localeCompare(String(right?.name ?? "")));
 

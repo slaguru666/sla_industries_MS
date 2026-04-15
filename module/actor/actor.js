@@ -5013,6 +5013,21 @@ export class MothershipActor extends Actor {
     return ["Ebon", "Brain Waster"].includes(species);
   }
 
+  isSlaVevaphon() {
+    return String(this.system?.sla?.species?.value ?? "").trim() === "Stormer Vevaphon";
+  }
+
+  async setSlaVevaphonMorphForm(formName) {
+    if (!formName) return;
+    await this.update({ "system.sla.morphForm.value": String(formName) });
+  }
+
+  async adjustSlaVevaphonInstability(delta) {
+    const current = Math.max(0, Math.min(12, Number(this.system?.sla?.vevaphonInstability?.value ?? 0) || 0));
+    const next = Math.max(0, Math.min(12, current + (Number(delta) || 0)));
+    await this.update({ "system.sla.vevaphonInstability.value": next });
+  }
+
   getSlaRestrictedEbbItemIds() {
     return this.items
       .filter((item) => {
