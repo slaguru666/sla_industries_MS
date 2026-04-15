@@ -246,6 +246,38 @@
         "value": 1,
         "html": ""
       },
+      "slaNpc": {
+        "archetype": {
+          "value": ""
+        },
+        "species": {
+          "value": ""
+        },
+        "affiliationType": {
+          "value": ""
+        },
+        "affiliation": {
+          "value": ""
+        },
+        "department": {
+          "value": ""
+        },
+        "role": {
+          "value": ""
+        },
+        "sector": {
+          "value": ""
+        },
+        "disposition": {
+          "value": ""
+        },
+        "threat": {
+          "value": ""
+        },
+        "summary": {
+          "value": ""
+        }
+      },
       "stats": {
         "combat": {
           "value": 10,

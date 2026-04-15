@@ -79,6 +79,9 @@ export class MothershipCreatureSheet extends foundry.appv1.sheets.ActorSheet {
         if (data.data.system.settings == null) {
             data.data.system.settings = {};
         }
+        if (data.data.system.slaNpc == null) {
+            data.data.system.slaNpc = {};
+        }
         data.data.system.settings.useCalm = game.settings.get("sla-mothership", "useCalm");
         data.data.system.settings.hideWeight = game.settings.get("sla-mothership", "hideWeight");
         data.data.system.settings.firstEdition = game.settings.get("sla-mothership", "firstEdition");

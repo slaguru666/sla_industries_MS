@@ -12,6 +12,7 @@ import { MothershipSkillSheet } from "./item/skill-sheet.js";
 import { SLADrugSystem } from "./sla-drug-system.js";
 import { slaDebug } from "./logger.js";
 import { SLAMothershipGenerator } from "./windows/sla-character-generator.js";
+import { SLANpcGeneratorApp, generateSlaNpc } from "./windows/sla-npc-generator.js";
 import { SLAWorldToolsApp, installSlaSidebarButtons } from "./windows/sla-world-tools.js";
 
 import {
@@ -50,6 +51,8 @@ Hooks.once('init', async function () {
     closeDrug: (actor, itemId, drug = "") => SLADrugSystem.closeDrug({ actor, itemId, drug }),
     restartDrugReminders: () => SLADrugSystem.startReminderLoop(),
     openGenerator: (actor = null, options = {}) => SLAMothershipGenerator.open(actor, options),
+    openNpcDesk: (options = {}) => SLANpcGeneratorApp.open(options),
+    createNpc: (state = {}) => generateSlaNpc(state),
     createRandomOperative: (options = {}) => SLAMothershipGenerator.createRandomOperative(options),
     createStarterSquad: (options = {}) => SLAMothershipGenerator.createStarterSquad(options),
     openTools: () => SLAWorldToolsApp.open(),

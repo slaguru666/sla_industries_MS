@@ -1,4 +1,5 @@
 import { SLAMothershipGenerator } from "./sla-character-generator.js";
+import { SLANpcGeneratorApp } from "./sla-npc-generator.js";
 
 const SYSTEM_ID = "sla-mothership";
 
@@ -22,6 +23,7 @@ export class SLAWorldToolsApp extends FormApplication {
   async getData() {
     const seededItems = game.items.filter((item) => item.flags?.[SYSTEM_ID]?.slaSeed?.key);
     const actors = game.actors.filter((actor) => actor.type === "character");
+    const creatures = game.actors.filter((actor) => actor.type === "creature");
     const ebbActors = actors.filter((actor) => ["Ebon", "Brain Waster"].includes(String(actor.system?.sla?.species?.value ?? "").trim()));
 
     return {
@@ -30,6 +32,7 @@ export class SLAWorldToolsApp extends FormApplication {
       weaponCount: seededItems.filter((item) => item.type === "weapon").length,
       gearCount: seededItems.filter((item) => item.flags?.[SYSTEM_ID]?.slaSeed?.kind === "gear").length,
       actorCount: actors.length,
+      creatureCount: creatures.length,
       starterCount: actors.filter((actor) => actor.flags?.[SYSTEM_ID]?.slaStarter).length,
       ebbActorCount: ebbActors.length,
       quickBattleMapBuilderReady: Boolean(game.modules?.get("quick-battlemap-builder")?.active && game.quickBattleMapBuilder?.open)
@@ -51,6 +54,10 @@ export class SLAWorldToolsApp extends FormApplication {
 
     html.find(".open-generator").on("click", () => {
       game.slaMothership.openGenerator();
+    });
+
+    html.find(".open-npc-desk").on("click", () => {
+      game.slaMothership.openNpcDesk();
     });
 
     html.find(".generate-random").on("click", async () => {
@@ -127,7 +134,14 @@ export function installSlaSidebarButtons(app, html) {
     await game.slaMothership.seedWorldContent({ overwrite: true, notify: true });
   });
 
-  toolContainer.append(randomButton, createButton, toolsButton, refreshButton);
+  const npcButton = $(`
+    <button type="button" class="sla-open-npc-desk">
+      <i class="fas fa-id-badge"></i> NPC Desk
+    </button>
+  `);
+  npcButton.on("click", () => SLANpcGeneratorApp.open());
+
+  toolContainer.append(randomButton, createButton, npcButton, toolsButton, refreshButton);
 }
 
 function findToolContainer(root) {

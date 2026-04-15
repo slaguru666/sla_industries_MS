@@ -2994,10 +2994,53 @@ p {
 
 .mosh .sla-generator input,
 .mosh .sla-generator select,
+.mosh .sla-generator textarea,
 .mosh .sla-world-tools input,
 .mosh .sla-world-tools select {
   background: rgba(255, 255, 255, 0.92);
   color: #101417;
+}
+
+.mosh .sla-npc-generator textarea,
+.mosh .sla-creature-dossier input {
+  background: rgba(255, 255, 255, 0.92);
+  color: #101417;
+}
+
+.mosh .sla-npc-generator .sla-card {
+  background: linear-gradient(180deg, rgba(243, 240, 232, 0.98), rgba(225, 220, 207, 0.96));
+  border: 1px solid rgba(26, 35, 44, 0.18);
+}
+
+.mosh .sla-npc-generator .sla-card-copy,
+.mosh .sla-npc-generator .resource-label {
+  color: #11161b;
+}
+
+.mosh .sla-creature-dossier {
+  margin: 10px 0 14px;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(14, 20, 28, 0.82);
+  border: 1px solid rgba(118, 164, 206, 0.18);
+}
+
+.mosh .sla-creature-dossier .resource {
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mosh .sla-creature-dossier .resource-label {
+  color: #d7e5ef;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.mosh .sla-creature-dossier input {
+  min-height: 32px;
+  border-radius: 10px;
 }
 
 .mosh .headerinputtext,

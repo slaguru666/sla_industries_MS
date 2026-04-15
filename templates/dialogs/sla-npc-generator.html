@@ -1,0 +1,113 @@
+<form class="{{cssClass}} sla-npc-generator" autocomplete="off">
+  <p>Create lightweight SLA NPCs with enough identity for play, then open the creature sheet to adjust portrait, items, weapons, skills, and notes.</p>
+
+  <div class="sla-card" style="padding: 12px; margin-bottom: 12px;">
+    <div class="grid grid-2col" style="gap: 10px;">
+      <div class="resource">
+        <label class="resource-label">Name</label>
+        <div class="flexrow" style="gap: 8px;">
+          <input type="text" name="name" value="{{state.name}}" />
+          <button type="button" class="sla-npc-random-name"><i class="fas fa-dice"></i> Name</button>
+        </div>
+      </div>
+      <div class="resource">
+        <label class="resource-label">Archetype</label>
+        <select name="archetype">
+          {{#each archetypes}}
+          <option value="{{this.name}}" {{#if (compare "str" ../state.archetype "===" this.name)}}selected{{/if}}>{{this.name}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="resource">
+        <label class="resource-label">Species</label>
+        <select name="species">
+          {{#each speciesOptions}}
+          <option value="{{this}}" {{#if (compare "str" ../state.species "===" this)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="resource">
+        <label class="resource-label">Quality</label>
+        <select name="quality">
+          {{#each qualityOptions}}
+          <option value="{{this}}" {{#if (compare "str" ../state.quality "===" this)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+    <div class="sla-card-copy" style="margin-top: 10px;">{{summary}}</div>
+  </div>
+
+  <div class="grid grid-2col" style="gap: 10px;">
+    <div class="resource">
+      <label class="resource-label">Affiliation Type</label>
+      <select name="affiliationType">
+        {{#each affiliationTypes}}
+        <option value="{{this}}" {{#if (compare "str" ../state.affiliationType "===" this)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="resource">
+      <label class="resource-label">Affiliation</label>
+      <input type="text" name="affiliation" value="{{state.affiliation}}" />
+    </div>
+    <div class="resource">
+      <label class="resource-label">Department / Cell / Turf</label>
+      <input type="text" name="department" value="{{state.department}}" />
+    </div>
+    <div class="resource">
+      <label class="resource-label">Role / Title</label>
+      <input type="text" name="role" value="{{state.role}}" />
+    </div>
+    <div class="resource">
+      <label class="resource-label">Sector / Location</label>
+      <input type="text" name="sector" value="{{state.sector}}" />
+    </div>
+    <div class="grid grid-2col" style="gap: 10px;">
+      <div class="resource">
+        <label class="resource-label">Disposition</label>
+        <select name="disposition">
+          {{#each dispositionOptions}}
+          <option value="{{this}}" {{#if (compare "str" ../state.disposition "===" this)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="resource">
+        <label class="resource-label">Threat</label>
+        <select name="threat">
+          {{#each threatOptions}}
+          <option value="{{this}}" {{#if (compare "str" ../state.threat "===" this)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+    <div class="resource">
+      <label class="resource-label">Loadout Preset</label>
+      <select name="loadout">
+        {{#each loadoutOptions}}
+        <option value="{{this}}" {{#if (compare "str" ../state.loadout "===" this)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="resource">
+      <label class="resource-label">Generator Notes</label>
+      <textarea name="notes" rows="4">{{state.notes}}</textarea>
+    </div>
+  </div>
+
+  <div class="sla-action-row" style="margin-top: 12px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+    <label class="checkbox" style="display:inline-flex; gap:6px; align-items:center;">
+      <input type="checkbox" name="assignPortrait" {{checked state.assignPortrait}} />
+      Assign portrait if available
+    </label>
+    <label class="checkbox" style="display:inline-flex; gap:6px; align-items:center;">
+      <input type="checkbox" name="openSheet" {{checked state.openSheet}} />
+      Open sheet after creation
+    </label>
+  </div>
+
+  <div class="sla-action-row" style="margin-top: 12px; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+    <button type="button" class="sla-npc-randomize"><i class="fas fa-shuffle"></i> Randomize Brief</button>
+    <button type="submit"><i class="fas fa-user-plus"></i> Create NPC</button>
+  </div>
+</form>
