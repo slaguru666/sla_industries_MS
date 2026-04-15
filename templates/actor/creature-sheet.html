@@ -4,46 +4,6 @@
   <header class="creature-header-grid">
     <!-- Creature NAME -->
     <input name="name" class="noborder creaturename" style="grid-area:'name';" type="text" value="{{name}}" placeholder="{{ localize 'Mosh.Name' }}" />
-    <section class="sla-creature-dossier">
-      <div class="grid grid-3col" style="gap: 8px;">
-        <div class="resource">
-          <label class="resource-label">Role</label>
-          <input type="text" name="system.slaNpc.role.value" value="{{system.slaNpc.role.value}}" />
-        </div>
-        <div class="resource">
-          <label class="resource-label">Archetype</label>
-          <input type="text" name="system.slaNpc.archetype.value" value="{{system.slaNpc.archetype.value}}" />
-        </div>
-        <div class="resource">
-          <label class="resource-label">Species</label>
-          <input type="text" name="system.slaNpc.species.value" value="{{system.slaNpc.species.value}}" />
-        </div>
-        <div class="resource">
-          <label class="resource-label">Affiliation</label>
-          <input type="text" name="system.slaNpc.affiliation.value" value="{{system.slaNpc.affiliation.value}}" />
-        </div>
-        <div class="resource">
-          <label class="resource-label">Department / Cell</label>
-          <input type="text" name="system.slaNpc.department.value" value="{{system.slaNpc.department.value}}" />
-        </div>
-        <div class="resource">
-          <label class="resource-label">Sector</label>
-          <input type="text" name="system.slaNpc.sector.value" value="{{system.slaNpc.sector.value}}" />
-        </div>
-        <div class="resource">
-          <label class="resource-label">Disposition</label>
-          <input type="text" name="system.slaNpc.disposition.value" value="{{system.slaNpc.disposition.value}}" />
-        </div>
-        <div class="resource">
-          <label class="resource-label">Threat</label>
-          <input type="text" name="system.slaNpc.threat.value" value="{{system.slaNpc.threat.value}}" />
-        </div>
-        <div class="resource">
-          <label class="resource-label">Snapshot</label>
-          <input type="text" name="system.slaNpc.summary.value" value="{{system.slaNpc.summary.value}}" />
-        </div>
-      </div>
-    </section>
     <div class="creature-header">
       {{#if system.stats.combat.enabled}}
       <!-- Combat -->
@@ -137,6 +97,46 @@
     </div>
     <div class="whiteline"></div>
   </header>
+  <section class="sla-creature-dossier">
+    <div class="sla-creature-dossier-grid">
+      <div class="resource">
+        <label class="resource-label">Role</label>
+        <input type="text" name="system.slaNpc.role.value" value="{{system.slaNpc.role.value}}" />
+      </div>
+      <div class="resource">
+        <label class="resource-label">Archetype</label>
+        <input type="text" name="system.slaNpc.archetype.value" value="{{system.slaNpc.archetype.value}}" />
+      </div>
+      <div class="resource">
+        <label class="resource-label">Species</label>
+        <input type="text" name="system.slaNpc.species.value" value="{{system.slaNpc.species.value}}" />
+      </div>
+      <div class="resource">
+        <label class="resource-label">Affiliation</label>
+        <input type="text" name="system.slaNpc.affiliation.value" value="{{system.slaNpc.affiliation.value}}" />
+      </div>
+      <div class="resource">
+        <label class="resource-label">Department / Cell</label>
+        <input type="text" name="system.slaNpc.department.value" value="{{system.slaNpc.department.value}}" />
+      </div>
+      <div class="resource">
+        <label class="resource-label">Sector</label>
+        <input type="text" name="system.slaNpc.sector.value" value="{{system.slaNpc.sector.value}}" />
+      </div>
+      <div class="resource">
+        <label class="resource-label">Disposition</label>
+        <input type="text" name="system.slaNpc.disposition.value" value="{{system.slaNpc.disposition.value}}" />
+      </div>
+      <div class="resource">
+        <label class="resource-label">Threat</label>
+        <input type="text" name="system.slaNpc.threat.value" value="{{system.slaNpc.threat.value}}" />
+      </div>
+      <div class="resource sla-creature-dossier-wide">
+        <label class="resource-label">Snapshot</label>
+        <input type="text" name="system.slaNpc.summary.value" value="{{system.slaNpc.summary.value}}" />
+      </div>
+    </div>
+  </section>
   <div class="creature-description-grid">
     <div class="creaturedescription">
       <div class="grid grid-3col">

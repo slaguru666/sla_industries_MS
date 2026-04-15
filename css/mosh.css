@@ -3018,17 +3018,24 @@ p {
 }
 
 .mosh .sla-creature-dossier {
-  margin: 10px 0 14px;
+  margin: 10px 12px 14px;
   padding: 12px;
   border-radius: 14px;
   background: rgba(14, 20, 28, 0.82);
   border: 1px solid rgba(118, 164, 206, 0.18);
 }
 
+.mosh .sla-creature-dossier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .mosh .sla-creature-dossier .resource {
   padding: 6px 8px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.04);
+  min-width: 0;
 }
 
 .mosh .sla-creature-dossier .resource-label {
@@ -3036,11 +3043,40 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.72rem;
+  display: block;
+  margin-bottom: 4px;
 }
 
 .mosh .sla-creature-dossier input {
   min-height: 32px;
   border-radius: 10px;
+  width: 100%;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+.mosh .sla-creature-dossier-wide {
+  grid-column: span 3;
+}
+
+@media (max-width: 900px) {
+  .mosh .sla-creature-dossier-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mosh .sla-creature-dossier-wide {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .mosh .sla-creature-dossier-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mosh .sla-creature-dossier-wide {
+    grid-column: span 1;
+  }
 }
 
 .mosh .headerinputtext,
