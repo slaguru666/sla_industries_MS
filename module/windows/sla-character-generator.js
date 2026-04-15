@@ -904,6 +904,11 @@ export class SLAMothershipGenerator extends FormApplication {
       const worldItem = findWorldItem(morph.name, "ability");
       if (worldItem) {
         const embedded = toEmbeddedData(worldItem);
+        // Always ensure morphForm flag is set — prevents Ebb enforcement from deleting these
+        embedded.system ??= {};
+        embedded.system.sla ??= {};
+        embedded.system.sla.morphForm = true;
+        embedded.system.sla.isStartingForm = morph.name === startingMorphForm;
         items.push(embedded);
       } else {
         // Build a minimal ability document so the character isn't empty-handed.

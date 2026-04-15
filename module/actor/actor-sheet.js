@@ -444,6 +444,7 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
     const armors = [];
     const conditions = [];
     const abilities = [];
+    const morphForms = [];
     const persTraits = [];
 
     let curWeight = 0;
@@ -550,7 +551,11 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
 
         conditions.push(i);
       } else if (i.type === 'ability') {
-        abilities.push(i);
+        if (i.system?.sla?.morphForm) {
+          morphForms.push(i);
+        } else {
+          abilities.push(i);
+        }
       } else if (i.type === 'persTrait') {
         persTraits.push(i);
       }
@@ -587,6 +592,7 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
     actorData.weapons = weapons;
     actorData.conditions = conditions;
     actorData.abilities = abilities;
+    actorData.slaMorphForms = morphForms;
     actorData.persTraits = persTraits.sort((left, right) => String(left?.name ?? "").localeCompare(String(right?.name ?? "")));
 
   }
