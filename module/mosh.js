@@ -144,11 +144,20 @@ Hooks.once('init', async function () {
     await SLADrugSystem.handleEffectDeleted(effect, options);
   });
 
-  Hooks.on("createItem", async (item) => {
+  // Debounce map: actorId → pending timeout handle.
+  // Prevents enforceSlaEbbEligibility from being called once per item when the
+  // character generator creates many items in rapid succession (each createItem
+  // hook call would otherwise race to delete the same Ebb items concurrently).
+  const _pendingEbbEnforcement = new Map();
+  Hooks.on("createItem", (item) => {
     const actor = item.parent;
     if (!actor || actor.type !== "character" || typeof actor.enforceSlaEbbEligibility !== "function") return;
     if (actor.isSlaEbbUser?.()) return;
-    await actor.enforceSlaEbbEligibility({ notify: true, refillFlux: false });
+    if (_pendingEbbEnforcement.has(actor.id)) clearTimeout(_pendingEbbEnforcement.get(actor.id));
+    _pendingEbbEnforcement.set(actor.id, setTimeout(async () => {
+      _pendingEbbEnforcement.delete(actor.id);
+      await actor.enforceSlaEbbEligibility({ notify: true, refillFlux: false });
+    }, 300));
   });
 
   Hooks.on("updateActor", async (actor, changes, options) => {

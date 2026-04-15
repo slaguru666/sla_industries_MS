@@ -5037,13 +5037,19 @@ export class MothershipActor extends Actor {
       };
       await this.update(updateData);
       const validIds = restrictedIds.filter(id => this.items.get(id) !== undefined);
+      let removed = 0;
       if (validIds.length) {
-        await this.deleteEmbeddedDocuments("Item", validIds);
+        try {
+          await this.deleteEmbeddedDocuments("Item", validIds);
+          removed = validIds.length;
+        } catch (err) {
+          // Concurrent enforcement calls may have already deleted these items — safe to ignore
+        }
       }
-      if (notify && validIds.length) {
+      if (notify && removed) {
         ui.notifications.warn(`${this.name} is not an Ebb user. Restricted Ebb skills and abilities were removed.`);
       }
-      return { removed: validIds.length };
+      return { removed };
     }
 
     const currentMax = Math.max(0, Number(this.system?.sla?.flux?.max ?? 0) || 0);
