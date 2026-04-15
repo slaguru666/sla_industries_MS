@@ -278,8 +278,60 @@ Hooks.once("ready", async function () {
 
   patchSlaInitiativeSystem();
   if (!game.user?.isGM) hideSlaRestrictedSidebarTabs();
+
+  // GM Conditions Summary — whisper to all GMs every 30 minutes
+  if (game.user?.isGM) {
+    setInterval(_sendGMConditionsSummary, 30 * 60 * 1000);
+    console.log("SLA MOTHERSHIP | GM conditions summary timer started (every 30 minutes).");
+  }
   
 });
+
+/**
+ * Scans all actors for active condition items and whispers a summary to GM(s).
+ * Fires every 30 minutes when logged in as GM.
+ */
+function _sendGMConditionsSummary() {
+  if (!game.user?.isGM) return;
+
+  const rows = [];
+  for (const actor of game.actors) {
+    const conditions = actor.items?.filter(i => i.type === "condition") ?? [];
+    if (conditions.length === 0) continue;
+    const conditionList = conditions.map(c => {
+      const sev = c.system?.severity ?? "";
+      return `<span style="color:#ff4444;font-weight:bold;">${c.name}${sev ? ` (${sev})` : ""}</span>`;
+    }).join(", ");
+    rows.push(`<tr><td style="padding:2px 8px;font-weight:bold;color:#eee;">${actor.name}</td><td style="padding:2px 8px;">${conditionList}</td></tr>`);
+  }
+
+  let content;
+  if (rows.length === 0) {
+    content = `<div style="font-family:monospace;color:#888;padding:4px 8px;">
+      <strong style="color:#ff4444;">⚕ CONDITIONS REPORT</strong> — No active conditions.
+    </div>`;
+  } else {
+    content = `<div style="font-family:monospace;padding:4px 0;">
+      <div style="background:#1a0000;border:1px solid #8b0000;border-radius:4px;padding:4px 8px;margin-bottom:6px;">
+        <strong style="color:#ff4444;font-size:1em;">⚕ CONDITIONS REPORT</strong>
+        <span style="color:#888;font-size:0.8em;margin-left:8px;">${new Date().toLocaleTimeString()}</span>
+      </div>
+      <table style="width:100%;border-collapse:collapse;">
+        <thead><tr style="border-bottom:1px solid #8b0000;">
+          <th style="padding:2px 8px;color:#aaa;text-align:left;font-size:0.8em;">ACTOR</th>
+          <th style="padding:2px 8px;color:#aaa;text-align:left;font-size:0.8em;">CONDITIONS</th>
+        </tr></thead>
+        <tbody>${rows.join("")}</tbody>
+      </table>
+    </div>`;
+  }
+
+  ChatMessage.create({
+    content,
+    whisper: ChatMessage.getWhisperRecipients("GM"),
+    speaker: { alias: "SLA System" }
+  });
+}
 
 Hooks.on("renderChatMessageHTML", (app, html) => {
   const root = html?.[0] ?? html;

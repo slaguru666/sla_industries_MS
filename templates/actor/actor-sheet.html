@@ -318,6 +318,14 @@
         <div class="sla-mainstat-action-strip">
           <button type="button" class="sla-sheet-action sla-wound-button">Wound</button>
         </div>
+        {{#if conditions.length}}
+        <div class="sla-active-conditions-summary">
+          <span class="sla-conditions-label">CONDITIONS:</span>
+          {{#each conditions as |condition|}}
+          <span class="sla-active-condition">{{condition.name}}{{#if condition.system.severity}} {{condition.system.severity}}{{/if}}</span>
+          {{/each}}
+        </div>
+        {{/if}}
       </div>
       <!-- SAVES -->
       {{#if system.settings.firstEdition}}

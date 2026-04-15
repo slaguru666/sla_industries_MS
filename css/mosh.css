@@ -5178,3 +5178,37 @@ p {
   background: #1a120c;
   border: 1px solid #8a5a31;
 }
+
+/* ==========================================
+   ACTIVE CONDITIONS SUMMARY (below stats)
+   ========================================== */
+.sla-active-conditions-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  margin-top: 4px;
+  background: rgba(180, 0, 0, 0.12);
+  border: 1px solid #8b0000;
+  border-radius: 4px;
+}
+
+.sla-conditions-label {
+  font-size: 0.72em;
+  font-weight: 700;
+  color: #ff4444;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sla-active-condition {
+  font-size: 0.78em;
+  font-weight: 700;
+  color: #ff4444;
+  text-shadow: 0 0 4px rgba(255, 68, 68, 0.45);
+  padding: 1px 6px;
+  border: 1px solid #8b0000;
+  border-radius: 3px;
+  background: rgba(139, 0, 0, 0.2);
+}
