@@ -904,9 +904,11 @@ export class SLAMothershipGenerator extends FormApplication {
       const worldItem = findWorldItem(morph.name, "ability");
       if (worldItem) {
         const embedded = toEmbeddedData(worldItem);
-        // Always ensure morphForm flag is set — prevents Ebb enforcement from deleting these
+        // abilityType "morph" is schema-defined and guaranteed to be stored —
+        // this prevents the Ebb enforcement sweep from ever deleting morph forms.
         embedded.system ??= {};
         embedded.system.sla ??= {};
+        embedded.system.sla.abilityType = "morph";
         embedded.system.sla.morphForm = true;
         embedded.system.sla.isStartingForm = morph.name === startingMorphForm;
         items.push(embedded);
@@ -921,6 +923,7 @@ export class SLAMothershipGenerator extends FormApplication {
             summary: morph.summary,
             special: morph.special,
             sla: {
+              abilityType: "morph",
               morphForm: true,
               instabilityCost: morph.instabilityCost,
               statMods: morph.statMods ?? {},

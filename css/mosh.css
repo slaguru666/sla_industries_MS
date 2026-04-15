@@ -1791,13 +1791,16 @@ p {
   min-width: 0;
   width: 100%;
   justify-content: center;
-  align-self: start;
+  align-self: center;
   background: linear-gradient(180deg, #4aa8ff 0%, #1b64d8 100%) !important;
   color: #f4fbff !important;
   border: 1px solid rgba(134, 209, 255, 0.9) !important;
   box-shadow: 0 0 0 1px rgba(9, 29, 56, 0.45), 0 0 14px rgba(58, 152, 255, 0.28);
-  padding: 0.28rem 0.55rem !important;
-  font-size: 0.86rem !important;
+  padding: 0.5rem 1rem !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
 }
 
 .mosh .header-field-compact .headerinputfield {

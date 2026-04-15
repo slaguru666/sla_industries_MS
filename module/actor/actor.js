@@ -5018,9 +5018,13 @@ export class MothershipActor extends Actor {
       .filter((item) => {
         const name = String(item.name ?? "").trim();
         const sla = item.system?.sla ?? {};
-        // Morph form abilities (Vevaphon etc.) are species abilities, not Ebb abilities — never remove them
-        if (sla.morphForm) return false;
-        if (item.type === "ability") return true;
+        if (item.type === "ability") {
+          // Only flag abilities that are explicitly Ebb abilities.
+          // Morph forms (Vevaphon) get abilityType "morph" from the generator and are never removed.
+          // morphForm flag is a belt-and-suspenders guard in case abilityType is missing.
+          if (sla.morphForm || String(sla.abilityType ?? "ebb").trim() !== "ebb") return false;
+          return true;
+        }
         if (item.type !== "skill") return false;
         return name === "Formulate" || name === "Biofeedback" || name === "Ebb (Core)" || name.startsWith("Ebb ");
       })
