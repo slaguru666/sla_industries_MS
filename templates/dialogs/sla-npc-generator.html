@@ -1,7 +1,7 @@
-<form class="{{cssClass}} sla-npc-generator" autocomplete="off">
+<form class="{{cssClass}} sla-npc-generator sla-npc-accent-{{accentKey}}" autocomplete="off">
   <p>Create lightweight SLA NPCs with enough identity for play, then open the creature sheet to adjust portrait, items, weapons, skills, and notes.</p>
 
-  <div class="sla-card" style="padding: 12px; margin-bottom: 12px;">
+  <div class="sla-card sla-npc-brief-card" style="padding: 12px; margin-bottom: 12px;">
     <div class="grid grid-2col" style="gap: 10px;">
       <div class="resource">
         <label class="resource-label">Name</label>
@@ -37,6 +37,47 @@
     </div>
     <div class="sla-card-copy" style="margin-top: 10px;">{{summary}}</div>
   </div>
+
+  <section class="sla-card sla-npc-preview-panel" style="margin-bottom: 12px;">
+    <div class="sla-npc-preview-header">
+      <div class="sla-npc-preview-heading">
+        <div class="sla-npc-preview-badge" aria-hidden="true">
+          <img class="sla-npc-preview-icon" src="{{preview.iconPath}}" alt="" />
+          <span>{{preview.iconLabel}}</span>
+        </div>
+        <div>
+        <div class="sla-kicker">{{preview.badge}}</div>
+        <div class="sla-title">{{state.name}}</div>
+        <div class="sla-card-copy">{{preview.strap}}</div>
+        </div>
+      </div>
+      <div class="sla-npc-preview-pill">{{state.quality}}</div>
+    </div>
+    <div class="sla-npc-preview-grid">
+      <div class="sla-npc-preview-block">
+        <div class="sla-card-label">Profile</div>
+        <div class="sla-card-copy"><strong>{{preview.identity}}</strong></div>
+        <div class="sla-card-copy">{{preview.brief}}</div>
+        <div class="sla-card-copy">{{preview.posture}}</div>
+      </div>
+      <div class="sla-npc-preview-block">
+        <div class="sla-card-label">Field Readout</div>
+        <div class="sla-tags">
+          {{#each preview.statline}}
+          <span class="sla-tag">{{this}}</span>
+          {{/each}}
+        </div>
+      </div>
+      <div class="sla-npc-preview-block sla-npc-preview-wide">
+        <div class="sla-card-label">Issue Kit</div>
+        <div class="sla-note-list">
+          {{#each preview.loadout}}
+          <span class="sla-note-pill">{{this}}</span>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </section>
 
   <div class="grid grid-2col" style="gap: 10px;">
     <div class="resource">

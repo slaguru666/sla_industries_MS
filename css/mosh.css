@@ -3017,6 +3017,160 @@ p {
   color: #11161b;
 }
 
+.mosh .sla-npc-preview-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(20, 27, 33, 0.18);
+}
+
+.mosh .sla-npc-preview-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--sla-npc-accent, linear-gradient(90deg, #74a7d3, #d7e4f2));
+}
+
+.mosh .sla-npc-preview-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.mosh .sla-npc-preview-heading {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.mosh .sla-npc-preview-badge {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  border-radius: 16px;
+  background: rgba(18, 24, 30, 0.9);
+  color: #f3f6f8;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 20px rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+
+.mosh .sla-npc-preview-badge::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--sla-npc-accent, linear-gradient(90deg, #74a7d3, #d7e4f2));
+}
+
+.mosh .sla-npc-preview-icon {
+  width: 26px;
+  height: 26px;
+  display: block;
+  object-fit: contain;
+  opacity: 0.96;
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,0.08));
+}
+
+.mosh .sla-npc-preview-badge span {
+  position: absolute;
+  right: 6px;
+  bottom: 4px;
+  font-size: 0.52rem;
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: rgba(243, 246, 248, 0.82);
+}
+
+.mosh .sla-npc-preview-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(17, 22, 28, 0.08);
+  border: 1px solid rgba(17, 22, 28, 0.14);
+  color: #11161b;
+  font-family: "Josefin Sans", "Roboto", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.mosh .sla-npc-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mosh .sla-npc-preview-block {
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.48);
+  border: 1px solid rgba(18, 24, 30, 0.08);
+  min-width: 0;
+}
+
+.mosh .sla-npc-preview-wide {
+  grid-column: span 2;
+}
+
+.mosh .sla-npc-generator .sla-tag,
+.mosh .sla-npc-generator .sla-note-pill {
+  background: rgba(18, 24, 30, 0.06);
+  border-color: rgba(18, 24, 30, 0.12);
+  color: #151a1f;
+}
+
+.mosh .sla-npc-generator.sla-npc-accent-shiver {
+  --sla-npc-accent: linear-gradient(90deg, #5ca3d9, #d9edf9);
+}
+
+.mosh .sla-npc-generator.sla-npc-accent-darknight {
+  --sla-npc-accent: linear-gradient(90deg, #7a2238, #d59baa);
+}
+
+.mosh .sla-npc-generator.sla-npc-accent-tek {
+  --sla-npc-accent: linear-gradient(90deg, #4ea5b7, #d0f0f4);
+}
+
+.mosh .sla-npc-generator.sla-npc-accent-ebb {
+  --sla-npc-accent: linear-gradient(90deg, #6f63d9, #d9d7ff);
+}
+
+.mosh .sla-npc-generator.sla-npc-accent-media {
+  --sla-npc-accent: linear-gradient(90deg, #d09a34, #f6e2b0);
+}
+
+.mosh .sla-npc-generator.sla-npc-accent-internal {
+  --sla-npc-accent: linear-gradient(90deg, #9b2f2f, #f1b7b7);
+}
+
+.mosh .sla-npc-generator.sla-npc-accent-gang {
+  --sla-npc-accent: linear-gradient(90deg, #b04c34, #f0c2a8);
+}
+
+.mosh .sla-npc-generator.sla-npc-accent-predator {
+  --sla-npc-accent: linear-gradient(90deg, #7a8b38, #dfe8b1);
+}
+
+.mosh .sla-npc-generator.sla-npc-accent-civilian {
+  --sla-npc-accent: linear-gradient(90deg, #7f8b93, #dde3e8);
+}
+
+.mosh .sla-npc-generator.sla-npc-accent-corp {
+  --sla-npc-accent: linear-gradient(90deg, #6c8aa6, #d8e4ef);
+}
+
 .mosh .sla-creature-dossier {
   margin: 10px 12px 14px;
   padding: 12px;
@@ -3060,6 +3214,14 @@ p {
 }
 
 @media (max-width: 900px) {
+  .mosh .sla-npc-preview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mosh .sla-npc-preview-wide {
+    grid-column: span 1;
+  }
+
   .mosh .sla-creature-dossier-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

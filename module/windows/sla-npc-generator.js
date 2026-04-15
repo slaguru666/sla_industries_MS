@@ -83,9 +83,57 @@ const NPC_ARCHETYPES = {
       "Field Agent": ["FEN 209 Machine Pistol", "Shiver Flak Vest", "Klippo Multi-Band Communicator"]
     },
     defaultLoadout: "Field Agent",
+    defaultAffiliationType: "Corporation",
     defaultRole: "Corporate Operative",
     defaultAffiliation: "SLA Industries",
-    defaultDepartment: "Operations"
+    defaultDepartment: "Operations",
+    defaultSector: "Mort City"
+  },
+  Media: {
+    summary: "Reporters, propaganda staff, image handlers, and camera teams who shape the public story while staying very close to the danger.",
+    stats: { combat: 20, instinct: 42, speed: 28, loyalty: 44, sanity: 42, armor: 1, damageReduction: 0, health: 9, hits: 1 },
+    enabled: { combat: true, instinct: true, speed: true, loyalty: true, sanity: true, armor: true },
+    skills: [
+      { name: "Persuade", bonus: 30 },
+      { name: "Fast Talk", bonus: 25 },
+      { name: "SLA Info", bonus: 25 },
+      { name: "Spot Hidden", bonus: 20 },
+      { name: "Intimidate", bonus: 15 }
+    ],
+    loadouts: {
+      None: [],
+      Press: ["Klippo Multi-Band Communicator", "UV / Multi-Spectrum Torch", "Street Clothes / Leather Jacket"],
+      "Embedded Crew": ["FEN 603 Auto-Pistol", "Klippo Multi-Band Communicator", "Street Clothes / Leather Jacket"]
+    },
+    defaultLoadout: "Press",
+    defaultAffiliationType: "Corporation",
+    defaultRole: "Media Correspondent",
+    defaultAffiliation: "SLA Media",
+    defaultDepartment: "Editorial / Field Unit",
+    defaultSector: "Downtown Mort"
+  },
+  "Internal Affairs": {
+    summary: "Cold, suspicious investigators and auditors used for leak hunts, corruption probes, and quiet pressure on operatives or departments.",
+    stats: { combat: 34, instinct: 48, speed: 28, loyalty: 56, sanity: 44, armor: 2, damageReduction: 0, health: 10, hits: 2 },
+    enabled: { combat: true, instinct: true, speed: true, loyalty: true, sanity: true, armor: true },
+    skills: [
+      { name: "Bureaucracy", bonus: 30 },
+      { name: "Psychology", bonus: 25 },
+      { name: "Intimidate", bonus: 25 },
+      { name: "Command", bonus: 20 },
+      { name: "Firearm (Pistol)", bonus: 20 }
+    ],
+    loadouts: {
+      None: [],
+      Audit: ["FEN 603 Auto-Pistol", "Klippo Multi-Band Communicator", "Street Clothes / Leather Jacket"],
+      Pressure: ["FEN 401 Shiver Pistol", "Shiver Flak Vest", "Klippo Multi-Band Communicator"]
+    },
+    defaultLoadout: "Audit",
+    defaultAffiliationType: "Department",
+    defaultRole: "Internal Affairs Investigator",
+    defaultAffiliation: "SLA Industries",
+    defaultDepartment: "Internal Affairs",
+    defaultSector: "Cannibal Sectors"
   },
   "DarkNight Agent": {
     summary: "Hard, covert, and unpleasant professionals for pressure scenes, black-bag work, and very bad conversations.",
@@ -104,9 +152,11 @@ const NPC_ARCHETYPES = {
       Breach: ["FEN AR Assault Rifle", "Fragmentation Grenade", "Crackshot Armour"]
     },
     defaultLoadout: "Strike Agent",
+    defaultAffiliationType: "Squad",
     defaultRole: "DarkNight Agent",
     defaultAffiliation: "DarkNight",
-    defaultDepartment: "Black Unit"
+    defaultDepartment: "Black Unit",
+    defaultSector: "Cannibal Sectors"
   },
   "Tek Specialist": {
     summary: "Engineers, locks-and-systems staff, data handlers, and machine-facing support assets.",
@@ -125,9 +175,11 @@ const NPC_ARCHETYPES = {
       "Field Tek": ["FEN 603 Auto-Pistol", "BOOPA Medical Kit (Standard)", "Klippo Multi-Band Communicator"]
     },
     defaultLoadout: "Utility",
+    defaultAffiliationType: "Department",
     defaultRole: "Tek Specialist",
     defaultAffiliation: "Tek Division",
-    defaultDepartment: "Systems"
+    defaultDepartment: "Systems",
+    defaultSector: "Industrial Edge"
   },
   "Ebb Operative": {
     summary: "Psychic intervention assets, occult handlers, and dangerous minds kept near the edge of tolerable doctrine.",
@@ -145,9 +197,11 @@ const NPC_ARCHETYPES = {
       Focus: ["FEN 603 Auto-Pistol", "BOOPA Medical Kit (Standard)", "Klippo Multi-Band Communicator"]
     },
     defaultLoadout: "Focus",
+    defaultAffiliationType: "Department",
     defaultRole: "Ebb Handler",
     defaultAffiliation: "SLA Industries",
-    defaultDepartment: "Ebb / Black"
+    defaultDepartment: "Ebb / Black",
+    defaultSector: "Mort City"
   },
   "Predator / Beast": {
     summary: "Mutants, monsters, feral biogen threats, or engineered horrors that need only enough structure to fight and stalk.",
@@ -163,9 +217,11 @@ const NPC_ARCHETYPES = {
       None: []
     },
     defaultLoadout: "None",
+    defaultAffiliationType: "Independent",
     defaultRole: "Hunting Threat",
     defaultAffiliation: "Hostile Specimen",
-    defaultDepartment: "Wild / Uncontrolled"
+    defaultDepartment: "Wild / Uncontrolled",
+    defaultSector: "Waste District"
   }
 };
 
@@ -186,6 +242,8 @@ const ROLE_SNIPPETS = {
   "Street Ganger": ["Lookout", "Enforcer", "Runner", "Debt collector", "Back-alley bruiser"],
   "Shiver Patrol": ["Patrol officer", "Checkpoint lead", "Riot response cop", "Beat sergeant", "Scene controller"],
   "Corp Operative": ["Case handler", "Recovery agent", "Sponsor fixer", "Quiet escort", "Internal security operative"],
+  Media: ["Field correspondent", "Embedded camera lead", "Image handler", "Narrative producer", "Live scene reporter"],
+  "Internal Affairs": ["Audit investigator", "Leak hunter", "Corruption examiner", "Interrogation lead", "Compliance agent"],
   "DarkNight Agent": ["Pressure asset", "Black-bag specialist", "Interdiction hunter", "Silent breach lead", "Cleanup professional"],
   "Tek Specialist": ["Systems breach tech", "Maintenance lead", "Field engineer", "Data recovery tech", "Signals operator"],
   "Ebb Operative": ["Control asset", "Psi observer", "Occult investigator", "Flux-sensitive handler", "Discreet interventionist"],
@@ -207,6 +265,8 @@ const DEPARTMENT_SNIPPETS = {
   "Street Ganger": ["East Cut", "Underline", "Recycling Stack", "Canal Row", "Tunnel Nine"],
   "Shiver Patrol": ["Precinct 88", "Riot Control", "Street Division", "Transit Policing", "Evidence Escort"],
   "Corp Operative": ["Internal Security", "Investigations", "Sponsor Liaison", "Logistics Recovery", "Operations"],
+  Media: ["Editorial Desk", "Live Scene Unit", "Mort Broadcast", "Image Control", "Public Feed Team"],
+  "Internal Affairs": ["Compliance Review", "Leak Office", "Audit Section", "Disciplinary Unit", "Special Oversight"],
   "DarkNight Agent": ["Silent Entry", "Black Archive", "Pressure Cell", "Removal Team", "Interdiction"],
   "Tek Specialist": ["Signals", "Maintenance", "Surveillance", "Field Systems", "Machine Control"],
   "Ebb Operative": ["Occult Oversight", "Black Psi", "Flux Watch", "Intervention Cell", "Containment"],
@@ -247,6 +307,7 @@ export class SLANpcGeneratorApp extends FormApplication {
 
     return {
       state,
+      accentKey: getArchetypeAccentKey(state.archetype),
       archetypes: Object.entries(NPC_ARCHETYPES).map(([name, entry]) => ({ name, summary: entry.summary })),
       speciesOptions,
       qualityOptions: Object.keys(QUALITY_MODS),
@@ -254,7 +315,8 @@ export class SLANpcGeneratorApp extends FormApplication {
       threatOptions: THREAT_TIERS,
       affiliationTypes: AFFILIATION_TYPES,
       loadoutOptions,
-      summary: archetype.summary
+      summary: archetype.summary,
+      preview: buildNpcPreview(state, archetype)
     };
   }
 
@@ -266,11 +328,11 @@ export class SLANpcGeneratorApp extends FormApplication {
       archetype,
       quality: "Standard",
       species: speciesOptions.includes("Human") ? "Human" : (speciesOptions[0] ?? "Human"),
-      affiliationType: "Gang",
+      affiliationType: config.defaultAffiliationType ?? "Gang",
       affiliation: config.defaultAffiliation,
       department: config.defaultDepartment,
       role: config.defaultRole,
-      sector: "Mort City",
+      sector: config.defaultSector ?? "Mort City",
       disposition: "Hostile",
       threat: "Moderate",
       loadout: config.defaultLoadout ?? "None",
@@ -295,18 +357,26 @@ export class SLANpcGeneratorApp extends FormApplication {
     });
 
     html.find("[name='archetype']").on("change", async () => {
-      const next = this.collectState(html);
-      const config = NPC_ARCHETYPES[next.archetype] ?? NPC_ARCHETYPES["Street Ganger"];
-      next.role = next.role || config.defaultRole;
-      next.affiliation = next.affiliation || config.defaultAffiliation;
-      next.department = next.department || config.defaultDepartment;
-      next.loadout = (config.loadouts?.[next.loadout] ? next.loadout : config.defaultLoadout) ?? "None";
-      if (next.archetype === "Ebb Operative" && !SLAMothershipGenerator.isEbbSpecies(next.species)) {
-        next.species = "Ebon";
-      }
-      this.formState = next;
+      const current = this.collectState(html);
+      this.formState = this.rethemeStateForArchetype(current, current.archetype);
       await this.render(false);
     });
+
+    const rerenderSelectors = [
+      "[name='quality']",
+      "[name='species']",
+      "[name='disposition']",
+      "[name='threat']",
+      "[name='loadout']",
+      "[name='affiliationType']"
+    ];
+
+    for (const selector of rerenderSelectors) {
+      html.find(selector).on("change", async () => {
+        this.formState = this.collectState(html);
+        await this.render(false);
+      });
+    }
   }
 
   collectState(html) {
@@ -333,21 +403,31 @@ export class SLANpcGeneratorApp extends FormApplication {
     const state = { ...current };
     const archetypeName = state.archetype || randomFrom(Object.keys(NPC_ARCHETYPES)) || "Street Ganger";
     const archetype = NPC_ARCHETYPES[archetypeName] ?? NPC_ARCHETYPES["Street Ganger"];
-    state.name = SLAMothershipGenerator.randomName();
-    state.role = randomFrom(ROLE_SNIPPETS[archetypeName] ?? [archetype.defaultRole]) ?? archetype.defaultRole;
-    state.affiliationType = state.affiliationType || "Department";
-    state.affiliation = randomFrom(AFFILIATION_SNIPPETS[state.affiliationType] ?? [archetype.defaultAffiliation]) ?? archetype.defaultAffiliation;
-    state.department = randomFrom(DEPARTMENT_SNIPPETS[archetypeName] ?? [archetype.defaultDepartment]) ?? archetype.defaultDepartment;
-    state.sector = randomFrom(["Mort City", "Cannibal Sectors", "Downtown Mort", "Transit Underlevels", "Industrial Edge", "Waste District"]) ?? "Mort City";
-    state.disposition = randomFrom(DISPOSITIONS) ?? "Neutral";
-    state.threat = randomFrom(THREAT_TIERS) ?? "Moderate";
-    state.loadout = randomFrom(Object.keys(archetype.loadouts ?? { None: [] })) ?? "None";
-    if (archetypeName === "Ebb Operative") {
-      state.species = randomFrom(["Ebon", "Brain Waster"]) ?? "Ebon";
-    } else if (archetypeName === "Predator / Beast") {
-      state.species = randomFrom(["Advanced Carrien", "Stormer 313 Malice", "Stormer 711 Xeno", "Wraith Raider"]) ?? "Advanced Carrien";
-    }
-    return state;
+    const themed = this.rethemeStateForArchetype(state, archetypeName);
+    themed.affiliation = randomFrom(AFFILIATION_SNIPPETS[themed.affiliationType] ?? [archetype.defaultAffiliation]) ?? archetype.defaultAffiliation;
+    themed.department = randomFrom(DEPARTMENT_SNIPPETS[archetypeName] ?? [archetype.defaultDepartment]) ?? archetype.defaultDepartment;
+    themed.role = randomFrom(ROLE_SNIPPETS[archetypeName] ?? [archetype.defaultRole]) ?? archetype.defaultRole;
+    themed.sector = randomFrom(getSectorOptionsForArchetype(archetypeName, archetype.defaultSector)) ?? (archetype.defaultSector ?? "Mort City");
+    themed.disposition = randomFrom(DISPOSITIONS) ?? "Neutral";
+    themed.threat = randomFrom(THREAT_TIERS) ?? "Moderate";
+    themed.loadout = randomFrom(Object.keys(archetype.loadouts ?? { None: [] })) ?? "None";
+    themed.name = SLAMothershipGenerator.randomName();
+    return themed;
+  }
+
+  rethemeStateForArchetype(current, archetypeName) {
+    const archetype = NPC_ARCHETYPES[archetypeName] ?? NPC_ARCHETYPES["Street Ganger"];
+    const next = { ...current, archetype: archetypeName };
+    next.affiliationType = archetype.defaultAffiliationType ?? current.affiliationType ?? "Department";
+    next.affiliation = archetype.defaultAffiliation ?? "";
+    next.department = archetype.defaultDepartment ?? "";
+    next.role = archetype.defaultRole ?? "";
+    next.sector = archetype.defaultSector ?? "Mort City";
+    next.loadout = archetype.defaultLoadout ?? "None";
+    next.disposition = getDefaultDispositionForArchetype(archetypeName);
+    next.threat = getDefaultThreatForArchetype(archetypeName);
+    next.species = getDefaultSpeciesForArchetype(archetypeName, current.species);
+    return next;
   }
 
   async _updateObject(_event, formData) {
@@ -556,6 +636,30 @@ function buildNpcBiography({ state, archetype, speciesName }) {
   `.trim();
 }
 
+function buildNpcPreview(state, archetype) {
+  const quality = QUALITY_MODS[state.quality] ?? QUALITY_MODS.Standard;
+  const loadoutNames = archetype.loadouts?.[state.loadout] ?? [];
+  const statline = applyQualityToStats(archetype.stats, quality);
+  return {
+    iconPath: getArchetypeIconPath(state.archetype),
+    iconLabel: getArchetypeBadgeShort(state.archetype),
+    badge: getArchetypeBadge(state.archetype),
+    strap: getArchetypeStrapline(state.archetype),
+    identity: `${state.role || archetype.defaultRole} / ${state.species}`,
+    brief: `${state.affiliation || archetype.defaultAffiliation}${state.department ? ` / ${state.department}` : ""} operating in ${state.sector || archetype.defaultSector || "Mort City"}.`,
+    posture: `${state.disposition || "Neutral"} disposition with ${state.threat || "Moderate"} threat expectations.`,
+    statline: [
+      `Combat ${statline.combat}`,
+      `Instinct ${statline.instinct}`,
+      `Speed ${statline.speed}`,
+      `Health ${statline.health}`,
+      `Wounds ${statline.hits}`
+    ],
+    loadout: loadoutNames.length ? loadoutNames : ["No preset issue kit selected."],
+    notes: archetype.summary
+  };
+}
+
 function clamp98(value) {
   return Math.max(1, Math.min(98, Number(value ?? 0) || 0));
 }
@@ -595,6 +699,69 @@ function randomFrom(list = []) {
   return list[Math.floor(Math.random() * list.length)] ?? null;
 }
 
+function getDefaultSpeciesForArchetype(archetypeName, currentSpecies = "Human") {
+  if (archetypeName === "Ebb Operative") return "Ebon";
+  if (archetypeName === "Predator / Beast") return "Advanced Carrien";
+  return currentSpecies || "Human";
+}
+
+function getDefaultDispositionForArchetype(archetypeName) {
+  switch (archetypeName) {
+    case "Civilian Witness": return "Nervous";
+    case "Street Ganger": return "Hostile";
+    case "Shiver Patrol": return "Professional";
+    case "Corp Operative": return "Professional";
+    case "Media": return "Corrupt";
+    case "Internal Affairs": return "Professional";
+    case "DarkNight Agent": return "Hostile";
+    case "Tek Specialist": return "Professional";
+    case "Ebb Operative": return "Cornered";
+    case "Predator / Beast": return "Fanatical";
+    default: return "Neutral";
+  }
+}
+
+function getDefaultThreatForArchetype(archetypeName) {
+  switch (archetypeName) {
+    case "Civilian Witness": return "Low";
+    case "Street Ganger": return "Moderate";
+    case "Shiver Patrol": return "Moderate";
+    case "Corp Operative": return "Moderate";
+    case "Media": return "Low";
+    case "Internal Affairs": return "Moderate";
+    case "DarkNight Agent": return "High";
+    case "Tek Specialist": return "Moderate";
+    case "Ebb Operative": return "High";
+    case "Predator / Beast": return "Extreme";
+    default: return "Moderate";
+  }
+}
+
+function getSectorOptionsForArchetype(archetypeName, fallback = "Mort City") {
+  switch (archetypeName) {
+    case "Street Ganger":
+      return ["Cannibal Sectors", "Transit Underlevels", "Waste District", "Mort City"];
+    case "Shiver Patrol":
+      return ["Mort City", "Downtown Mort", "Transit Underlevels", "Cannibal Sectors"];
+    case "Corp Operative":
+      return ["Mort City", "Downtown Mort", "Industrial Edge", "Cannibal Sectors"];
+    case "Media":
+      return ["Downtown Mort", "Mort City", "Cannibal Sectors", "Transit Underlevels"];
+    case "Internal Affairs":
+      return ["Cannibal Sectors", "Mort City", "Downtown Mort", "Industrial Edge"];
+    case "DarkNight Agent":
+      return ["Cannibal Sectors", "Transit Underlevels", "Mort City", "Waste District"];
+    case "Tek Specialist":
+      return ["Industrial Edge", "Mort City", "Transit Underlevels", "Downtown Mort"];
+    case "Ebb Operative":
+      return ["Mort City", "Cannibal Sectors", "Downtown Mort"];
+    case "Predator / Beast":
+      return ["Waste District", "Cannibal Sectors", "Transit Underlevels", "Industrial Edge"];
+    default:
+      return [fallback, "Mort City", "Downtown Mort"];
+  }
+}
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -602,4 +769,85 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function getArchetypeAccentKey(archetypeName) {
+  switch (archetypeName) {
+    case "Shiver Patrol": return "shiver";
+    case "DarkNight Agent": return "darknight";
+    case "Tek Specialist": return "tek";
+    case "Ebb Operative": return "ebb";
+    case "Media": return "media";
+    case "Internal Affairs": return "internal";
+    case "Street Ganger": return "gang";
+    case "Predator / Beast": return "predator";
+    case "Civilian Witness": return "civilian";
+    case "Corp Operative": return "corp";
+    default: return "corp";
+  }
+}
+
+function getArchetypeBadge(archetypeName) {
+  switch (archetypeName) {
+    case "Shiver Patrol": return "Shiver Patrol";
+    case "DarkNight Agent": return "DarkNight";
+    case "Tek Specialist": return "Tek Division";
+    case "Ebb Operative": return "Ebb Control";
+    case "Media": return "Media Feed";
+    case "Internal Affairs": return "Internal Affairs";
+    case "Street Ganger": return "Street Threat";
+    case "Predator / Beast": return "Hostile Specimen";
+    case "Civilian Witness": return "Civilian Contact";
+    case "Corp Operative": return "Corporate Asset";
+    default: return archetypeName;
+  }
+}
+
+function getArchetypeBadgeShort(archetypeName) {
+  switch (archetypeName) {
+    case "Shiver Patrol": return "SV";
+    case "DarkNight Agent": return "DN";
+    case "Tek Specialist": return "TK";
+    case "Ebb Operative": return "EB";
+    case "Media": return "MD";
+    case "Internal Affairs": return "IA";
+    case "Street Ganger": return "SG";
+    case "Predator / Beast": return "HX";
+    case "Civilian Witness": return "CV";
+    case "Corp Operative": return "CO";
+    default: return "NPC";
+  }
+}
+
+function getArchetypeIconPath(archetypeName) {
+  const root = "systems/sla-mothership/icons/ui/npc-badges";
+  switch (archetypeName) {
+    case "Shiver Patrol": return `${root}/shiver.svg`;
+    case "DarkNight Agent": return `${root}/darknight.svg`;
+    case "Tek Specialist": return `${root}/tek.svg`;
+    case "Ebb Operative": return `${root}/ebb.svg`;
+    case "Media": return `${root}/media.svg`;
+    case "Internal Affairs": return `${root}/internal.svg`;
+    case "Street Ganger": return `${root}/gang.svg`;
+    case "Predator / Beast": return `${root}/predator.svg`;
+    case "Civilian Witness": return `${root}/civilian.svg`;
+    case "Corp Operative": return `${root}/corp.svg`;
+    default: return `${root}/corp.svg`;
+  }
+}
+
+function getArchetypeStrapline(archetypeName) {
+  switch (archetypeName) {
+    case "Shiver Patrol": return "Precinct issue / patrol doctrine / fast response";
+    case "DarkNight Agent": return "Black operations / pressure asset / covert response";
+    case "Tek Specialist": return "Systems breach / maintenance / machine-facing support";
+    case "Ebb Operative": return "Occult intervention / flux risk / psychic control";
+    case "Media": return "Image control / live coverage / narrative pressure";
+    case "Internal Affairs": return "Audit pressure / disciplinary review / quiet threat";
+    case "Street Ganger": return "Turf violence / local intimidation / disposable muscle";
+    case "Predator / Beast": return "Ferality / pursuit / close-quarters threat";
+    case "Civilian Witness": return "Collateral witness / local knowledge / brittle pressure";
+    case "Corp Operative": return "Corporate recovery / sponsor discipline / field oversight";
+    default: return "Operational contact / generated dossier";
+  }
 }
