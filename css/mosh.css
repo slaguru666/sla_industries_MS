@@ -1750,10 +1750,10 @@ p {
 .mosh .header-field-rest {
   grid-column: 3;
   grid-row: 3;
-  align-self: start;
+  align-self: center;
   justify-self: start;
   width: 100%;
-  max-width: 78px;
+  max-width: 120px;
 }
 
 .mosh .sla-header-checkbox {
