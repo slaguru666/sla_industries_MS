@@ -1729,8 +1729,6 @@ export class MothershipActor extends Actor {
           let skillList = ``;
           //create skill counter
           let skillCount = 0;
-          //create dialog pixel counter
-          let dialogHeight = 232;
           //loop through and create skill rows
           const filteredSkills = playerItems.filter((item) => item.type === "skill" && this.isSkillRelevantForContext(item, context));
           const skillSource = filteredSkills.length
@@ -1758,13 +1756,9 @@ export class MothershipActor extends Actor {
             skillList = skillList + tempRow;
             //increment skill count
             skillCount++;
-            //increment pixel counter
-            dialogHeight = dialogHeight + 77;
           }
-          //check if there are no skills, and adjust prompt height accordingly
+          //check if there are no skills
           if (skillCount === 0) {
-            //set window height
-            dialogHeight = 170;
             skillList = `<div class="macro_window"><div class="macro_desc" style="padding: 12px 14px;">${requiresCombatSkills ? "No combat-tagged skills are available for this action." : "No matching skills are available for this action."}</div></div>`;
           }
         //create button header if needed
@@ -1773,12 +1767,14 @@ export class MothershipActor extends Actor {
         } else {
           buttonDesc = ``;
         }
+      //wrap skill list in a scrollable container so long lists don't push buttons off-screen
+      const scrollableSkillList = `<div class="sla-skill-scroll-list" style="max-height: 340px; overflow-y: auto; padding-right: 4px; margin-bottom: 4px;">${skillList}</div>`;
       //create final dialog data
       const dialogData = {
         window: {title: dlgTitle},
         classes: ["macro-popup-dialog"],
         position: {width: 600},
-        content: skillHeader + skillList + buttonDesc,
+        content: skillHeader + scrollableSkillList + buttonDesc,
         buttons: []
       };
       //add adv/normal/dis buttons if we need a rollString
