@@ -70,6 +70,13 @@
                 {{/if}}
             </div>
             {{/if}}
+            {{#unless isSlaEbbSkill}}
+                {{#if rollBreakdown}}
+                <div class="sla-chat-section sla-chat-section-meta" style="margin-top: 5px; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 5px;">
+                    <div class="body"><strong>Target Number:</strong> {{#each rollBreakdown.parts as |part index|}}{{#if index}} + {{/if}}{{part.label}} {{part.value}}{{/each}} = <strong>{{rollBreakdown.total}}</strong></div>
+                </div>
+                {{/if}}
+            {{/unless}}
         {{/if}}
 
         {{#if (compare 'str' specialRoll '===' 'damage')}}

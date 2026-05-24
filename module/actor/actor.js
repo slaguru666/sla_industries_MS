@@ -4,6 +4,21 @@ import { SLADrugSystem } from "../sla-drug-system.js";
 import { SLA_SPECIES_BALANCE_VERSION, getSlaSpeciesStatAdjustments } from "../sla-species-balance.js";
 import { buildSlaTraumaResponseText } from "../sla-trauma.js";
 
+// Global event delegation to handle interactive range slider value updates
+// in a way that is fully compatible with Foundry VTT's HTML sanitization.
+if (typeof document !== "undefined") {
+  document.addEventListener("input", (event) => {
+    const target = event.target;
+    if (target && target.tagName === "INPUT" && target.name === "rollModifier") {
+      const value = Number(target.value) || 0;
+      const label = target.closest(".resource")?.querySelector(".slider-value");
+      if (label) {
+        label.innerText = (value >= 0 ? "+" : "") + value;
+      }
+    }
+  });
+}
+
 const SLA_AMMO_TYPES = {
   STD: { label: "Standard", multiplier: 1, damageBonus: "", woundEffect: "", summary: "Standard ammunition." },
   AP: { label: "AP", multiplier: 2, damageBonus: "-1", woundEffect: "Gunshot [-]", summary: "Armour-piercing ammunition. Treat target armour as halved and reduce damage by 1." },
@@ -1770,11 +1785,21 @@ export class MothershipActor extends Actor {
       //wrap skill list in a scrollable container so long lists don't push buttons off-screen
       const scrollableSkillList = `<div class="sla-skill-scroll-list" style="max-height: 340px; overflow-y: auto; padding-right: 4px; margin-bottom: 4px;">${skillList}</div>`;
       //create final dialog data
+      const showModifier = !foundry.utils.hasProperty(context.attackContext ?? {}, "rollModifier");
+      const modifierHtml = showModifier ? `
+        <div class="resource" style="margin-top: 15px; margin-bottom: 10px; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 10px; padding-left: 10px; padding-right: 10px;">
+          <label class="resource-label" style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 8px;">
+            <span>Roll Modifier</span>
+            <span class="slider-value" style="font-weight: bold; color: #cc2828;">0</span>
+          </label>
+          <input type="range" name="rollModifier" min="-30" max="30" step="10" value="0" style="width: 100%; cursor: pointer; accent-color: #cc2828;" oninput="this.previousElementSibling.querySelector('.slider-value').innerText = (this.value >= 0 ? '+' : '') + this.value">
+        </div>
+      ` : "";
       const dialogData = {
         window: {title: dlgTitle},
         classes: ["macro-popup-dialog"],
         position: {width: 600},
-        content: skillHeader + scrollableSkillList + buttonDesc,
+        content: skillHeader + scrollableSkillList + modifierHtml + buttonDesc,
         buttons: []
       };
       //add adv/normal/dis buttons if we need a rollString
@@ -1788,8 +1813,9 @@ export class MothershipActor extends Actor {
               rollString = `1d100 [+]`;
               skill = button.form.querySelector("input[name='skill']:checked")?.getAttribute("id");
               skillValue = button.form.querySelector("input[name='skill']:checked")?.getAttribute("value");
-              resolve([rollString, skill, skillValue]);
-              slaDebug(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
+              const rollModifier = showModifier ? (Number(button.form.querySelector("input[name='rollModifier']")?.value ?? 0) || 0) : (Number(context.attackContext?.rollModifier ?? 0) || 0);
+              resolve([rollString, skill, skillValue, rollModifier]);
+              slaDebug(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}, modifier:${rollModifier}`);
             },
             icon: `fas fa-angle-double-up`
           },
@@ -1800,8 +1826,9 @@ export class MothershipActor extends Actor {
               rollString = `1d100`;
               skill = button.form.querySelector("input[name='skill']:checked")?.getAttribute("id");
               skillValue = button.form.querySelector("input[name='skill']:checked")?.getAttribute("value");
-              resolve([rollString, skill, skillValue]);
-              slaDebug(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
+              const rollModifier = showModifier ? (Number(button.form.querySelector("input[name='rollModifier']")?.value ?? 0) || 0) : (Number(context.attackContext?.rollModifier ?? 0) || 0);
+              resolve([rollString, skill, skillValue, rollModifier]);
+              slaDebug(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}, modifier:${rollModifier}`);
             },
             icon: `fas fa-minus`
           },
@@ -1812,8 +1839,9 @@ export class MothershipActor extends Actor {
               rollString = `1d100 [-]`;
               skill = button.form.querySelector("input[name='skill']:checked")?.getAttribute("id");
               skillValue = button.form.querySelector("input[name='skill']:checked")?.getAttribute("value");
-              resolve([rollString, skill, skillValue]);
-              slaDebug(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
+              const rollModifier = showModifier ? (Number(button.form.querySelector("input[name='rollModifier']")?.value ?? 0) || 0) : (Number(context.attackContext?.rollModifier ?? 0) || 0);
+              resolve([rollString, skill, skillValue, rollModifier]);
+              slaDebug(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}, modifier:${rollModifier}`);
             },
             icon: `fas fa-angle-double-down`
           }
@@ -1827,8 +1855,9 @@ export class MothershipActor extends Actor {
             callback: (event, button, dialog) => {
               skill = button.form.querySelector("input[name='skill']:checked")?.getAttribute("id");
               skillValue = button.form.querySelector("input[name='skill']:checked")?.getAttribute("value");
-              resolve([rollString, skill, skillValue]);
-              slaDebug(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
+              const rollModifier = showModifier ? (Number(button.form.querySelector("input[name='rollModifier']")?.value ?? 0) || 0) : (Number(context.attackContext?.rollModifier ?? 0) || 0);
+              resolve([rollString, skill, skillValue, rollModifier]);
+              slaDebug(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}, modifier:${rollModifier}`);
             },
             icon: `fas fa-chevron-circle-right`
           }
@@ -1849,19 +1878,29 @@ export class MothershipActor extends Actor {
         let dieAdv = die + ` [+]`;
         let dieDis = die + ` [-]`;
       //create final dialog data
+      const modifierHtml = `
+        <div class="resource" style="margin-top: 15px; margin-bottom: 10px; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 10px; padding-left: 10px; padding-right: 10px;">
+          <label class="resource-label" style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 8px;">
+            <span>Roll Modifier</span>
+            <span class="slider-value" style="font-weight: bold; color: #cc2828;">0</span>
+          </label>
+          <input type="range" name="rollModifier" min="-30" max="30" step="10" value="0" style="width: 100%; cursor: pointer; accent-color: #cc2828;" oninput="this.previousElementSibling.querySelector('.slider-value').innerText = (this.value >= 0 ? '+' : '') + this.value">
+        </div>
+      `;
       const dialogData = {
         window: {title: dlgTitle},
         classes: ["macro-popup-dialog"],
         position: {width: 600},
-        content: `<div class="macro_prompt">` + game.i18n.localize("Mosh.SelectYourRollType") + `:</div>`,
+        content: `<form style="padding: 5px 10px;"><div class="macro_prompt" style="margin-bottom:10px;">` + game.i18n.localize("Mosh.SelectYourRollType") + `:</div>` + modifierHtml + `</form>`,
         buttons: [
           {
             label: game.i18n.localize("Mosh.Advantage"),
 			      action: `action_advantage`,
             callback: (event, button, dialog) => {
               rollString = dieAdv;
-              resolve([rollString]);
-              slaDebug(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
+              const rollModifier = Number(button.form.querySelector("input[name='rollModifier']")?.value ?? 0) || 0;
+              resolve([rollString, rollModifier]);
+              slaDebug(`User left the chooseAdvantage dialog with: rollString:${rollString}, modifier:${rollModifier}`);
             },
             icon: `fas fa-angle-double-up`
           },
@@ -1870,8 +1909,9 @@ export class MothershipActor extends Actor {
 			      action: `action_normal`,
             callback: (event, button, dialog) => {
               rollString = die;
-              resolve([rollString]);
-              slaDebug(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
+              const rollModifier = Number(button.form.querySelector("input[name='rollModifier']")?.value ?? 0) || 0;
+              resolve([rollString, rollModifier]);
+              slaDebug(`User left the chooseAdvantage dialog with: rollString:${rollString}, modifier:${rollModifier}`);
             },
             icon: `fas fa-minus`
           },
@@ -1880,8 +1920,9 @@ export class MothershipActor extends Actor {
 			      action: `action_disadvantage`,
             callback: (event, button, dialog) => { 
               rollString = dieDis;
-              resolve([rollString]);
-              slaDebug(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
+              const rollModifier = Number(button.form.querySelector("input[name='rollModifier']")?.value ?? 0) || 0;
+              resolve([rollString, rollModifier]);
+              slaDebug(`User left the chooseAdvantage dialog with: rollString:${rollString}, modifier:${rollModifier}`);
             },
             icon: `fas fa-angle-double-down`
           }
@@ -2474,6 +2515,9 @@ export class MothershipActor extends Actor {
         rollString = chosenSkills[0];
         skill = chosenSkills[1];
         skillValue = chosenSkills[2];
+        if (chosenSkills[3] !== undefined) {
+          attackContext.rollModifier = chosenSkills[3];
+        }
       }
       //if rollString is STILL blank, redirect player to choose the roll
       if (!rollString) {
@@ -2481,6 +2525,9 @@ export class MothershipActor extends Actor {
       let chosenRollType = await this.chooseAdvantage(this.system.stats[attribute].rollLabel, '1d100');
         //set variables
         rollString = chosenRollType[0];
+        if (chosenRollType[1] !== undefined) {
+          attackContext.rollModifier = chosenRollType[1];
+        }
       }
     //if this is a weapon roll
     if (weapon) {
@@ -2634,6 +2681,18 @@ export class MothershipActor extends Actor {
       rollTarget = Number(effectiveRollBreakdown?.total ?? 0) || 0;
     } else {
       rollTarget = rollTargetOverride;
+    }
+    const modifier = Number(attackContext?.rollModifier ?? 0) || 0;
+    if (modifier) {
+      rollTarget += modifier;
+      if (effectiveRollBreakdown) {
+        effectiveRollBreakdown.parts.push({
+          label: "Roll Modifier",
+          value: modifier
+        });
+        effectiveRollBreakdown.total += modifier;
+        effectiveRollBreakdown.formulaText += ` ${modifier >= 0 ? "+" : ""}${modifier}`;
+      }
     }
     rollTarget = this.clampSlaRollTarget(rollTarget, rollString);
     if (effectiveRollBreakdown && (String(rollString ?? "").includes("1d100"))) {
@@ -4005,10 +4064,58 @@ export class MothershipActor extends Actor {
     return { total, parts };
   }
 
-  async chooseWeaponAttackOptions(weapon) {
+  async promptRollModifier(title = "Roll Modifier") {
+    return new Promise((resolve) => {
+      const dialogData = {
+        window: { title },
+        content: `
+          <form style="padding: 5px 10px;">
+            <div class="resource" style="margin-bottom: 15px;">
+              <label class="resource-label" style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 8px;">
+                <span>Modifier Value</span>
+                <span class="slider-value" style="font-weight: bold; color: #cc2828;">0</span>
+              </label>
+              <input type="range" name="rollModifier" min="-30" max="30" step="10" value="0" style="width: 100%; cursor: pointer; accent-color: #cc2828;">
+              <div class="slider-ticks" style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.85em; color: rgba(255,255,255,0.6); padding: 0 8px;">
+                <span>-30</span>
+                <span>-20</span>
+                <span>-10</span>
+                <span style="color: #cc2828; font-weight: bold;">0</span>
+                <span>+10</span>
+                <span>+20</span>
+                <span>+30</span>
+              </div>
+            </div>
+          </form>
+        `,
+        buttons: [
+          {
+            label: "Roll",
+            action: "roll",
+            icon: "fas fa-dice-d20",
+            callback: (_event, button) => {
+              const modifier = Number(button.form.querySelector("input[name='rollModifier']")?.value ?? 0) || 0;
+              resolve(modifier);
+            }
+          },
+          {
+            label: "Cancel",
+            action: "cancel",
+            icon: "fas fa-times",
+            callback: () => resolve(null)
+          }
+        ],
+        close: () => resolve(null)
+      };
+      new foundry.applications.api.DialogV2(dialogData).render({ force: true });
+    });
+  }
+
+  async chooseWeaponAttackOptions(weapon, attackContext = {}) {
     const fireModes = this.getWeaponFireModes(weapon);
     const activeFireMode = this.getActiveWeaponFireMode(weapon);
     const ammoChoices = this.getWeaponAmmoChoices(weapon);
+    const showModifier = Boolean(attackContext?.promptModifier);
 
     return new Promise((resolve) => {
       const fireOptions = fireModes.map((mode) => `
@@ -4018,20 +4125,40 @@ export class MothershipActor extends Actor {
         <option value="${choice.tag}" ${choice.selected ? "selected" : ""}>${choice.label}</option>
       `).join("");
 
+      const modifierHtml = showModifier ? `
+        <div class="resource" style="margin-top: 15px; margin-bottom: 10px; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 10px;">
+          <label class="resource-label" style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 8px;">
+            <span>Roll Modifier</span>
+            <span class="slider-value" style="font-weight: bold; color: #cc2828;">0</span>
+          </label>
+          <input type="range" name="rollModifier" min="-30" max="30" step="10" value="0" style="width: 100%; cursor: pointer; accent-color: #cc2828;">
+          <div class="slider-ticks" style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.85em; color: rgba(255,255,255,0.6); padding: 0 8px;">
+            <span>-30</span>
+            <span>-20</span>
+            <span>-10</span>
+            <span style="color: #cc2828; font-weight: bold;">0</span>
+            <span>+10</span>
+            <span>+20</span>
+            <span>+30</span>
+          </div>
+        </div>
+      ` : "";
+
       const dialogData = {
         window: {
           title: `${weapon.name} Attack Setup`
         },
         content: `
-          <form>
+          <form style="padding: 5px 10px;">
             <div class="resource" style="margin-bottom: 10px;">
-              <label class="resource-label">Fire Mode</label>
-              <select name="fireMode">${fireOptions}</select>
+              <label class="resource-label" style="font-weight: bold; margin-bottom: 5px; display: block;">Fire Mode</label>
+              <select name="fireMode" style="width: 100%;">${fireOptions}</select>
             </div>
             <div class="resource" style="margin-bottom: 10px;">
-              <label class="resource-label">Ammo Type</label>
-              <select name="ammoTag">${ammoOptions}</select>
+              <label class="resource-label" style="font-weight: bold; margin-bottom: 5px; display: block;">Ammo Type</label>
+              <select name="ammoTag" style="width: 100%;">${ammoOptions}</select>
             </div>
+            ${modifierHtml}
           </form>
         `,
         buttons: [
@@ -4043,10 +4170,12 @@ export class MothershipActor extends Actor {
               const fireLabel = button.form.querySelector("select[name='fireMode']")?.value ?? activeFireMode.label;
               const fireMode = fireModes.find((mode) => mode.label === fireLabel) ?? activeFireMode;
               const ammoTag = button.form.querySelector("select[name='ammoTag']")?.value ?? ammoChoices[0]?.tag ?? "STD";
+              const rollModifier = showModifier ? (Number(button.form.querySelector("input[name='rollModifier']")?.value ?? 0) || 0) : 0;
               resolve({
                 fireMode: fireMode.label,
                 shotsPerFire: fireMode.shots,
-                ammoTag
+                ammoTag,
+                rollModifier
               });
             }
           },
@@ -4063,10 +4192,20 @@ export class MothershipActor extends Actor {
     });
   }
 
-  async rollWeaponAttack(weapon) {
-    const attackContext = weapon?.system?.useAmmo ? await this.chooseWeaponAttackOptions(weapon) : {};
-    if (weapon?.system?.useAmmo && !attackContext) return;
-    return this.rollCheck(null, 'low', 'combat', null, null, weapon, null, attackContext ?? {});
+  async rollWeaponAttack(weapon, attackContext = {}) {
+    let context = { ...attackContext };
+    if (weapon?.system?.useAmmo) {
+      const ammoContext = await this.chooseWeaponAttackOptions(weapon, context);
+      if (!ammoContext) return null;
+      context = { ...context, ...ammoContext };
+    } else {
+      if (context.promptModifier) {
+        const rollMod = await this.promptRollModifier(`${weapon.name} Attack Roll`);
+        if (rollMod === null) return null;
+        context.rollModifier = rollMod;
+      }
+    }
+    return this.rollCheck(null, 'low', 'combat', null, null, weapon, null, context);
   }
 
   async cycleWeaponFireMode(itemId, direction = 1) {

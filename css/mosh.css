@@ -2338,6 +2338,26 @@ p {
   box-shadow: none !important;
 }
 
+/* Skill picker scroll list — thin scrollbar, no overflow on the dialog */
+.macro-popup-dialog .sla-skill-scroll-list {
+  scrollbar-width: thin;
+  scrollbar-color: #aaa #e6e6e6;
+}
+.macro-popup-dialog .sla-skill-scroll-list::-webkit-scrollbar {
+  width: 6px;
+}
+.macro-popup-dialog .sla-skill-scroll-list::-webkit-scrollbar-track {
+  background: #e6e6e6;
+  border-radius: 3px;
+}
+.macro-popup-dialog .sla-skill-scroll-list::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 3px;
+}
+.macro-popup-dialog .sla-skill-scroll-list::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
 .mosh .sla-panel {
   margin-bottom: 14px;
   padding: 12px;

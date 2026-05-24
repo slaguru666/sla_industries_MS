@@ -826,7 +826,7 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
       var item;
       item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
       
-      this.actor.rollCheck(null, null, null, item.name, item.system.bonus, null);
+      this.actor.rollCheck(null, null, null, item.name, item.system.bonus, null, null, { promptModifier: true });
     });
 
     html.find('.sla-ebb-skill-roll').click(ev => {
@@ -858,7 +858,7 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
       //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
       var item;
       item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
-      this.actor.rollWeaponAttack(item);
+      this.actor.rollWeaponAttack(item, { promptModifier: true });
     });
 
     // Rollable Damage
