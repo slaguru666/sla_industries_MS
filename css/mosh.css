@@ -5473,3 +5473,156 @@ p {
   border-radius: 3px;
   background: rgba(139, 0, 0, 0.2);
 }
+
+/* =============================================================================
+   SLA Industries — Sidebar Tabs and Scene Controls Modern Overhaul
+   ============================================================================= */
+
+/* ── Scene Controls (Left Panel) ────────────────────────────────────────── */
+#controls {
+  pointer-events: none !important;
+}
+
+#controls ol.main-controls,
+#controls ol.sub-controls {
+  pointer-events: auto !important;
+  background: rgba(10, 12, 16, 0.88) !important;
+  border: 1px solid rgba(0, 229, 255, 0.2) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65), 0 0 14px rgba(0, 229, 255, 0.08) !important;
+  backdrop-filter: blur(12px) !important;
+  padding: 5px !important;
+  gap: 5px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  margin-bottom: 10px !important;
+}
+
+#controls li.scene-control,
+#controls li.control-tool {
+  position: relative !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  color: #8fa4b8 !important; /* Premium muted steel-blue */
+  border-radius: 8px !important;
+  width: 36px !important;
+  height: 36px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Hover State */
+#controls li.scene-control:hover,
+#controls li.control-tool:hover {
+  color: #00e5ff !important; /* Vibrant Neon Cyan */
+  background: rgba(0, 229, 255, 0.1) !important;
+  border-color: rgba(0, 229, 255, 0.5) !important;
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.35), inset 0 1px 0 rgba(0, 229, 255, 0.15) !important;
+  transform: translateY(-1px) scale(1.04) !important;
+}
+
+/* Active State */
+#controls li.scene-control.active,
+#controls li.control-tool.active {
+  color: #00e5ff !important;
+  background: rgba(0, 229, 255, 0.16) !important;
+  border-color: #00e5ff !important;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.5), inset 0 1px 0 rgba(0, 229, 255, 0.25) !important;
+}
+
+/* Active side indicator bar */
+#controls li.scene-control.active::before,
+#controls li.control-tool.active::before {
+  content: "" !important;
+  position: absolute !important;
+  left: -2px !important;
+  top: 15% !important;
+  height: 70% !important;
+  width: 2px !important;
+  background: #00e5ff !important;
+  box-shadow: 0 0 8px #00e5ff, 0 0 15px #00e5ff !important;
+  border-radius: 2px !important;
+}
+
+/* Sub-controls offset container glow adjustment */
+#controls ol.sub-controls {
+  border-color: rgba(0, 229, 255, 0.14) !important;
+  background: rgba(14, 18, 24, 0.82) !important;
+}
+
+
+/* ── Right Sidebar Tabs (Navigation Panel) ─────────────────────────────── */
+#sidebar-tabs {
+  background: rgba(10, 12, 16, 0.88) !important;
+  border-bottom: 2px solid rgba(0, 229, 255, 0.25) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(12px) !important;
+  border-radius: 8px 8px 0 0 !important;
+  padding: 3px 5px !important;
+  gap: 4px !important;
+  display: flex !important;
+  margin: 0 !important;
+  border-top: none !important;
+}
+
+#sidebar-tabs button[data-tab],
+#sidebar-tabs [data-tab].icon,
+#sidebar-tabs .item {
+  position: relative !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  color: #8fa4b8 !important;
+  border-radius: 6px !important;
+  margin: 2px 0 !important;
+  height: 32px !important;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+  flex: 1 !important;
+}
+
+/* Hover State */
+#sidebar-tabs button[data-tab]:hover,
+#sidebar-tabs [data-tab].icon:hover,
+#sidebar-tabs .item:hover {
+  color: #00e5ff !important;
+  background: rgba(0, 229, 255, 0.1) !important;
+  border-color: rgba(0, 229, 255, 0.5) !important;
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.35), inset 0 1px 0 rgba(0, 229, 255, 0.15) !important;
+  transform: translateY(-1px) scale(1.04) !important;
+}
+
+/* Active State */
+#sidebar-tabs button[data-tab].active,
+#sidebar-tabs [data-tab].icon.active,
+#sidebar-tabs .item.active {
+  color: #00e5ff !important;
+  background: rgba(0, 229, 255, 0.16) !important;
+  border-color: #00e5ff !important;
+  box-shadow: 0 0 18px rgba(0, 229, 255, 0.45), inset 0 1px 0 rgba(0, 229, 255, 0.25) !important;
+}
+
+/* Glowing bottom line indicator on active tabs */
+#sidebar-tabs button[data-tab].active::after,
+#sidebar-tabs [data-tab].icon.active::after,
+#sidebar-tabs .item.active::after {
+  content: "" !important;
+  position: absolute !important;
+  bottom: -3px !important;
+  left: 15% !important;
+  width: 70% !important;
+  height: 2px !important;
+  background: #00e5ff !important;
+  box-shadow: 0 0 8px #00e5ff, 0 0 15px #00e5ff !important;
+  border-radius: 2px !important;
+}
+
