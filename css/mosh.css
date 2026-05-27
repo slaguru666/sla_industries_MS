@@ -5640,3 +5640,18 @@ p {
   border-radius: 2px !important;
 }
 
+/* Critical Success Options Button Elastic Layout Fixes */
+.mosh.sla-chat-shell .sla-crit-option-btn,
+.mosh .sla-crit-success-options .sla-crit-option-btn {
+  display: flex !important;
+  align-items: flex-start !important;
+  height: auto !important;
+  min-height: fit-content !important;
+  line-height: 1.3 !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  padding: 8px 10px !important;
+  margin-bottom: 8px !important;
+}
+
+
