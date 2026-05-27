@@ -214,8 +214,8 @@
         },
           "hits": {
             "increase": {
-              "android": "@UUID[Compendium.mosh.macros_hotbar_1e.ZzKgfEmRdvDfyBMS]{Faça um Teste de Ferimento}",
-              "human": "@UUID[Compendium.mosh.macros_hotbar_1e.ZzKgfEmRdvDfyBMS]{Faça um Teste de Ferimento}"
+              "android": "@UUID[Compendium.sla-mothership.macros_hotbar_1e.ZzKgfEmRdvDfyBMS]{Faça um Teste de Ferimento}",
+              "human": "@UUID[Compendium.sla-mothership.macros_hotbar_1e.ZzKgfEmRdvDfyBMS]{Faça um Teste de Ferimento}"
             },
             "increaseHeader": {
               "android": "Dano",
@@ -226,12 +226,12 @@
               "human": "systems/sla-mothership/images/icons/ui/attributes/health.png"
             },
             "hitCeiling": {
-              "android": "O fim está próximo...<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Faça uma Salvaguarda de Morte}",
-              "human": "O fim está próximo...<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Faça uma Salvaguarda de Morte}"
+              "android": "O fim está próximo...<br><br>@UUID[Compendium.sla-mothership.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Faça uma Salvaguarda de Morte}",
+              "human": "O fim está próximo...<br><br>@UUID[Compendium.sla-mothership.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Faça uma Salvaguarda de Morte}"
             },
             "pastCeiling": {
-              "android": "O fim está próximo...<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Faça uma Salvaguarda de Morte}",
-              "human": "O fim está próximo...<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Faça uma Salvaguarda de Morte}"
+              "android": "O fim está próximo...<br><br>@UUID[Compendium.sla-mothership.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Faça uma Salvaguarda de Morte}",
+              "human": "O fim está próximo...<br><br>@UUID[Compendium.sla-mothership.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Faça uma Salvaguarda de Morte}"
             },
             "decrease": {
               "android": "Os recursos do sistema se estabilizam e você se sente energizado.",
@@ -823,64 +823,64 @@
           "macro": {
             "wound": {
               "bleeding": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.1DD8i6eCS6nx2Ip0]{Sangramento}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.1DD8i6eCS6nx2Ip0]{Sangramento}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.1DD8i6eCS6nx2Ip0]{Sangramento}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.1DD8i6eCS6nx2Ip0]{Sangramento}"
               },
               "bleeding_dis": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.xr2o2PU5vdrR6fxQ]{Sangramento [-]}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.xr2o2PU5vdrR6fxQ]{Sangramento [-]}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.xr2o2PU5vdrR6fxQ]{Sangramento [-]}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.xr2o2PU5vdrR6fxQ]{Sangramento [-]}"
               },
               "bleeding_adv": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.tFcWNddtZvlv7tsg]{Sangramento [+]}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.tFcWNddtZvlv7tsg]{Sangramento [+]}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.tFcWNddtZvlv7tsg]{Sangramento [+]}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.tFcWNddtZvlv7tsg]{Sangramento [+]}"
               },
               "blunt_force": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.TAjlQjA5AAy3qYL3]{Força Contundente}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.TAjlQjA5AAy3qYL3]{Força Contundente}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.TAjlQjA5AAy3qYL3]{Força Contundente}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.TAjlQjA5AAy3qYL3]{Força Contundente}"
               },
               "blunt_force_dis": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.k0zf8ZGivRguc0wb]{Força Contundente [-]}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.k0zf8ZGivRguc0wb]{Força Contundente [-]}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.k0zf8ZGivRguc0wb]{Força Contundente [-]}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.k0zf8ZGivRguc0wb]{Força Contundente [-]}"
               },
               "blunt_force_adv": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.oL3GH0HoEPlP8vzG]{Força Contundente [+]}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.oL3GH0HoEPlP8vzG]{Força Contundente [+]}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.oL3GH0HoEPlP8vzG]{Força Contundente [+]}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.oL3GH0HoEPlP8vzG]{Força Contundente [+]}"
               },
               "fire_explosives": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.bZi1qKmcKLFvnhZ2]{Fogo & Explosivos}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.bZi1qKmcKLFvnhZ2]{Fogo & Explosivos}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.bZi1qKmcKLFvnhZ2]{Fogo & Explosivos}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.bZi1qKmcKLFvnhZ2]{Fogo & Explosivos}"
               },
               "fire_explosives_dis": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.7rYhbDAaFeok1Daq]{Fogo & Explosivos [-]}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.7rYhbDAaFeok1Daq]{Fogo & Explosivos [-]}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.7rYhbDAaFeok1Daq]{Fogo & Explosivos [-]}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.7rYhbDAaFeok1Daq]{Fogo & Explosivos [-]}"
               },
               "fire_explosives_adv": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.dJnQKDf0AlwK27QD]{Fogo & Explosivos [+]}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.dJnQKDf0AlwK27QD]{Fogo & Explosivos [+]}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.dJnQKDf0AlwK27QD]{Fogo & Explosivos [+]}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.dJnQKDf0AlwK27QD]{Fogo & Explosivos [+]}"
               },
               "gore_massive": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.S9nnHKWYGSQmjQdp]{Carniça}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.S9nnHKWYGSQmjQdp]{Carniça}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.S9nnHKWYGSQmjQdp]{Carniça}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.S9nnHKWYGSQmjQdp]{Carniça}"
               },
               "gore_massive_dis": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.eQPuDgwv8evetFIk]{Carniça [-]}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.eQPuDgwv8evetFIk]{Carniça [-]}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.eQPuDgwv8evetFIk]{Carniça [-]}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.eQPuDgwv8evetFIk]{Carniça [-]}"
               },
               "gore_massive_adv": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.DuVjNlE4lsnR7Emc]{Carniça [+]}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.DuVjNlE4lsnR7Emc]{Carniça [+]}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.DuVjNlE4lsnR7Emc]{Carniça [+]}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.DuVjNlE4lsnR7Emc]{Carniça [+]}"
               },
               "gunshot": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.XgCOLv9UunBddUyW]{Disparo de Arma}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.XgCOLv9UunBddUyW]{Disparo de Arma}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.XgCOLv9UunBddUyW]{Disparo de Arma}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.XgCOLv9UunBddUyW]{Disparo de Arma}"
               },
               "gunshot_dis": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.LTpa1ZYVZl4m9k6z]{Disparo de Arma [-]}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.LTpa1ZYVZl4m9k6z]{Disparo de Arma [-]}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.LTpa1ZYVZl4m9k6z]{Disparo de Arma [-]}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.LTpa1ZYVZl4m9k6z]{Disparo de Arma [-]}"
               },
               "gunshot_adv": {
-                "android": "@UUID[Compendium.mosh.macros_triggered_1e.fnVATRHYJEUlS3pR]{Disparo de Arma [+]}",
-                "human": "@UUID[Compendium.mosh.macros_triggered_1e.fnVATRHYJEUlS3pR]{Disparo de Arma [+]}"
+                "android": "@UUID[Compendium.sla-mothership.macros_triggered_1e.fnVATRHYJEUlS3pR]{Disparo de Arma [+]}",
+                "human": "@UUID[Compendium.sla-mothership.macros_triggered_1e.fnVATRHYJEUlS3pR]{Disparo de Arma [+]}"
               }
             }
           },

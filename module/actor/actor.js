@@ -1432,27 +1432,27 @@ export class MothershipActor extends Actor {
       }
       //append Calm effects for Critical Panic Failure
       if (useCalm && !parsedRollResult.success && parsedRollResult.critical) {
-        tableResultFooter = `<br><br>You lose 1d10 Calm because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+        tableResultFooter = `<br><br>You lose 1d10 Calm because you critically failed.<br><br>@UUID[Compendium.sla-mothership.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
       }
       //append effects for Stress + Maintenance Check Failure
       if (specialRoll === 'maintenanceCheck' && !useCalm && !parsedRollResult.success && !parsedRollResult.critical) {
-        tableResultFooter = `<br><br>Everyone on board the ship takes 1 Stress.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.dvJR9DYXI2kV0BbR]{+1 Stress}`;
+        tableResultFooter = `<br><br>Everyone on board the ship takes 1 Stress.<br><br>@UUID[Compendium.sla-mothership.macros_triggered_1e.dvJR9DYXI2kV0BbR]{+1 Stress}`;
       }
       //append effects for Stress + Critical Maintenance Check Failure
       if (specialRoll === 'maintenanceCheck' && !useCalm && !parsedRollResult.success && parsedRollResult.critical) {
-        tableResultFooter = `<br><br>Everyone on board the ship takes 1 Stress. You must roll for another maintenance issue because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.dvJR9DYXI2kV0BbR]{+1 Stress}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.hRapiXGVW8WZQH12]{Roll for Maintenance Issue}`;
+        tableResultFooter = `<br><br>Everyone on board the ship takes 1 Stress. You must roll for another maintenance issue because you critically failed.<br><br>@UUID[Compendium.sla-mothership.macros_triggered_1e.dvJR9DYXI2kV0BbR]{+1 Stress}<br><br>@UUID[Compendium.sla-mothership.macros_triggered_1e.hRapiXGVW8WZQH12]{Roll for Maintenance Issue}`;
       }
       //append effects for Calm + Maintenance Check Failure
       if (specialRoll === 'maintenanceCheck' && useCalm && !parsedRollResult.success && !parsedRollResult.critical) {
-        tableResultFooter = `<br><br>Everyone on board the ship loses 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+        tableResultFooter = `<br><br>Everyone on board the ship loses 1d10 Calm.<br><br>@UUID[Compendium.sla-mothership.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
       }
       //append effects for Calm + Critical Maintenance Check Failure
       if (specialRoll === 'maintenanceCheck' && useCalm && !parsedRollResult.success && parsedRollResult.critical) {
-        tableResultFooter = `<br><br>Everyone on board the ship loses 1d10 Calm. You must roll for another maintenance issue because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.hRapiXGVW8WZQH12]{Roll for Maintenance Issue}`;
+        tableResultFooter = `<br><br>Everyone on board the ship loses 1d10 Calm. You must roll for another maintenance issue because you critically failed.<br><br>@UUID[Compendium.sla-mothership.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}<br><br>@UUID[Compendium.sla-mothership.macros_triggered_1e.hRapiXGVW8WZQH12]{Roll for Maintenance Issue}`;
       }
       //append effects for Calm + Critical Maintenance Check Success
       if (specialRoll === 'maintenanceCheck' && useCalm && parsedRollResult.success && parsedRollResult.critical) {
-        flavorText = flavorText + ` Gain 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.k2TtLFOG9mGaWVx3]{+1d10 Calm}`;
+        flavorText = flavorText + ` Gain 1d10 Calm.<br><br>@UUID[Compendium.sla-mothership.macros_triggered_1e.k2TtLFOG9mGaWVx3]{+1d10 Calm}`;
       }
     //set table result type (using first value)
     if (tableResult[0].type === 0 || tableResult[0].type === 'text') {
