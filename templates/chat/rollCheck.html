@@ -81,6 +81,11 @@
 
         {{#if (compare 'str' specialRoll '===' 'damage')}}
             <div class="sla-chat-section sla-chat-section-damage">{{{flavorText}}}</div>
+            <div class="sla-chat-section sla-chat-section-crit-btn" style="margin-top: 6px;">
+                <button class="sla-crit-hit-btn" data-actor-id="{{actor._id}}" data-item-id="{{weapon._id}}" style="background: linear-gradient(185deg, #a80000 0%, #5c0000 100%); color: #ffffff; border: 1px solid #ff4444; border-radius: 4px; padding: 6px 12px; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 11pt; font-weight: bold; width: 100%; text-shadow: 0 1px 2px #000; box-shadow: 0 0 6px rgba(255, 0, 0, 0.4); transition: all 0.2s ease;">
+                    <i class="fas fa-skull-crossbones"></i> CRITICAL HIT?
+                </button>
+            </div>
             {{#if needsDesc}}
             <div class="sla-chat-divider">Description</div>
             <div class="description sla-chat-section">
@@ -96,14 +101,24 @@
         {{else}}
             {{#if parsedRollResult.success}}
                 {{#if flavorText}}<div class="sla-chat-section sla-chat-section-success">{{{flavorText}}}</div>{{/if}}
+                {{#if weapon}}
+                <div class="sla-chat-section sla-chat-section-crit-btn" style="margin-top: 6px; margin-bottom: 6px;">
+                    <button class="sla-crit-hit-btn" data-actor-id="{{actor._id}}" data-item-id="{{weapon._id}}" style="background: linear-gradient(185deg, #a80000 0%, #5c0000 100%); color: #ffffff; border: 1px solid #ff4444; border-radius: 4px; padding: 6px 12px; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 11pt; font-weight: bold; width: 100%; text-shadow: 0 1px 2px #000; box-shadow: 0 0 6px rgba(255, 0, 0, 0.4); transition: all 0.2s ease;">
+                        <i class="fas fa-skull-crossbones"></i> CRITICAL HIT?
+                    </button>
+                </div>
+                {{/if}}
                 {{#if criticalSuccessOptions.length}}
                 <div class="sla-chat-section sla-chat-section-success">
-                    <div class="sla-chat-section-title">Critical Success Options</div>
-                    <ol class="sla-chat-list">
+                    <div class="sla-chat-section-title"><i class="fas fa-crown"></i> Critical Success Options</div>
+                    <div class="sla-crit-success-options" style="margin-top: 5px;">
                         {{#each criticalSuccessOptions as |option|}}
-                        <li>{{option}}</li>
+                        <button class="sla-crit-option-btn" data-actor-id="{{../actor._id}}" data-option-text="{{option}}" style="background: linear-gradient(180deg, #1f421f 0%, #0c260c 100%); color: #bdf2bd; border: 1px solid #3fa63f; border-radius: 4px; padding: 6px 10px; margin-bottom: 6px; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 10.5pt; text-align: left; width: 100%; transition: all 0.2s ease; display: flex; align-items: flex-start; gap: 6px; text-shadow: 0 1px 2px #000;">
+                            <i class="fas fa-chevron-right" style="margin-top: 3px; font-size: 8pt; color: #2ebd2e;"></i>
+                            <span>{{option}}</span>
+                        </button>
                         {{/each}}
-                    </ol>
+                    </div>
                 </div>
                 {{/if}}
                 {{#if weapon}}

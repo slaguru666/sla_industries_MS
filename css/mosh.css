@@ -4775,11 +4775,21 @@ p {
 .mosh.sla-chat-shell .sla-chat-section-danger.sla-severity-minor {
   background: linear-gradient(180deg, rgba(92, 57, 18, 0.96), rgba(55, 34, 12, 0.96));
   border-color: rgba(255, 190, 74, 0.5);
+  color: #ffeacc;
+}
+
+.mosh.sla-chat-shell .sla-chat-section-danger.sla-severity-minor strong {
+  color: #ffffff;
 }
 
 .mosh.sla-chat-shell .sla-chat-section-danger.sla-severity-severe {
   background: linear-gradient(180deg, rgba(90, 18, 26, 0.97), rgba(52, 10, 15, 0.97));
   border-color: rgba(255, 91, 91, 0.52);
+  color: #ffdada;
+}
+
+.mosh.sla-chat-shell .sla-chat-section-danger.sla-severity-severe strong {
+  color: #ffffff;
 }
 
 .mosh.sla-chat-shell .sla-chat-section-danger.sla-severity-critical {
@@ -4788,6 +4798,11 @@ p {
     linear-gradient(180deg, rgba(102, 8, 28, 0.98), rgba(45, 8, 21, 0.98));
   border-color: rgba(204, 237, 255, 0.84);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 0 14px rgba(162, 231, 255, 0.08);
+  color: #ffffff;
+}
+
+.mosh.sla-chat-shell .sla-chat-section-danger.sla-severity-critical strong {
+  color: #ffffff;
 }
 
 .mosh.sla-chat-shell .sla-chat-section-target {
@@ -4983,26 +4998,25 @@ p {
   font-weight: 800;
 }
 
-.mosh .sla-severity-minor,
 .mosh .sla-chat-severity-pill.sla-severity-minor {
-  background: linear-gradient(180deg, rgba(255, 216, 140, 0.32), rgba(255, 189, 79, 0.18));
-  border-color: rgba(224, 152, 24, 0.42);
-  color: #9b5b00;
+  background: linear-gradient(180deg, #ffc866 0%, #ff9d00 100%);
+  border-color: #ffbe4a;
+  color: #1a1000 !important;
+  text-shadow: none;
 }
 
-.mosh .sla-severity-severe,
 .mosh .sla-chat-severity-pill.sla-severity-severe {
-  background: linear-gradient(180deg, rgba(255, 145, 145, 0.24), rgba(233, 63, 63, 0.14));
-  border-color: rgba(179, 27, 27, 0.34);
-  color: #9e1717;
+  background: linear-gradient(180deg, #ff8080 0%, #cc0000 100%);
+  border-color: #ff5b5b;
+  color: #ffffff !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.5);
 }
 
-.mosh .sla-severity-critical,
 .mosh .sla-chat-severity-pill.sla-severity-critical {
-  background: linear-gradient(180deg, rgba(232, 247, 255, 0.94), rgba(196, 233, 255, 0.82));
-  border-color: rgba(84, 145, 199, 0.42);
-  color: #611120;
-  box-shadow: 0 0 14px rgba(126, 196, 245, 0.16);
+  background: linear-gradient(180deg, #9ae6ff 0%, #0099ff 100%);
+  border-color: #54a5d6;
+  color: #001a33 !important;
+  text-shadow: none;
 }
 
 .mosh .sla-chat-section-target {

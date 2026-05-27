@@ -152,8 +152,26 @@ Hooks.once('init', async function () {
   // character generator creates many items in rapid succession (each createItem
   // hook call would otherwise race to delete the same Ebb items concurrently).
   const _pendingEbbEnforcement = new Map();
-  Hooks.on("createItem", (item) => {
+  Hooks.on("createItem", async (item, options, userId) => {
+    // ── Unarmed Combat Auto-Skill Drop ──
     const actor = item.parent;
+    if (actor && actor.documentName === "Actor" && item.type === "weapon" && String(item.name).trim().toLowerCase() === "unarmed combat") {
+      const hasSkill = actor.items.some(i => i.type === "skill" && String(i.name).trim().toLowerCase() === "unarmed combat");
+      if (!hasSkill) {
+        await actor.createEmbeddedDocuments("Item", [{
+          name: "Unarmed Combat",
+          type: "skill",
+          img: "icons/svg/fist.svg",
+          system: {
+            rank: "Trained",
+            bonus: 10,
+            sla: { category: "combat", skillFamily: "", source: "Unarmed Item Drop" }
+          }
+        }]);
+        ui.notifications.info(`Added 'Unarmed Combat' skill to ${actor.name}.`);
+      }
+    }
+
     if (!actor || actor.type !== "character" || typeof actor.enforceSlaEbbEligibility !== "function") return;
     if (actor.isSlaEbbUser?.()) return;
     if (_pendingEbbEnforcement.has(actor.id)) clearTimeout(_pendingEbbEnforcement.get(actor.id));
@@ -356,6 +374,129 @@ Hooks.on("renderChatMessageHTML", (app, html) => {
       const effectKey = button.dataset.woundEffect;
       const modifier = button.dataset.woundModifier || "standard";
       await actor.rollSlaWoundEffect(effectKey, modifier);
+    });
+  });
+
+  // ── Critical Hit? Button Handler ──
+  root.querySelectorAll(".sla-crit-hit-btn").forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const actorId = button.dataset.actorId;
+      const itemId = button.dataset.itemId;
+      const actor = actorId ? game.actors?.get(actorId) : null;
+      if (!actor) {
+        ui.notifications.warn("The actor for this critical hit could not be found.");
+        return;
+      }
+
+      const weapon = itemId ? actor.items.get(itemId) : null;
+
+      // Determine wound setting key based on weapon and damage type
+      let settingKey = 'table1eWoundBluntForce';
+      let tableLabel = 'Blunt Force';
+
+      if (weapon) {
+        const name = String(weapon.name ?? "").toLowerCase();
+        const damageType = String(weapon.system?.sla?.damageType ?? "").toLowerCase();
+
+        if (damageType.includes("blunt") || damageType.includes("impact")) {
+          settingKey = 'table1eWoundBluntForce';
+          tableLabel = 'Blunt Force';
+        } else if (damageType.includes("penetrating") || damageType.includes("pierce") || damageType.includes("stab") || damageType.includes("bullet") || damageType.includes("shot")) {
+          settingKey = 'table1eWoundGunshot';
+          tableLabel = 'Gunshot';
+        } else if (damageType.includes("slash") || damageType.includes("rend") || damageType.includes("bleed") || damageType.includes("cut")) {
+          settingKey = 'table1eWoundBleeding';
+          tableLabel = 'Bleeding';
+        } else if (damageType.includes("fire") || damageType.includes("explos") || damageType.includes("acid") || damageType.includes("burn")) {
+          settingKey = 'table1eWoundFireExplosives';
+          tableLabel = 'Fire & Explosives';
+        } else if (name.includes("pistol") || name.includes("smg") || name.includes("rifle") || name.includes("shotgun") || name.includes("blunderbuss") || name.includes("gun") || name.includes("harpoon") || name.includes("bullet") || name.includes("projectile") || name.includes("crossbow")) {
+          settingKey = 'table1eWoundGunshot';
+          tableLabel = 'Gunshot';
+        } else if (name.includes("machete") || name.includes("cleaver") || name.includes("whip") || name.includes("blade") || name.includes("knife") || name.includes("sword") || name.includes("claws") || name.includes("bite") || name.includes("razor") || name.includes("teeth")) {
+          settingKey = 'table1eWoundBleeding';
+          tableLabel = 'Bleeding';
+        } else if (name.includes("club") || name.includes("pipe") || name.includes("hammer") || name.includes("prod") || name.includes("unarmed") || name.includes("fist") || name.includes("strike") || name.includes("blunt") || name.includes("brawl") || name.includes("cuff")) {
+          settingKey = 'table1eWoundBluntForce';
+          tableLabel = 'Blunt Force';
+        } else if (name.includes("bomb") || name.includes("acid") || name.includes("spit") || name.includes("fire") || name.includes("flame") || name.includes("grenade") || name.includes("explosive")) {
+          settingKey = 'table1eWoundFireExplosives';
+          tableLabel = 'Fire & Explosives';
+        }
+      }
+
+      const tableId = game.settings.get('sla-mothership', settingKey);
+      if (!tableId) {
+        ui.notifications.warn(`No wound table is configured for ${tableLabel}.`);
+        return;
+      }
+
+      // Resolve the table
+      let resolved = game.tables.get(tableId) || game.tables.getName(tableId);
+      if (!resolved) {
+        for (const pack of game.packs) {
+          if (pack.metadata.type === "RollTable") {
+            const index = await pack.getIndex();
+            const entry = index.find(e => e.id === tableId || e.name === tableId || e.name === `${tableLabel} Wound` || e.name === tableLabel.replace(/&/g, "and"));
+            if (entry) {
+              resolved = await pack.getDocument(entry._id);
+              break;
+            }
+          }
+        }
+      }
+
+      if (!resolved) {
+        ui.notifications.warn(`The ${tableLabel} wound table could not be found.`);
+        return;
+      }
+
+      await actor.rollTable(resolved.uuid ?? resolved.id ?? tableId, null, null, null, null, null, null);
+    });
+  });
+
+  // ── Critical Success Option Button Handler ──
+  root.querySelectorAll(".sla-crit-option-btn").forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const actorId = button.dataset.actorId;
+      const optionText = button.dataset.optionText;
+      const actor = actorId ? game.actors?.get(actorId) : null;
+      const actorName = actor ? actor.name : "An operative";
+
+      const chatContent = await foundry.applications.handlebars.renderTemplate(
+        'systems/sla-mothership/templates/chat/sla-critical-selection.html',
+        {
+          actorName: actorName,
+          img: actor?.img ?? 'icons/svg/mystery-man.svg',
+          optionText: optionText
+        }
+      );
+
+      await ChatMessage.create({
+        user: game.user.id,
+        content: chatContent,
+        speaker: ChatMessage.getSpeaker({ actor: actor })
+      });
+
+      // Disable all options in the card
+      const container = button.closest(".sla-crit-success-options");
+      if (container) {
+        container.querySelectorAll(".sla-crit-option-btn").forEach(btn => {
+          btn.disabled = true;
+          btn.style.opacity = 0.6;
+          btn.style.cursor = "default";
+          if (btn === button) {
+            btn.style.background = "#0f300f";
+            btn.style.border = "1px solid #1ebd1e";
+          }
+        });
+      }
     });
   });
 });

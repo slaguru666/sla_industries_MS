@@ -2031,19 +2031,29 @@ export class MothershipActor extends Actor {
     if (rawFormula === "Str/10") {
       rawFormula = `floor((${this.system.stats.strength.value} + ${(Number(this.system.stats.strength.mod) || 0)}) / 10)`;
     }
+    const mult = Number(weapon?.system?.sla?.damageMultiplier ?? weapon?.system?.damageMultiplier ?? 1) || 1;
+    if (mult > 1) {
+      if (/^\d+d\d+/i.test(rawFormula)) {
+        rawFormula = rawFormula.replace(/^(\d+)(d\d+)/i, (match, dice, rest) => {
+          return `${Number(dice) * mult}${rest}`;
+        });
+      } else {
+        rawFormula = `(${rawFormula}) * ${mult}`;
+      }
+    }
     const critDamageMode = game.settings.get('sla-mothership', 'critDamage');
 
     if (isCritical) {
       if (critDamageMode === 'advantage') {
-        rawFormula = `{${parsedDamageString},${parsedDamageString}}kh`;
+        rawFormula = `{${rawFormula},${rawFormula}}kh`;
       } else if (critDamageMode === 'doubleDamage') {
-        rawFormula = `(${parsedDamageString}) * 2`;
+        rawFormula = `(${rawFormula}) * 2`;
       } else if (critDamageMode === 'doubleDice') {
-        rawFormula = `${parsedDamageString} + ${parsedDamageString}`;
+        rawFormula = `${rawFormula} + ${rawFormula}`;
       } else if (critDamageMode === 'maxDamage') {
-        rawFormula = parsedDamageString.replaceAll('d', ' * ');
+        rawFormula = rawFormula.replaceAll('d', ' * ');
       } else if (critDamageMode === 'weaponValue') {
-        rawFormula = `${parsedDamageString} + ${weapon?.system?.critDmg || 0}`;
+        rawFormula = `${rawFormula} + ${weapon?.system?.critDmg || 0}`;
       }
     }
 
@@ -2587,7 +2597,15 @@ export class MothershipActor extends Actor {
     //if this is a damage roll
     if (specialRoll === 'damage') {  
       //parse the roll string
-      let damageRollString = weapon.system.damage
+      let damageRollString = weapon.system.damage;
+      if (weapon && !overrideDamagaRollString) {
+        const mult = Number(weapon.system?.sla?.damageMultiplier ?? weapon.system?.damageMultiplier ?? 1) || 1;
+        if (mult > 1) {
+          damageRollString = damageRollString.replace(/^(\d+)(d\d+)/i, (match, dice, rest) => {
+            return `${Number(dice) * mult}${rest}`;
+          });
+        }
+      }
       if(overrideDamagaRollString){
         damageRollString = overrideDamagaRollString;
       }
@@ -2606,8 +2624,10 @@ export class MothershipActor extends Actor {
       }
       //prepare flavortext
       if (weapon.system.damage === "Str/10" && this.type === 'character') {
+        const mult = Number(weapon.system?.sla?.damageMultiplier ?? weapon.system?.damageMultiplier ?? 1) || 1;
+        const multStr = mult > 1 ? `${mult} * ` : '';
         //determine the damage string
-        flavorText = 'You strike your target for <strong>[[floor((' + this.system.stats.strength.value + ' + ' + (Number(this.system.stats.strength.mod) || 0) + ')/10)]] damage</strong>.';
+        flavorText = 'You strike your target for <strong>[[' + multStr + 'floor((' + this.system.stats.strength.value + ' + ' + (Number(this.system.stats.strength.mod) || 0) + ')/10)]] damage</strong>.';
       } else {
         flavorText = 'You inflict [[' + parsedDamageString + '[' + dsnTheme + ']' + critMod + ']] points of damage.';
       }
