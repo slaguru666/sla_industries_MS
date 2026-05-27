@@ -2,6 +2,7 @@
 import { MothershipActor } from "./actor/actor.js";
 import { MothershipActorSheet, MothershipActorSheetDossier } from "./actor/actor-sheet.js";
 import { MothershipCreatureSheet } from "./actor/creature-sheet.js";
+import { MothershipNpcSheet } from "./actor/npc-sheet.js";
 import { MothershipShipSheet } from "./actor/ship-sheet.js";
 import { MothershipShipSheetSBT } from "./actor/ship-sheet-sbt.js";
 
@@ -81,7 +82,8 @@ Hooks.once('init', async function () {
   foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
   foundry.documents.collections.Actors.registerSheet("sla-mothership", MothershipActorSheet, {types: ['character'], makeDefault: true});
   foundry.documents.collections.Actors.registerSheet("sla-mothership", MothershipActorSheetDossier, {types: ['character'], makeDefault: false, label: "SLA Dossier"});
-  foundry.documents.collections.Actors.registerSheet("sla-mothership", MothershipCreatureSheet, {types: ['creature'], makeDefault: false});
+  foundry.documents.collections.Actors.registerSheet("sla-mothership", MothershipNpcSheet, {types: ['creature'], makeDefault: true, label: "SLA Streamlined NPC Sheet"});
+  foundry.documents.collections.Actors.registerSheet("sla-mothership", MothershipCreatureSheet, {types: ['creature'], makeDefault: false, label: "SLA Standard Creature Sheet"});
   foundry.documents.collections.Actors.registerSheet("sla-mothership", MothershipShipSheetSBT, {types: ['ship'], makeDefault: true});
   foundry.documents.collections.Actors.registerSheet("sla-mothership", MothershipShipSheet, {types: ['ship'], makeDefault: false});
   foundry.documents.collections.Items.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);

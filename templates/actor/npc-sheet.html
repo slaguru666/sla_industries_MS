@@ -1,0 +1,209 @@
+<form class="{{cssClass}} npc-sheet-form" autocomplete="off">
+  {{!-- NPC Header --}}
+  <header class="npc-header-container">
+    <div class="npc-header-title-row">
+      <input name="name" class="noborder npc-name-input" type="text" value="{{name}}" placeholder="NPC / Creature Name" />
+    </div>
+    
+    <div class="npc-meta-row">
+      <div class="npc-meta-item">
+        <label>Species</label>
+        <input type="text" name="system.slaNpc.species.value" value="{{system.slaNpc.species.value}}" placeholder="Unknown" />
+      </div>
+      <div class="npc-meta-item">
+        <label>Role</label>
+        <input type="text" name="system.slaNpc.role.value" value="{{system.slaNpc.role.value}}" placeholder="None" />
+      </div>
+      <div class="npc-meta-item">
+        <label>Threat</label>
+        <input type="text" name="system.slaNpc.threat.value" value="{{system.slaNpc.threat.value}}" placeholder="Low" />
+      </div>
+    </div>
+  </header>
+
+  {{!-- Main NPC Dashboard --}}
+  <div class="npc-sheet-dashboard">
+    
+    {{!-- Left Column: Vitals, Actions, Stats, and Skills --}}
+    <div class="npc-column-left">
+      
+      {{!-- Vitals --}}
+      <div class="npc-vitals-block">
+        <div class="npc-vital-card health">
+          <span class="npc-vital-label">{{ localize 'Mosh.Health' }}</span>
+          <div class="npc-vital-inputs">
+            <input type="text" name="system.health.value" value="{{system.health.value}}" data-dtype="Number" />
+            <span class="divider">/</span>
+            <input type="text" name="system.health.max" value="{{system.health.max}}" data-dtype="Number" />
+          </div>
+        </div>
+        
+        <div class="npc-vital-card wounds">
+          <span class="npc-vital-label">
+            {{#if system.settings.firstEdition}}{{ localize 'Mosh.Wounds' }}{{else}}{{ localize 'Mosh.Hits' }}{{/if}}
+          </span>
+          <div class="npc-vital-inputs">
+            <input type="text" name="system.hits.value" value="{{system.hits.value}}" data-dtype="Number" />
+            <span class="divider">/</span>
+            <input type="text" name="system.hits.max" value="{{system.hits.max}}" data-dtype="Number" />
+          </div>
+        </div>
+      </div>
+
+      {{!-- Glowing Quick Roll Buttons --}}
+      <div class="npc-action-buttons">
+        <button type="button" class="npc-action-btn npc-wound-roll" title="Roll Wound Table">
+          <i class="fas fa-skull"></i> 💀 WOUND ROLL
+        </button>
+        <button type="button" class="npc-action-btn npc-panic-roll" title="Roll Panic Check">
+          <i class="fas fa-brain"></i> 🧠 PANIC ROLL
+        </button>
+      </div>
+
+      {{!-- Stats Grid --}}
+      <div class="npc-section-block">
+        <div class="npc-section-header">
+          <span><i class="fas fa-chart-bar"></i> Attributes</span>
+        </div>
+        <div class="npc-stats-grid">
+          <!-- Combat -->
+          <div class="npc-stat-box">
+            <span class="npc-stat-label stat-roll clickable" data-key="combat" data-roll="d100" data-label="Combat">COMBAT</span>
+            <input type="text" name="system.stats.combat.value" value="{{system.stats.combat.value}}" data-dtype="Number" />
+          </div>
+          <!-- Instinct -->
+          <div class="npc-stat-box">
+            <span class="npc-stat-label stat-roll clickable" data-key="instinct" data-roll="d100" data-label="Instinct">INSTINCT</span>
+            <input type="text" name="system.stats.instinct.value" value="{{system.stats.instinct.value}}" data-dtype="Number" />
+          </div>
+          <!-- Speed -->
+          <div class="npc-stat-box">
+            <span class="npc-stat-label stat-roll clickable" data-key="speed" data-roll="d100" data-label="Speed">SPEED</span>
+            <input type="text" name="system.stats.speed.value" value="{{system.stats.speed.value}}" data-dtype="Number" />
+          </div>
+          <!-- Loyalty -->
+          <div class="npc-stat-box">
+            <span class="npc-stat-label stat-roll clickable" data-key="loyalty" data-roll="d100" data-label="Loyalty">LOYALTY</span>
+            <input type="text" name="system.stats.loyalty.value" value="{{system.stats.loyalty.value}}" data-dtype="Number" />
+          </div>
+          <!-- Armor -->
+          <div class="npc-stat-box">
+            <span class="npc-stat-label stat-roll clickable" data-key="armor" data-roll="d100" data-label="Armor Save">ARMOR</span>
+            <input type="text" name="system.stats.armor.value" value="{{system.stats.armor.value}}" data-dtype="Number" />
+          </div>
+          <!-- Sanity -->
+          <div class="npc-stat-box">
+            <span class="npc-stat-label stat-roll clickable" data-key="sanity" data-roll="d100" data-label="Sanity">SANITY</span>
+            <input type="text" name="system.stats.sanity.value" value="{{system.stats.sanity.value}}" data-dtype="Number" />
+          </div>
+        </div>
+      </div>
+
+      {{!-- Skills (Max 5) --}}
+      <div class="npc-section-block">
+        <div class="npc-section-header">
+          <span><i class="fas fa-graduation-cap"></i> Skills (Max 5)</span>
+          {{#if showAddSkill}}
+          <a class="item-control skill-create npc-add-btn" title="Create Skill" data-type="skill"><i class="fas fa-plus"></i> Add Skill</a>
+          {{/if}}
+        </div>
+        <div class="npc-skills-list">
+          {{#each skills as |skill id|}}
+          <div class="npc-skill-item item" data-item-id="{{skill._id}}">
+            <span class="skill-name skill-roll clickable" title="Roll Skill Check">{{skill.name}}</span>
+            <span class="skill-bonus">+{{skill.system.bonus}}%</span>
+            <div class="skill-controls">
+              <a class="item-control skill-edit" title="Edit Skill"><i class="fas fa-edit"></i></a>
+              <a class="item-control item-delete" title="Delete Skill"><i class="fas fa-trash"></i></a>
+            </div>
+          </div>
+          {{else}}
+          <div class="npc-empty-text">No skills added yet. Click 'Add Skill' to add one.</div>
+          {{/each}}
+        </div>
+      </div>
+
+    </div>
+
+    {{!-- Right Column: Image, Weapons, Armor Values, and Ebon Capabilities --}}
+    <div class="npc-column-right">
+
+      {{!-- Profile Image --}}
+      <div class="npc-profile-wrapper">
+        <img class="img profile noborder npc-profile-img" src="{{img}}" data-edit="img" title="{{name}}" />
+      </div>
+
+      {{!-- Weapons --}}
+      <div class="npc-section-block">
+        <div class="npc-section-header">
+          <span><i class="fas fa-crosshairs"></i> Weapons</span>
+          <a class="item-control weapon-create npc-add-btn" title="Create Weapon" data-type="weapon"><i class="fas fa-plus"></i> Add Weapon</a>
+        </div>
+        <div class="npc-weapons-list">
+          {{#each weapons as |weapon id|}}
+          <div class="npc-weapon-item item" data-item-id="{{weapon._id}}">
+            <div class="weapon-main">
+              <span class="weapon-name weapon-roll clickable" title="Roll Attack Check">{{weapon.name}}</span>
+              <span class="weapon-damage dmg-roll clickable" title="Roll Damage">{{weapon.system.damage}}</span>
+              {{#if weapon.system.useAmmo}}
+              <span class="weapon-ammo-count weapon-ammo clickable" title="Right/Left click to adjust ammo">{{weapon.system.ammo}} rnds</span>
+              {{/if}}
+              <div class="weapon-controls">
+                <a class="item-control weapon-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+          </div>
+          {{else}}
+          <div class="npc-empty-text">No weapons added yet.</div>
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Armor AP & DR --}}
+      <div class="npc-section-block">
+        <div class="npc-section-header">
+          <span><i class="fas fa-shield-alt"></i> Protection Values</span>
+        </div>
+        <div class="npc-armor-grid">
+          <div class="npc-armor-field">
+            <label>Armor Points (AP)</label>
+            <input type="text" name="system.stats.armor.mod" value="{{system.stats.armor.mod}}" data-dtype="Number" />
+          </div>
+          <div class="npc-armor-field">
+            <label>Damage Reduction (DR)</label>
+            <input type="text" name="system.stats.armor.damageReduction" value="{{system.stats.armor.damageReduction}}" data-dtype="Number" />
+          </div>
+        </div>
+      </div>
+
+      {{!-- Ebon (Ebb) Capabilities --}}
+      <div class="npc-section-block">
+        <div class="npc-section-header">
+          <span><i class="fas fa-magic"></i> Ebon Capabilities</span>
+          <a class="item-control weapon-create npc-add-btn" title="Create Ability" data-type="ability"><i class="fas fa-plus"></i> Add Ebb</a>
+        </div>
+        <div class="npc-abilities-list">
+          {{#each abilities as |ability id|}}
+          <div class="npc-ability-item item" data-item-id="{{ability._id}}">
+            <div class="ability-main">
+              <span class="ability-name description-roll clickable" title="Click to post description to chat">{{ability.name}}</span>
+              <div class="ability-controls">
+                <a class="item-control item-edit" title="Edit Ability"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="Delete Ability"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+            {{#if ability.system.description}}
+            <div class="ability-description">{{{ability.system.description}}}</div>
+            {{/if}}
+          </div>
+          {{else}}
+          <div class="npc-empty-text">No Ebon abilities.</div>
+          {{/each}}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</form>
