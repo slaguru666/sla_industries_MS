@@ -454,7 +454,7 @@ Hooks.on("renderChatMessageHTML", (app, html) => {
         return;
       }
 
-      await actor.rollTable(resolved.uuid ?? resolved.id ?? tableId, null, null, null, null, null, null);
+      await actor.rollTable(resolved.uuid ?? resolved.id ?? tableId, resolved.formula ?? "1d10", "low", true, false, null, null);
     });
   });
 
